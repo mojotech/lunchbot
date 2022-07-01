@@ -1,5 +1,9 @@
 # Lunchbot
 
+To start postgresql:
+
+`docker-compose up -d`
+
 To start your Phoenix server:
 
 - Install dependencies with `mix deps.get`

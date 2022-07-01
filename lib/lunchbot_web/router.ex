@@ -1,11 +1,11 @@
-defmodule ServerPhoenixWeb.Router do
-  use ServerPhoenixWeb, :router
+defmodule LunchbotWeb.Router do
+  use LunchbotWeb, :router
 
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
-    plug :put_root_layout, {ServerPhoenixWeb.LayoutView, :root}
+    plug :put_root_layout, {LunchbotWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
@@ -14,14 +14,14 @@ defmodule ServerPhoenixWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", ServerPhoenixWeb do
+  scope "/", LunchbotWeb do
     pipe_through :browser
 
     get "/", PageController, :index
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", ServerPhoenixWeb do
+  # scope "/api", LunchbotWeb do
   #   pipe_through :api
   # end
 
@@ -38,7 +38,7 @@ defmodule ServerPhoenixWeb.Router do
     scope "/" do
       pipe_through :browser
 
-      live_dashboard "/dashboard", metrics: ServerPhoenixWeb.Telemetry
+      live_dashboard "/dashboard", metrics: LunchbotWeb.Telemetry
     end
   end
 

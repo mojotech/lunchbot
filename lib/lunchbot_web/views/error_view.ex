@@ -1,5 +1,5 @@
-defmodule ServerPhoenixWeb.ErrorView do
-  use ServerPhoenixWeb, :view
+defmodule LunchbotWeb.ErrorView do
+  use LunchbotWeb, :view
 
   # If you want to customize a particular status code
   # for a certain format, you may uncomment below.

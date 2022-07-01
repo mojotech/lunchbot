@@ -1,2 +1,2 @@
 ExUnit.start()
-Ecto.Adapters.SQL.Sandbox.mode(ServerPhoenix.Repo, :manual)
+Ecto.Adapters.SQL.Sandbox.mode(Lunchbot.Repo, :manual)

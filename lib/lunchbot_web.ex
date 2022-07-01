@@ -1,12 +1,12 @@
-defmodule ServerPhoenixWeb do
+defmodule LunchbotWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, views, channels and so on.
 
   This can be used in your application as:
 
-      use ServerPhoenixWeb, :controller
-      use ServerPhoenixWeb, :view
+      use LunchbotWeb, :controller
+      use LunchbotWeb, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -19,19 +19,19 @@ defmodule ServerPhoenixWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: ServerPhoenixWeb
+      use Phoenix.Controller, namespace: LunchbotWeb
 
       import Plug.Conn
-      import ServerPhoenixWeb.Gettext
-      alias ServerPhoenixWeb.Router.Helpers, as: Routes
+      import LunchbotWeb.Gettext
+      alias LunchbotWeb.Router.Helpers, as: Routes
     end
   end
 
   def view do
     quote do
       use Phoenix.View,
-        root: "lib/server_phoenix_web/templates",
-        namespace: ServerPhoenixWeb
+        root: "lib/lunchbot_web/templates",
+        namespace: LunchbotWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller,
@@ -45,7 +45,7 @@ defmodule ServerPhoenixWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {ServerPhoenixWeb.LayoutView, "live.html"}
+        layout: {LunchbotWeb.LayoutView, "live.html"}
 
       unquote(view_helpers())
     end
@@ -80,7 +80,7 @@ defmodule ServerPhoenixWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import ServerPhoenixWeb.Gettext
+      import LunchbotWeb.Gettext
     end
   end
 
@@ -95,9 +95,9 @@ defmodule ServerPhoenixWeb do
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
 
-      import ServerPhoenixWeb.ErrorHelpers
-      import ServerPhoenixWeb.Gettext
-      alias ServerPhoenixWeb.Router.Helpers, as: Routes
+      import LunchbotWeb.ErrorHelpers
+      import LunchbotWeb.Gettext
+      alias LunchbotWeb.Router.Helpers, as: Routes
     end
   end
 

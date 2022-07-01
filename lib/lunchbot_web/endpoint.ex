@@ -1,12 +1,12 @@
-defmodule ServerPhoenixWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :server_phoenix
+defmodule LunchbotWeb.Endpoint do
+  use Phoenix.Endpoint, otp_app: :lunchbot
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
   @session_options [
     store: :cookie,
-    key: "_server_phoenix_key",
+    key: "_lunchbot_key",
     signing_salt: "YqMKWbY7"
   ]
 
@@ -18,7 +18,7 @@ defmodule ServerPhoenixWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :server_phoenix,
+    from: :lunchbot,
     gzip: false,
     only: ~w(assets fonts images favicon.ico robots.txt)
 
@@ -28,7 +28,7 @@ defmodule ServerPhoenixWeb.Endpoint do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
-    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :server_phoenix
+    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :lunchbot
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,
@@ -46,5 +46,5 @@ defmodule ServerPhoenixWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug ServerPhoenixWeb.Router
+  plug LunchbotWeb.Router
 end

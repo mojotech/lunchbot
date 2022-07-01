@@ -1,5 +1,5 @@
-defmodule ServerPhoenixWeb.LayoutView do
-  use ServerPhoenixWeb, :view
+defmodule LunchbotWeb.LayoutView do
+  use LunchbotWeb, :view
 
   # Phoenix LiveDashboard is available only in development by default,
   # so we instruct Elixir to not warn if the dashboard route is missing.

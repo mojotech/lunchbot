@@ -1,4 +1,4 @@
-defmodule ServerPhoenix.Application do
+defmodule Lunchbot.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
@@ -9,20 +9,20 @@ defmodule ServerPhoenix.Application do
   def start(_type, _args) do
     children = [
       # Start the Ecto repository
-      ServerPhoenix.Repo,
+      Lunchbot.Repo,
       # Start the Telemetry supervisor
-      ServerPhoenixWeb.Telemetry,
+      LunchbotWeb.Telemetry,
       # Start the PubSub system
-      {Phoenix.PubSub, name: ServerPhoenix.PubSub},
+      {Phoenix.PubSub, name: Lunchbot.PubSub},
       # Start the Endpoint (http/https)
-      ServerPhoenixWeb.Endpoint
-      # Start a worker by calling: ServerPhoenix.Worker.start_link(arg)
-      # {ServerPhoenix.Worker, arg}
+      LunchbotWeb.Endpoint
+      # Start a worker by calling: Lunchbot.Worker.start_link(arg)
+      # {Lunchbot.Worker, arg}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: ServerPhoenix.Supervisor]
+    opts = [strategy: :one_for_one, name: Lunchbot.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
@@ -30,7 +30,7 @@ defmodule ServerPhoenix.Application do
   # whenever the application is updated.
   @impl true
   def config_change(changed, _new, removed) do
-    ServerPhoenixWeb.Endpoint.config_change(changed, removed)
+    LunchbotWeb.Endpoint.config_change(changed, removed)
     :ok
   end
 end

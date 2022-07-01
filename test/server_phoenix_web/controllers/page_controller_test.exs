@@ -1,5 +1,5 @@
-defmodule ServerPhoenixWeb.PageControllerTest do
-  use ServerPhoenixWeb.ConnCase
+defmodule LunchbotWeb.PageControllerTest do
+  use LunchbotWeb.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get(conn, "/")

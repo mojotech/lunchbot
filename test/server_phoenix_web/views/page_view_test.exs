@@ -1,3 +1,3 @@
-defmodule ServerPhoenixWeb.PageViewTest do
-  use ServerPhoenixWeb.ConnCase, async: true
+defmodule LunchbotWeb.PageViewTest do
+  use LunchbotWeb.ConnCase, async: true
 end

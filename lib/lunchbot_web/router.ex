@@ -8,10 +8,19 @@ defmodule LunchbotWeb.Router do
     plug :put_root_layout, {LunchbotWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug LunchbotWeb.Auth
   end
 
   pipeline :api do
     plug :accepts, ["json"]
+  end
+
+  scope "/auth", LunchbotWeb do
+    pipe_through :browser
+
+    get "/:provider", AuthController, :request
+    get "/:provider/callback", AuthController, :callback
+    delete("/logout", AuthController, :delete)
   end
 
   scope "/", LunchbotWeb do

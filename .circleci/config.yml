@@ -28,9 +28,12 @@ jobs:
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       - checkout
+      - run: 
+          name: Elixir Formatting
+          command: |
+            mix local.hex --force && mix deps.get && mix format --check-formatted
 
-      # specify any bash command here prefixed with `run: `
       - run:
           name: Elixir Testing
           command: |
-            mix local.hex --force && mix deps.get && mix local.rebar --force && mix ecto.create && mix test
+            mix local.rebar --force && mix ecto.create && mix test

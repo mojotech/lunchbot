@@ -1,6 +1,17 @@
 <section class="phx-hero">
-  <h1><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h1>
-  <p>Peace of mind from prototype to production</p>
+  <h1>Welcome to Lunchbot!</h1>
+    <%= if @current_user do %>
+    <h2>Welcome, <%= @current_user.name %>!</h2>
+    <img src="<%= @current_user.avatar %>" class="img-circle"/>
+    <br>
+    <%= button "Logout", to: "/auth/logout", method: :delete, class: "btn btn-danger" %>
+  <% else %>
+    <a class="btn btn-primary btn-lg" href="/auth/google">
+      <i class="fa fa-google"></i>
+      Sign in with Google
+    </a>
+  <% end %>
+</div>
 </section>
 
 <section class="row">

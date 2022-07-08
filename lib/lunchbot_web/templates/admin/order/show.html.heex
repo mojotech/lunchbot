@@ -1,0 +1,32 @@
+<section id="torch-toolbar">
+  <div class="torch-container">
+    <%= link "Edit", to: Routes.admin_order_path(@conn, :edit, @order), class: "torch-button" %>
+    <%= link "Back", to: Routes.admin_order_path(@conn, :index), class: "torch-button" %>
+  </div>
+</section>
+
+<section id="torch-header-and-content">
+  <div class="torch-container">
+    <header class="header">
+      <h3>Order Details</h3>
+    </header>
+    <section class="torch-show-details">
+      
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">User:</div>
+          <div class="torch-show-data"><%= @order.user_id %></div>
+        </div>
+      
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">Menu:</div>
+          <div class="torch-show-data"><%= @order.menu_id %></div>
+        </div>
+      
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">Lunch order:</div>
+          <div class="torch-show-data"><%= @order.lunch_order_id %></div>
+        </div>
+      
+    </section>
+  </div>
+</section>

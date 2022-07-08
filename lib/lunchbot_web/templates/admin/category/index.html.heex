@@ -1,0 +1,69 @@
+<section id="torch-toolbar">
+  <div class="torch-container">
+    <%= link "New Category", to: Routes.admin_category_path(@conn, :new) %>
+  </div>
+</section>
+<section id="torch-index-content">
+  <div class="torch-container">
+    <section id="torch-filters">
+      <h3>Find Categories</h3>
+      <%= form_tag @conn.request_path, method: :get, id: "torch-filters-form" do %>
+        
+          <div class="field">
+            <label>Name</label>
+            <%= filter_select(:category, :name, @conn.params) %>
+            <%= filter_string_input(:category, :name, @conn.params) %>
+          </div>
+        
+        
+        
+        
+          <div class="field">
+            <label>Menu</label>
+            <%= number_filter_select(:category, :menu_id, @conn.params) %>
+            <%= filter_number_input(:category, :menu_id, @conn.params) %>
+          </div>
+        
+        <button type="submit" class="torch-button">Search</button>
+        <%= link "Clear Filters", to: Routes.admin_category_path(@conn, :index) %>
+      <% end %>
+
+    </section>
+
+    <section id="torch-table">
+    <%= if length(@categories) > 0 do %>
+      <table>
+        <thead>
+          <tr>
+            
+              <th><%= table_link(@conn, "Name", :name) %></th>
+            
+              <th><%= table_link(@conn, "Menu", :menu_id) %></th>
+            
+            <th><span>Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for category <- @categories do %>
+            <tr>
+              
+                <td><%= category.name %></td>
+              
+                <td><%= category.menu_id %></td>
+              
+              <td class="torch-actions">
+                <span><%= link "Show", to: Routes.admin_category_path(@conn, :show, category) %></span>
+                <span><%= link "Edit", to: Routes.admin_category_path(@conn, :edit, category) %></span>
+                <span><%= link "Delete", to: Routes.admin_category_path(@conn, :delete, category), method: :delete, data: [confirm: "Are you sure?"] %></span>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= render Torch.PaginationView, "_pagination.html", assigns %>
+    <% else %>
+      <p class="torch-no-data">No Categories match your search.</p>
+    <% end %>
+    </section>
+  </div>
+</section>

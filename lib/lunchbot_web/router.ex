@@ -14,6 +14,21 @@ defmodule LunchbotWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/admin", LunchbotWeb.Admin, as: :admin do
+    pipe_through :browser
+
+    resources "/users", UserController
+    resources "/offices", OfficeController
+    resources "/menus", MenuController
+    resources "/office_lunch_orders", OfficeLunchOrderController
+    resources "/orders", OrderController
+    resources "/categories", CategoryController
+    resources "/order_items", OrderItemController
+    resources "/items", ItemController
+    resources "/order_item_extras", OrderItemExtraController
+    resources "/extras", ExtraController
+  end
+
   scope "/", LunchbotWeb do
     pipe_through :browser
 

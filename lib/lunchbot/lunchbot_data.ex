@@ -154,13 +154,6 @@ defmodule Lunchbot.LunchbotData do
     User.changeset(user, attrs)
   end
 
-  defp filter_config(:users) do
-    defconfig do
-      text(:email)
-      text(:role)
-    end
-  end
-
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
 
@@ -310,12 +303,6 @@ defmodule Lunchbot.LunchbotData do
     Office.changeset(office, attrs)
   end
 
-  defp filter_config(:offices) do
-    defconfig do
-      text(:timezone)
-    end
-  end
-
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
 
@@ -463,13 +450,6 @@ defmodule Lunchbot.LunchbotData do
   """
   def change_menu(%Menu{} = menu, attrs \\ %{}) do
     Menu.changeset(menu, attrs)
-  end
-
-  defp filter_config(:menus) do
-    defconfig do
-      text(:name)
-      number(:office_id)
-    end
   end
 
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
@@ -625,13 +605,6 @@ defmodule Lunchbot.LunchbotData do
     OfficeLunchOrder.changeset(office_lunch_order, attrs)
   end
 
-  defp filter_config(:office_lunch_orders) do
-    defconfig do
-      date(:day)
-      number(:office_id)
-    end
-  end
-
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
 
@@ -779,14 +752,6 @@ defmodule Lunchbot.LunchbotData do
   """
   def change_order(%Order{} = order, attrs \\ %{}) do
     Order.changeset(order, attrs)
-  end
-
-  defp filter_config(:orders) do
-    defconfig do
-      number(:user_id)
-      number(:menu_id)
-      number(:lunch_order_id)
-    end
   end
 
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
@@ -939,13 +904,6 @@ defmodule Lunchbot.LunchbotData do
     Category.changeset(category, attrs)
   end
 
-  defp filter_config(:categories) do
-    defconfig do
-      text(:name)
-      number(:menu_id)
-    end
-  end
-
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
 
@@ -1096,13 +1054,6 @@ defmodule Lunchbot.LunchbotData do
     OrderItem.changeset(order_item, attrs)
   end
 
-  defp filter_config(:order_items) do
-    defconfig do
-      number(:order_id)
-      number(:item_id)
-    end
-  end
-
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
 
@@ -1250,15 +1201,6 @@ defmodule Lunchbot.LunchbotData do
   """
   def change_item(%Item{} = item, attrs \\ %{}) do
     Item.changeset(item, attrs)
-  end
-
-  defp filter_config(:items) do
-    defconfig do
-      text(:name)
-      number(:category_id)
-      text(:image_url)
-      boolean(:deleted)
-    end
   end
 
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
@@ -1414,13 +1356,6 @@ defmodule Lunchbot.LunchbotData do
     OrderItemExtra.changeset(order_item_extra, attrs)
   end
 
-  defp filter_config(:order_item_extras) do
-    defconfig do
-      number(:order_item_id)
-      number(:extra_id)
-    end
-  end
-
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
 
@@ -1568,6 +1503,71 @@ defmodule Lunchbot.LunchbotData do
   """
   def change_extra(%Extra{} = extra, attrs \\ %{}) do
     Extra.changeset(extra, attrs)
+  end
+
+  defp filter_config(:users) do
+    defconfig do
+      text(:email)
+      text(:role)
+    end
+  end
+
+  defp filter_config(:offices) do
+    defconfig do
+      text(:timezone)
+    end
+  end
+
+  defp filter_config(:menus) do
+    defconfig do
+      text(:name)
+      number(:office_id)
+    end
+  end
+
+  defp filter_config(:office_lunch_orders) do
+    defconfig do
+      date(:day)
+      number(:office_id)
+    end
+  end
+
+  defp filter_config(:orders) do
+    defconfig do
+      number(:user_id)
+      number(:menu_id)
+      number(:lunch_order_id)
+    end
+  end
+
+  defp filter_config(:categories) do
+    defconfig do
+      text(:name)
+      number(:menu_id)
+    end
+  end
+
+  defp filter_config(:order_items) do
+    defconfig do
+      number(:order_id)
+      number(:item_id)
+    end
+  end
+
+  defp filter_config(:items) do
+    defconfig do
+      text(:name)
+      number(:category_id)
+      text(:image_url)
+      boolean(:deleted)
+    end
+  end
+
+  defp filter_config(:order_item_extras) do
+    defconfig do
+      number(:order_item_id)
+      number(:extra_id)
+    end
   end
 
   defp filter_config(:extras) do

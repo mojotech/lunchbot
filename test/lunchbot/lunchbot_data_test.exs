@@ -3,19 +3,38 @@ defmodule Lunchbot.LunchbotDataTest do
 
   alias Lunchbot.LunchbotData
 
-  alias Lunchbot.LunchbotData.User
+  alias Lunchbot.Accounts
 
-  @valid_attrs %{email: "some email", role: "some role"}
-  @update_attrs %{email: "some updated email", role: "some updated role"}
+  alias Lunchbot.Accounts.User
+
+  @valid_attrs %{
+    email: "some email",
+    role: "some role",
+    password: "some password",
+    hashed_password: "some hashed password",
+    confirmed_at: ~N[2000-01-01 23:00:07]
+  }
+  @update_attrs %{
+    email: "some updated email",
+    role: "some updated role",
+    password: "some updated password",
+    hashed_password: "some updated hashed password",
+    confirmed_at: ~N[2001-01-01 23:00:07]
+  }
   @invalid_attrs %{email: nil, role: nil}
 
   describe "#paginate_users/1" do
     test "returns paginated list of users" do
-      for _ <- 1..20 do
-        user_fixture()
+      for i <- 1..20 do
+        # We do this since our user's emails must be unique
+        curr_attrs = Map.replace!(@valid_attrs, :email, "#{Map.get(@valid_attrs, :email)}#{i}")
+
+        curr_attrs
+        |> Enum.into(curr_attrs)
+        |> Accounts.create_user()
       end
 
-      {:ok, %{users: users} = page} = LunchbotData.paginate_users(%{})
+      {:ok, %{users: users} = page} = Accounts.paginate_users(%{})
 
       assert length(users) == 15
       assert page.page_number == 1
@@ -30,34 +49,34 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#list_users/0" do
     test "returns all users" do
-      user = user_fixture()
-      assert LunchbotData.list_users() == [user]
+      user = Map.replace!(user_fixture(), :password, nil)
+      assert Accounts.list_users() == [user]
     end
   end
 
   describe "#get_user!/1" do
     test "returns the user with given id" do
-      user = user_fixture()
-      assert LunchbotData.get_user!(user.id) == user
+      user = Map.replace!(user_fixture(), :password, nil)
+      assert Accounts.get_user!(user.id) == user
     end
   end
 
   describe "#create_user/1" do
     test "with valid data creates a user" do
-      assert {:ok, %User{} = user} = LunchbotData.create_user(@valid_attrs)
+      assert {:ok, %User{} = user} = Accounts.create_user(@valid_attrs)
       assert user.email == "some email"
       assert user.role == "some role"
     end
 
     test "with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = LunchbotData.create_user(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_user(@invalid_attrs)
     end
   end
 
   describe "#update_user/2" do
     test "with valid data updates the user" do
       user = user_fixture()
-      assert {:ok, user} = LunchbotData.update_user(user, @update_attrs)
+      assert {:ok, user} = Accounts.update_user(user, @update_attrs)
       assert %User{} = user
       assert user.email == "some updated email"
       assert user.role == "some updated role"
@@ -65,23 +84,23 @@ defmodule Lunchbot.LunchbotDataTest do
 
     test "with invalid data returns error changeset" do
       user = user_fixture()
-      assert {:error, %Ecto.Changeset{}} = LunchbotData.update_user(user, @invalid_attrs)
-      assert user == LunchbotData.get_user!(user.id)
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_user(user, @invalid_attrs)
+      assert user == Accounts.get_user!(user.id)
     end
   end
 
   describe "#delete_user/1" do
     test "deletes the user" do
       user = user_fixture()
-      assert {:ok, %User{}} = LunchbotData.delete_user(user)
-      assert_raise Ecto.NoResultsError, fn -> LunchbotData.get_user!(user.id) end
+      assert {:ok, %User{}} = Accounts.delete_user(user)
+      assert_raise Ecto.NoResultsError, fn -> Accounts.get_user!(user.id) end
     end
   end
 
   describe "#change_user/1" do
     test "returns a user changeset" do
       user = user_fixture()
-      assert %Ecto.Changeset{} = LunchbotData.change_user(user)
+      assert %Ecto.Changeset{} = Accounts.change_user(user)
     end
   end
 
@@ -89,7 +108,7 @@ defmodule Lunchbot.LunchbotDataTest do
     {:ok, user} =
       attrs
       |> Enum.into(@valid_attrs)
-      |> LunchbotData.create_user()
+      |> Accounts.create_user()
 
     user
   end

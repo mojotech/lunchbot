@@ -35,3 +35,5 @@ npm-debug.log
 # Ignore .DS_Store
 .DS_Store
 
+# Ignore .env
+.env

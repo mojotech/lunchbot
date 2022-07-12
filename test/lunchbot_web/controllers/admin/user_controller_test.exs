@@ -1,14 +1,26 @@
 defmodule LunchbotWeb.Admin.UserControllerTest do
   use LunchbotWeb.ConnCase
 
-  alias Lunchbot.LunchbotData
+  alias Lunchbot.Accounts
 
-  @create_attrs %{email: "some email", role: "some role"}
-  @update_attrs %{email: "some updated email", role: "some updated role"}
+  @create_attrs %{
+    email: "some email",
+    role: "some role",
+    password: "some password",
+    hashed_password: "some hashed password",
+    confirmed_at: ~N[2000-01-01 23:00:07]
+  }
+  @update_attrs %{
+    email: "some updated email",
+    role: "some updated role",
+    password: "some updated password",
+    hashed_password: "some updated hashed password",
+    confirmed_at: ~N[2001-01-01 23:00:07]
+  }
   @invalid_attrs %{email: nil, role: nil}
 
   def fixture(:user) do
-    {:ok, user} = LunchbotData.create_user(@create_attrs)
+    {:ok, user} = Accounts.create_user(@create_attrs)
     user
   end
 

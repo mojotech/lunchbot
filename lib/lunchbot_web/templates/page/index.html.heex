@@ -1,6 +1,14 @@
 <section class="phx-hero">
   <h1><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h1>
   <p>Peace of mind from prototype to production</p>
+  <%= if assigns[:current_user] do %>
+    <h2> Logged in as <%= @current_user.email %> </h2>
+  <% else %>
+    <p>To get started, login to your Google Account or login at the top of the page: </p>
+    <a href={@oauth_google_url}>
+      <img src="https://i.imgur.com/Kagbzkq.png" alt="Sign in with Google" />
+    </a>
+  <% end %>
 </section>
 
 <section class="row">

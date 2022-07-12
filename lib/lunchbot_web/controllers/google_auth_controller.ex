@@ -7,8 +7,15 @@ defmodule LunchbotWeb.GoogleAuthController do
   def index(conn, %{"code" => code}) do
     {:ok, token} = ElixirAuthGoogle.get_token(code, conn)
     {:ok, profile} = ElixirAuthGoogle.get_user_profile(token.access_token)
-    conn
-    |> put_view(LunchbotWeb.PageView)
-    |> render("index.html", current_user: profile)
+
+    if(profile.email =~ "@mojotech.com") do
+      conn
+      |> put_view(LunchbotWeb.PageView)
+      |> render("index.html", current_user: profile)
+    else
+      conn
+      |> put_flash(:error, "Must log in with a MojoTech account.")
+      |> redirect(to: "/")
+    end
   end
 end

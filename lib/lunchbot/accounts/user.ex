@@ -40,6 +40,7 @@ defmodule Lunchbot.Accounts.User do
     changeset
     |> validate_required([:email])
     |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "must have the @ sign and no spaces")
+    |> validate_format(:email, ~r/@mojotech.com/i, message: "must be in the MojoTech domain")
     |> validate_length(:email, max: 160)
     |> unsafe_validate_unique(:email, Lunchbot.Repo)
     |> unique_constraint(:email)

@@ -50,7 +50,9 @@ defmodule Lunchbot.MixProject do
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
       {:torch, "~> 4.2.1"},
-      {:plug_cowboy, "~> 2.5"}
+      {:plug_cowboy, "~> 2.5"},
+      {:elixir_auth_google, "~> 1.6.3"},
+      {:dotenv, "~> 3.0.0", only: [:dev, :test]}
     ]
   end
 

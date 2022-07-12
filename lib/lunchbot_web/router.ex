@@ -74,6 +74,11 @@ defmodule LunchbotWeb.Router do
 
   ## Authentication routes
 
+  scope "/auth/google/callback", LunchbotWeb do
+    pipe_through :browser
+    get("/", GoogleAuthController, :index)
+  end
+
   scope "/", LunchbotWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 

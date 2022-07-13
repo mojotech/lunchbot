@@ -17,11 +17,11 @@ Below is the database model for Lunchbot displayed using mermaid.js. You can mod
         date day
         int office_id FK
     }
-    USER |o--|{ ORDERS: has
     USER {
       string email
       string role
       int id
+      string name
     }
     ORDERS {
       int id
@@ -29,19 +29,19 @@ Below is the database model for Lunchbot displayed using mermaid.js. You can mod
       int menu_id FK
       int lunch_order_id FK
     }
-    ITEMS |o--|{ EXTRAS: has
     ITEMS ||--o{ ORDER_ITEMS : belongs
     ORDER_ITEMS ||--o{ ORDER_ITEM_EXTRAS : has
     ORDER_ITEMS {
         int id
-        date day
-        int office_id FK
+        int order_id
+        int item_id
     }
     OFFICES ||--|{ MENUS: has
     OFFICES ||--|{ OFFICE_LUNCH_ORDERS: has
     OFFICES {
       string timezone
       int id
+      string name
     }
     CATEGORIES |o--|{ ITEMS: contains
     CATEGORIES {
@@ -49,8 +49,11 @@ Below is the database model for Lunchbot displayed using mermaid.js. You can mod
       string name
       int menu_id FK
     }
+    ITEM_EXTRAS }o--|| EXTRAS: connects
+    ITEM_EXTRAS }o--|| ITEMS: connects
     ORDERS ||--o{ ORDER_ITEMS : has
     EXTRAS ||--o{ ORDER_ITEM_EXTRAS: belongs
+    ORDERS |o--|{ USER: has
     ITEMS {
       int id
       string name
@@ -61,11 +64,14 @@ Below is the database model for Lunchbot displayed using mermaid.js. You can mod
     ORDER_ITEM_EXTRAS {
       int id
       int order_item_id
-      int item_id
+      int extra_id
     }
     EXTRAS {
       int id
       string name
-      int item_id
+    }
+    ITEM_EXTRAS{
+      int item_id fk
+      int extra_id
     }
 ```

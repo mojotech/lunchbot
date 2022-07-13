@@ -189,10 +189,16 @@ defmodule Lunchbot.Accounts do
 
   """
   def update_user_password(user, password, attrs) do
+    # Our password will only be nil when setting the password after a Google login
     changeset =
-      user
-      |> User.password_changeset(attrs)
-      |> User.validate_current_password(password)
+      if(password == "") do
+        user
+        |> User.password_changeset(attrs)
+      else
+        user
+        |> User.password_changeset(attrs)
+        |> User.validate_current_password(password)
+      end
 
     Ecto.Multi.new()
     |> Ecto.Multi.update(:user, changeset)
@@ -426,7 +432,7 @@ defmodule Lunchbot.Accounts do
 
       _ ->
         %User{}
-        |> User.registration_changeset(attrs)
+        |> User.google_registration_changeset(attrs)
         |> Repo.insert()
     end
   end

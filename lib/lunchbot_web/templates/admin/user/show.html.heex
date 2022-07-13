@@ -21,7 +21,17 @@
           <div class="torch-show-label">Role:</div>
           <div class="torch-show-data"><%= @user.role %></div>
         </div>
-      
+
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">Hashed Password:</div>
+          <div class="torch-show-data"></div>
+        </div>
+
+        <div class="torch-show-attribute">
+          <div class="torch-show-label">Confirmed At:</div>
+          <div class="torch-show-data"><%= @user.confirmed_at %></div>
+        </div>
+
     </section>
   </div>
 </section>

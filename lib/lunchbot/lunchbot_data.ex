@@ -1356,9 +1356,160 @@ defmodule Lunchbot.LunchbotData do
     Extra.changeset(extra, attrs)
   end
 
+  import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
+  import Filtrex.Type.Config
+
+  alias Lunchbot.LunchbotData.ItemExtra
+
+  @pagination [page_size: 15]
+  @pagination_distance 5
+
+  @doc """
+  Paginate the list of item_extras using filtrex
+  filters.
+
+  ## Examples
+
+      iex> paginate_item_extras(%{})
+      %{item_extras: [%ItemExtra{}], ...}
+
+  """
+  @spec paginate_item_extras(map) :: {:ok, map} | {:error, any}
+  def paginate_item_extras(params \\ %{}) do
+    params =
+      params
+      |> strip_unset_booleans("item_extra", [])
+      |> Map.put_new("sort_direction", "desc")
+      |> Map.put_new("sort_field", "inserted_at")
+
+    {:ok, sort_direction} = Map.fetch(params, "sort_direction")
+    {:ok, sort_field} = Map.fetch(params, "sort_field")
+
+    with {:ok, filter} <-
+           Filtrex.parse_params(filter_config(:item_extras), params["item_extra"] || %{}),
+         %Scrivener.Page{} = page <- do_paginate_item_extras(filter, params) do
+      {:ok,
+       %{
+         item_extras: page.entries,
+         page_number: page.page_number,
+         page_size: page.page_size,
+         total_pages: page.total_pages,
+         total_entries: page.total_entries,
+         distance: @pagination_distance,
+         sort_field: sort_field,
+         sort_direction: sort_direction
+       }}
+    else
+      {:error, error} -> {:error, error}
+      error -> {:error, error}
+    end
+  end
+
+  defp do_paginate_item_extras(filter, params) do
+    ItemExtra
+    |> Filtrex.query(filter)
+    |> order_by(^sort(params))
+    |> paginate(Repo, params, @pagination)
+  end
+
+  @doc """
+  Returns the list of item_extras.
+
+  ## Examples
+
+      iex> list_item_extras()
+      [%ItemExtra{}, ...]
+
+  """
+  def list_item_extras do
+    Repo.all(ItemExtra)
+  end
+
+  @doc """
+  Gets a single item_extra.
+
+  Raises `Ecto.NoResultsError` if the Item extra does not exist.
+
+  ## Examples
+
+      iex> get_item_extra!(123)
+      %ItemExtra{}
+
+      iex> get_item_extra!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_item_extra!(id), do: Repo.get!(ItemExtra, id)
+
+  @doc """
+  Creates a item_extra.
+
+  ## Examples
+
+      iex> create_item_extra(%{field: value})
+      {:ok, %ItemExtra{}}
+
+      iex> create_item_extra(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_item_extra(attrs \\ %{}) do
+    %ItemExtra{}
+    |> ItemExtra.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a item_extra.
+
+  ## Examples
+
+      iex> update_item_extra(item_extra, %{field: new_value})
+      {:ok, %ItemExtra{}}
+
+      iex> update_item_extra(item_extra, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_item_extra(%ItemExtra{} = item_extra, attrs) do
+    item_extra
+    |> ItemExtra.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a ItemExtra.
+
+  ## Examples
+
+      iex> delete_item_extra(item_extra)
+      {:ok, %ItemExtra{}}
+
+      iex> delete_item_extra(item_extra)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_item_extra(%ItemExtra{} = item_extra) do
+    Repo.delete(item_extra)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking item_extra changes.
+
+  ## Examples
+
+      iex> change_item_extra(item_extra)
+      %Ecto.Changeset{source: %ItemExtra{}}
+
+  """
+  def change_item_extra(%ItemExtra{} = item_extra, attrs \\ %{}) do
+    ItemExtra.changeset(item_extra, attrs)
+  end
+
   defp filter_config(:offices) do
     defconfig do
       text(:timezone)
+      text(:name)
     end
   end
 
@@ -1418,6 +1569,13 @@ defmodule Lunchbot.LunchbotData do
     defconfig do
       text(:name)
       number(:item_id)
+    end
+  end
+
+  defp filter_config(:item_extras) do
+    defconfig do
+      number(:item_id)
+      number(:extra_id)
     end
   end
 end

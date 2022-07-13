@@ -157,4 +157,19 @@ defmodule Lunchbot.LunchbotDataFixtures do
 
     extra
   end
+
+  @doc """
+  Generate a item_extra.
+  """
+  def item_extra_fixture(attrs \\ %{}) do
+    {:ok, item_extra} =
+      attrs
+      |> Enum.into(%{
+        extra_id: 42,
+        item_id: 42
+      })
+      |> Lunchbot.LunchbotData.create_item_extra()
+
+    item_extra
+  end
 end

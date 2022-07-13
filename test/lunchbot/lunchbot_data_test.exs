@@ -975,4 +975,98 @@ defmodule Lunchbot.LunchbotDataTest do
 
     extra
   end
+
+  alias Lunchbot.LunchbotData.ItemExtra
+
+  @valid_attrs %{extra_id: 42, item_id: 42}
+  @update_attrs %{extra_id: 43, item_id: 43}
+  @invalid_attrs %{extra_id: nil, item_id: nil}
+
+  describe "#paginate_item_extras/1" do
+    test "returns paginated list of item_extras" do
+      for _ <- 1..20 do
+        item_extra_fixture()
+      end
+
+      {:ok, %{item_extras: item_extras} = page} = LunchbotData.paginate_item_extras(%{})
+
+      assert length(item_extras) == 15
+      assert page.page_number == 1
+      assert page.page_size == 15
+      assert page.total_pages == 2
+      assert page.total_entries == 20
+      assert page.distance == 5
+      assert page.sort_field == "inserted_at"
+      assert page.sort_direction == "desc"
+    end
+  end
+
+  describe "#list_item_extras/0" do
+    test "returns all item_extras" do
+      item_extra = item_extra_fixture()
+      assert LunchbotData.list_item_extras() == [item_extra]
+    end
+  end
+
+  describe "#get_item_extra!/1" do
+    test "returns the item_extra with given id" do
+      item_extra = item_extra_fixture()
+      assert LunchbotData.get_item_extra!(item_extra.id) == item_extra
+    end
+  end
+
+  describe "#create_item_extra/1" do
+    test "with valid data creates a item_extra" do
+      assert {:ok, %ItemExtra{} = item_extra} = LunchbotData.create_item_extra(@valid_attrs)
+      assert item_extra.extra_id == 42
+      assert item_extra.item_id == 42
+    end
+
+    test "with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = LunchbotData.create_item_extra(@invalid_attrs)
+    end
+  end
+
+  describe "#update_item_extra/2" do
+    test "with valid data updates the item_extra" do
+      item_extra = item_extra_fixture()
+      assert {:ok, item_extra} = LunchbotData.update_item_extra(item_extra, @update_attrs)
+      assert %ItemExtra{} = item_extra
+      assert item_extra.extra_id == 43
+      assert item_extra.item_id == 43
+    end
+
+    test "with invalid data returns error changeset" do
+      item_extra = item_extra_fixture()
+
+      assert {:error, %Ecto.Changeset{}} =
+               LunchbotData.update_item_extra(item_extra, @invalid_attrs)
+
+      assert item_extra == LunchbotData.get_item_extra!(item_extra.id)
+    end
+  end
+
+  describe "#delete_item_extra/1" do
+    test "deletes the item_extra" do
+      item_extra = item_extra_fixture()
+      assert {:ok, %ItemExtra{}} = LunchbotData.delete_item_extra(item_extra)
+      assert_raise Ecto.NoResultsError, fn -> LunchbotData.get_item_extra!(item_extra.id) end
+    end
+  end
+
+  describe "#change_item_extra/1" do
+    test "returns a item_extra changeset" do
+      item_extra = item_extra_fixture()
+      assert %Ecto.Changeset{} = LunchbotData.change_item_extra(item_extra)
+    end
+  end
+
+  def item_extra_fixture(attrs \\ %{}) do
+    {:ok, item_extra} =
+      attrs
+      |> Enum.into(@valid_attrs)
+      |> LunchbotData.create_item_extra()
+
+    item_extra
+  end
 end

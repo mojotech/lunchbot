@@ -4,6 +4,7 @@ defmodule Lunchbot.LunchbotData.Office do
 
   schema "offices" do
     field :timezone, :string
+    field :name, :string
 
     timestamps()
   end
@@ -11,7 +12,7 @@ defmodule Lunchbot.LunchbotData.Office do
   @doc false
   def changeset(office, attrs) do
     office
-    |> cast(attrs, [:timezone])
-    |> validate_required([:timezone])
+    |> cast(attrs, [:timezone, :name])
+    |> validate_required([:timezone, :name])
   end
 end

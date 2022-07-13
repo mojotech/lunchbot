@@ -4,6 +4,7 @@ defmodule LunchbotWeb.Admin.UserControllerTest do
   alias Lunchbot.Accounts
 
   @create_attrs %{
+    name: "some name",
     email: "some email",
     role: "some role",
     password: "some password",
@@ -11,13 +12,14 @@ defmodule LunchbotWeb.Admin.UserControllerTest do
     confirmed_at: ~N[2000-01-01 23:00:07]
   }
   @update_attrs %{
+    name: "some updated name",
     email: "some updated email",
     role: "some updated role",
     password: "some updated password",
     hashed_password: "some updated hashed password",
     confirmed_at: ~N[2001-01-01 23:00:07]
   }
-  @invalid_attrs %{email: nil, role: nil}
+  @invalid_attrs %{name: nil, email: nil, role: nil}
 
   def fixture(:user) do
     {:ok, user} = Accounts.create_user(@create_attrs)

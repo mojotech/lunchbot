@@ -3,9 +3,9 @@ defmodule LunchbotWeb.Admin.OfficeControllerTest do
 
   alias Lunchbot.LunchbotData
 
-  @create_attrs %{timezone: "some timezone"}
-  @update_attrs %{timezone: "some updated timezone"}
-  @invalid_attrs %{timezone: nil}
+  @create_attrs %{name: "some name", timezone: "some timezone"}
+  @update_attrs %{name: "some updated name", timezone: "some updated timezone"}
+  @invalid_attrs %{name: nil, timezone: nil}
 
   def fixture(:office) do
     {:ok, office} = LunchbotData.create_office(@create_attrs)

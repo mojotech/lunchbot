@@ -498,6 +498,7 @@ defmodule Lunchbot.Accounts do
 
   defp filter_config(:users) do
     defconfig do
+      text(:name)
       text(:email)
       text(:role)
     end

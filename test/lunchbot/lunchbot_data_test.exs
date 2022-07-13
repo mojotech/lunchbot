@@ -8,6 +8,7 @@ defmodule Lunchbot.LunchbotDataTest do
   alias Lunchbot.Accounts.User
 
   @valid_attrs %{
+    name: "some name",
     email: "some email",
     role: "some role",
     password: "some password",
@@ -15,13 +16,14 @@ defmodule Lunchbot.LunchbotDataTest do
     confirmed_at: ~N[2000-01-01 23:00:07]
   }
   @update_attrs %{
+    name: "some updated name",
     email: "some updated email",
     role: "some updated role",
     password: "some updated password",
     hashed_password: "some updated hashed password",
     confirmed_at: ~N[2001-01-01 23:00:07]
   }
-  @invalid_attrs %{email: nil, role: nil}
+  @invalid_attrs %{name: nil, email: nil, role: nil}
 
   describe "#paginate_users/1" do
     test "returns paginated list of users" do
@@ -64,6 +66,7 @@ defmodule Lunchbot.LunchbotDataTest do
   describe "#create_user/1" do
     test "with valid data creates a user" do
       assert {:ok, %User{} = user} = Accounts.create_user(@valid_attrs)
+      assert user.name == "some name"
       assert user.email == "some email"
       assert user.role == "some role"
     end
@@ -78,6 +81,7 @@ defmodule Lunchbot.LunchbotDataTest do
       user = user_fixture()
       assert {:ok, user} = Accounts.update_user(user, @update_attrs)
       assert %User{} = user
+      assert user.name == "some updated name"
       assert user.email == "some updated email"
       assert user.role == "some updated role"
     end
@@ -115,9 +119,9 @@ defmodule Lunchbot.LunchbotDataTest do
 
   alias Lunchbot.LunchbotData.Office
 
-  @valid_attrs %{timezone: "some timezone"}
-  @update_attrs %{timezone: "some updated timezone"}
-  @invalid_attrs %{timezone: nil}
+  @valid_attrs %{name: "some name", timezone: "some timezone"}
+  @update_attrs %{name: "some updated name", timezone: "some updated timezone"}
+  @invalid_attrs %{name: nil, timezone: nil}
 
   describe "#paginate_offices/1" do
     test "returns paginated list of offices" do
@@ -155,6 +159,7 @@ defmodule Lunchbot.LunchbotDataTest do
   describe "#create_office/1" do
     test "with valid data creates a office" do
       assert {:ok, %Office{} = office} = LunchbotData.create_office(@valid_attrs)
+      assert office.name == "some name"
       assert office.timezone == "some timezone"
     end
 
@@ -168,6 +173,7 @@ defmodule Lunchbot.LunchbotDataTest do
       office = office_fixture()
       assert {:ok, office} = LunchbotData.update_office(office, @update_attrs)
       assert %Office{} = office
+      assert office.name == "some updated name"
       assert office.timezone == "some updated timezone"
     end
 

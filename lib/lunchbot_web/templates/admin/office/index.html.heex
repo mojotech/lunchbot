@@ -10,6 +10,12 @@
       <%= form_tag @conn.request_path, method: :get, id: "torch-filters-form" do %>
         
           <div class="field">
+            <label>Name</label>
+            <%= filter_select(:office, :name, @conn.params) %>
+            <%= filter_string_input(:office, :name, @conn.params) %>
+          </div>
+          
+          <div class="field">
             <label>Timezone</label>
             <%= filter_select(:office, :timezone, @conn.params) %>
             <%= filter_string_input(:office, :timezone, @conn.params) %>
@@ -30,6 +36,7 @@
         <thead>
           <tr>
             
+              <th><%= table_link(@conn, "Name", :name) %></th>
               <th><%= table_link(@conn, "Timezone", :timezone) %></th>
             
             <th><span>Actions</span></th>
@@ -39,6 +46,7 @@
           <%= for office <- @offices do %>
             <tr>
               
+                <td><%= office.name %></td>
                 <td><%= office.timezone %></td>
               
               <td class="torch-actions">

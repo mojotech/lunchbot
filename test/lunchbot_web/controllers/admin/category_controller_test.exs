@@ -12,6 +12,10 @@ defmodule LunchbotWeb.Admin.CategoryControllerTest do
     category
   end
 
+  setup do
+    initialize_user()
+  end
+
   describe "index" do
     test "lists all categories", %{conn: conn} do
       conn = get(conn, Routes.admin_category_path(conn, :index))

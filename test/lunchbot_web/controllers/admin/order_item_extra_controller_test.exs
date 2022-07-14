@@ -12,6 +12,10 @@ defmodule LunchbotWeb.Admin.OrderItemExtraControllerTest do
     order_item_extra
   end
 
+  setup do
+    initialize_user()
+  end
+
   describe "index" do
     test "lists all order_item_extras", %{conn: conn} do
       conn = get(conn, Routes.admin_order_item_extra_path(conn, :index))

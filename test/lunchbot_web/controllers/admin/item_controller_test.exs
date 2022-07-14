@@ -17,6 +17,10 @@ defmodule LunchbotWeb.Admin.ItemControllerTest do
     item
   end
 
+  setup do
+    initialize_user()
+  end
+
   describe "index" do
     test "lists all items", %{conn: conn} do
       conn = get(conn, Routes.admin_item_path(conn, :index))

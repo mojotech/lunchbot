@@ -12,6 +12,10 @@ defmodule LunchbotWeb.Admin.OrderControllerTest do
     order
   end
 
+  setup do
+    initialize_user()
+  end
+
   describe "index" do
     test "lists all orders", %{conn: conn} do
       conn = get(conn, Routes.admin_order_path(conn, :index))

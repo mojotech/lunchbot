@@ -32,7 +32,7 @@ defmodule Lunchbot.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:name, :email, :password, :role, :confirmed_at])
     |> validate_email()
     |> validate_password(opts)
   end
@@ -150,8 +150,8 @@ defmodule Lunchbot.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:name, :email, :role])
-    |> validate_required([:name, :email, :role])
+    |> cast(attrs, [:name, :email, :password, :role, :confirmed_at])
+    |> validate_required([:name, :email, :password, :role, :confirmed_at])
     |> unique_constraint(:email, message: "Email must be unique")
   end
 end

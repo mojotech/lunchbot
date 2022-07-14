@@ -12,6 +12,10 @@ defmodule LunchbotWeb.Admin.OfficeControllerTest do
     office
   end
 
+  setup do
+    initialize_user()
+  end
+
   describe "index" do
     test "lists all offices", %{conn: conn} do
       conn = get(conn, Routes.admin_office_path(conn, :index))

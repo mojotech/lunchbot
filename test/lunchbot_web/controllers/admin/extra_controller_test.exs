@@ -12,6 +12,10 @@ defmodule LunchbotWeb.Admin.ExtraControllerTest do
     extra
   end
 
+  setup do
+    initialize_user()
+  end
+
   describe "index" do
     test "lists all extras", %{conn: conn} do
       conn = get(conn, Routes.admin_extra_path(conn, :index))

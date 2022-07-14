@@ -87,7 +87,7 @@ defmodule Lunchbot.LunchbotDataTest do
     end
 
     test "with invalid data returns error changeset" do
-      user = user_fixture()
+      user = Map.replace!(user_fixture(), :password, nil)
       assert {:error, %Ecto.Changeset{}} = Accounts.update_user(user, @invalid_attrs)
       assert user == Accounts.get_user!(user.id)
     end

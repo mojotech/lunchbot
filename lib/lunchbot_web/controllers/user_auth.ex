@@ -121,6 +121,21 @@ defmodule LunchbotWeb.UserAuth do
     end
   end
 
+  def require_admin_user(conn, _opts) do
+    {user_token, conn} = ensure_user_token(conn)
+    user = user_token && Accounts.get_user_by_session_token(user_token)
+
+    if user != nil and user.role == "admin" do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You must be an admin to access this page.")
+      |> maybe_store_return_to()
+      |> redirect(to: Routes.user_session_path(conn, :new))
+      |> halt()
+    end
+  end
+
   @doc """
   Used for routes that require the user to be authenticated.
 

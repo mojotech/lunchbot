@@ -99,10 +99,8 @@ defmodule LunchbotWeb.Admin.UserControllerTest do
     test "deletes chosen user", %{conn: conn, user: user} do
       conn = delete(conn, Routes.admin_user_path(conn, :delete, user))
       assert redirected_to(conn) == Routes.admin_user_path(conn, :index)
-
-      assert_error_sent 404, fn ->
-        get(conn, Routes.admin_user_path(conn, :show, user))
-      end
+      conn = get(conn, Routes.admin_user_path(conn, :show, user))
+      assert html_response(conn, 302) =~ "/users/log_in"
     end
   end
 end

@@ -12,10 +12,12 @@ defmodule Lunchbot.LunchbotDataFixtures do
       attrs
       |> Enum.into(%{
         name: "some name",
-        email: "some email",
-        role: "some role"
+        email: "some_email@mojotech.com",
+        password: "some_password",
+        role: "admin",
+        confirmed_at: ~N[2001-01-01 23:00:07]
       })
-      |> Lunchbot.LunchbotData.create_user()
+      |> Lunchbot.Accounts.create_user()
 
     user
   end

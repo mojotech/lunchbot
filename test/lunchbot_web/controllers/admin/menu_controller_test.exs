@@ -12,6 +12,10 @@ defmodule LunchbotWeb.Admin.MenuControllerTest do
     menu
   end
 
+  setup do
+    initialize_admin_user()
+  end
+
   describe "index" do
     test "lists all menus", %{conn: conn} do
       conn = get(conn, Routes.admin_menu_path(conn, :index))

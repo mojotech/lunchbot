@@ -17,6 +17,14 @@ defmodule LunchbotWeb.ConnCase do
 
   use ExUnit.CaseTemplate
 
+  import Lunchbot.AccountsFixtures
+  import Phoenix.ConnTest
+  alias LunchbotWeb.Router.Helpers, as: Routes
+  alias Lunchbot.Repo
+  alias Lunchbot.Accounts.User
+
+  @endpoint LunchbotWeb.Endpoint
+
   using do
     quote do
       # Import conveniences for testing with connections
@@ -60,5 +68,45 @@ defmodule LunchbotWeb.ConnCase do
     conn
     |> Phoenix.ConnTest.init_test_session(%{})
     |> Plug.Conn.put_session(:user_token, token)
+  end
+
+  def initialize_user() do
+    unique_int = System.unique_integer()
+
+    user_attrs = %{
+      name: "some name",
+      email: "email#{unique_int}@mojotech.com",
+      role: "some role",
+      password: "some password",
+      hashed_password: "some hashed password",
+      confirmed_at: ~N[2000-01-01 23:00:07]
+    }
+
+    user_fixture(user_attrs)
+
+    {:ok,
+     %{
+       user: user_attrs,
+       conn:
+         post(build_conn(), Routes.user_session_path(build_conn(), :create), %{
+           user: %{
+             email: "email#{unique_int}@mojotech.com",
+             password: "some password"
+           }
+         })
+     }}
+  end
+
+  def initialize_admin_user() do
+    # Change the repo first before returning the new user
+    {:ok, resp} =
+      initialize_user()
+      |> put_in([Access.elem(1), :user, :role], "admin")
+
+    Repo.get_by!(User, email: resp.user.email)
+    |> User.changeset(resp.user)
+    |> Repo.update()
+
+    {:ok, resp}
   end
 end

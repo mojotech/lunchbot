@@ -12,6 +12,10 @@ defmodule LunchbotWeb.Admin.OfficeLunchOrderControllerTest do
     office_lunch_order
   end
 
+  setup do
+    initialize_admin_user()
+  end
+
   describe "index" do
     test "lists all office_lunch_orders", %{conn: conn} do
       conn = get(conn, Routes.admin_office_lunch_order_path(conn, :index))

@@ -27,8 +27,17 @@
             <%= filter_string_input(:user, :role, @conn.params) %>
           </div>
         
-        
-        
+          <div class="field">
+            <label>Hashed Password</label>
+            <%= filter_select(:user, :hashed_password, @conn.params) %>
+            <%= filter_string_input(:user, :hashed_password, @conn.params) %>
+          </div> 
+
+          <div class="field">
+            <label>Confirmed At</label>
+            <%= filter_select(:user, :confirmed_at, @conn.params) %>
+            <%= filter_string_input(:user, :confirmed_at, @conn.params) %>
+          </div> 
         
         <button type="submit" class="torch-button">Search</button>
         <%= link "Clear Filters", to: Routes.admin_user_path(@conn, :index) %>

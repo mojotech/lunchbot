@@ -30,6 +30,14 @@
         <%= error_tag f, :role %>
       </div>
     </div>
+
+    <div class="torch-form-group">
+      <%= label f, :confirmed_at %>
+      <div class="torch-form-group-input">
+        <%= text_input f, :confirmed_at %>
+        <%= error_tag f, :confirmed_at %>
+      </div>
+    </div>
   
     <div class="torch-submit-form">
       <%= submit "Submit", class: "torch-submit-button" %>

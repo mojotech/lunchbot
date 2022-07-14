@@ -15,8 +15,8 @@
     <header>
       <section id="torch-account-info">
         <div class="torch-container">
-          <a href="/">user@example.com</a>
-          <a href="/">Logout</a>
+          <a href="/"><%= @current_user.email %></a>
+          <a><%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete %></a>
         </div>
       </section>
 

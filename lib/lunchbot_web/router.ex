@@ -18,7 +18,7 @@ defmodule LunchbotWeb.Router do
   end
 
   scope "/admin", LunchbotWeb.Admin, as: :admin do
-    pipe_through :browser
+    pipe_through [:browser, :require_admin_user]
 
     resources "/users", UserController
     resources "/offices", OfficeController

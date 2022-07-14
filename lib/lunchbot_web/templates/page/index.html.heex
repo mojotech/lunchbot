@@ -3,6 +3,17 @@
   <p>Peace of mind from prototype to production</p>
   <%= if assigns[:current_user] do %>
     <h2> Logged in as <%= @current_user.email %> </h2>
+    <%= if @current_user.role == "admin" do %>
+      <font size="+3">
+        <center>
+            <strong>
+            <li>
+                <a href="/admin/users">Torch</a>
+            </li>
+            </strong>
+        </center>
+      </font>
+    <% end %>
   <% else %>
     <p>To get started, login to your Google Account or login at the top of the page: </p>
     <a href={@oauth_google_url}>

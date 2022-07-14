@@ -7,11 +7,6 @@ defmodule Lunchbot.Application do
 
   @impl true
   def start(_type, _args) do
-    unless Mix.env() == :prod do
-      Dotenv.load()
-      Mix.Task.run("loadconfig")
-    end
-
     children = [
       # Start the Ecto repository
       Lunchbot.Repo,

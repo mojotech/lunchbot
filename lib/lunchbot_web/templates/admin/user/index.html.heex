@@ -10,6 +10,12 @@
       <%= form_tag @conn.request_path, method: :get, id: "torch-filters-form" do %>
         
           <div class="field">
+            <label>Name</label>
+            <%= filter_select(:user, :name, @conn.params) %>
+            <%= filter_string_input(:user, :name, @conn.params) %>
+          </div>
+          
+          <div class="field">
             <label>Email</label>
             <%= filter_select(:user, :email, @conn.params) %>
             <%= filter_string_input(:user, :email, @conn.params) %>
@@ -45,6 +51,8 @@
         <thead>
           <tr>
             
+              <th><%= table_link(@conn, "Name", :name) %></th>
+
               <th><%= table_link(@conn, "Email", :email) %></th>
             
               <th><%= table_link(@conn, "Role", :role) %></th>
@@ -56,6 +64,8 @@
           <%= for user <- @users do %>
             <tr>
               
+                <td><%= user.name %></td>
+                
                 <td><%= user.email %></td>
               
                 <td><%= user.role %></td>

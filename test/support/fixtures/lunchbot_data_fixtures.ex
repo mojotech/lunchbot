@@ -11,6 +11,7 @@ defmodule Lunchbot.LunchbotDataFixtures do
     {:ok, user} =
       attrs
       |> Enum.into(%{
+        name: "some name",
         email: "some email",
         role: "some role"
       })
@@ -26,6 +27,7 @@ defmodule Lunchbot.LunchbotDataFixtures do
     {:ok, office} =
       attrs
       |> Enum.into(%{
+        name: "some name",
         timezone: "some timezone"
       })
       |> Lunchbot.LunchbotData.create_office()
@@ -154,5 +156,20 @@ defmodule Lunchbot.LunchbotDataFixtures do
       |> Lunchbot.LunchbotData.create_extra()
 
     extra
+  end
+
+  @doc """
+  Generate a item_extra.
+  """
+  def item_extra_fixture(attrs \\ %{}) do
+    {:ok, item_extra} =
+      attrs
+      |> Enum.into(%{
+        extra_id: 42,
+        item_id: 42
+      })
+      |> Lunchbot.LunchbotData.create_item_extra()
+
+    item_extra
   end
 end

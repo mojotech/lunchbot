@@ -3,6 +3,7 @@ defmodule Lunchbot.Accounts.User do
   import Ecto.Changeset
 
   schema "users" do
+    field :name, :string
     field :email, :string
     field :role, :string
     field :password, :string, virtual: true, redact: true
@@ -149,8 +150,8 @@ defmodule Lunchbot.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:email, :role])
-    |> validate_required([:email, :role])
+    |> cast(attrs, [:name, :email, :role])
+    |> validate_required([:name, :email, :role])
     |> unique_constraint(:email, message: "Email must be unique")
   end
 end

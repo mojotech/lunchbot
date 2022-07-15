@@ -74,7 +74,7 @@ defmodule LunchbotWeb.ConnCase do
     user_attrs = %{
       name: "some name",
       email: "email#{unique_int}@mojotech.com",
-      role: "admin",
+      role: "some role",
       password: "some password",
       hashed_password: "some hashed password",
       confirmed_at: ~N[2000-01-01 23:00:07]
@@ -93,5 +93,12 @@ defmodule LunchbotWeb.ConnCase do
            }
          })
      }}
+  end
+
+  def initialize_admin_user() do
+    {:ok, resp} = initialize_user()
+
+    {:ok, Map.replace!(resp, :user, Map.replace!(resp.user, :role, "admin"))}
+    |> IO.inspect()
   end
 end

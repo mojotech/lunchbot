@@ -18,7 +18,7 @@ defmodule LunchbotWeb.Admin.ItemControllerTest do
   end
 
   setup do
-    initialize_user()
+    initialize_admin_user()
   end
 
   describe "index" do

@@ -13,7 +13,7 @@ defmodule LunchbotWeb.Admin.OfficeLunchOrderControllerTest do
   end
 
   setup do
-    initialize_user()
+    initialize_admin_user()
   end
 
   describe "index" do

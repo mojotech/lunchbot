@@ -38,6 +38,7 @@ defmodule Lunchbot.MixProject do
       {:phoenix_ecto, "~> 4.4"},
       {:httpoison, "~> 1.6"},
       {:json, "~> 1.4"},
+      {:quantum, "~> 3.0"},
       {:ecto_sql, "~> 3.6"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 3.0"},

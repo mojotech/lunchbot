@@ -15,9 +15,10 @@ defmodule Lunchbot.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Lunchbot.PubSub},
       # Start the Endpoint (http/https)
-      LunchbotWeb.Endpoint
+      LunchbotWeb.Endpoint,
       # Start a worker by calling: Lunchbot.Worker.start_link(arg)
       # {Lunchbot.Worker, arg}
+      Lunchbot.Scheduler
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

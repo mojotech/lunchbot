@@ -47,6 +47,12 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+config :lunchbot, Lunchbot.Scheduler,
+  jobs: [
+    # Check if it's noon in a office every hour and send slack lunch reminder if it is
+    {"0 * * * *", {Lunchbot.Slackbot, :if_noon_on_monday_thursday_send_slack_message, []}}
+  ]
+
 config :torch,
   otp_app: :lunchbot,
   template_format: "eex"

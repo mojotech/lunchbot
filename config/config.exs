@@ -47,6 +47,17 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+config :lunchbot, Lunchbot.Scheduler,
+  jobs: [
+    # Bldr reminders at noon Monday and Thursday
+    {"0 18 * * 1,4",
+     {Lunchbot.Slackbot, :sendLunchReminder, ["bldr", "https://lunchbot.withmojo.com"]}},
+
+    # PVD reminders at noon Monday and Thursday
+    {"0 16 * * 1,4",
+     {Lunchbot.Slackbot, :sendLunchReminder, ["pvd", "https://lunchbot.withmojo.com"]}}
+  ]
+
 config :torch,
   otp_app: :lunchbot,
   template_format: "eex"

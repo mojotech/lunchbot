@@ -4,23 +4,25 @@ Below is the database model for Lunchbot displayed using mermaid.js. You can mod
 
 ```mermaid
   erDiagram
-    MENUS ||--o{ CATEGORIES : has
-    MENUS ||--o{ ORDERS : has
     MENUS {
-        string name
         int id
-        int office_id
+        string name
+        int office_id FK
     }
-    OFFICE_LUNCH_ORDERS ||--o{ ORDERS : has
     OFFICE_LUNCH_ORDERS {
         int id
         date day
         int office_id FK
     }
-    USER {
+    OFFICES {
+      int id
+      string timezone
+      string name
+    }
+    USERS {
+      int id
       string email
       string role
-      int id
       string name
     }
     ORDERS {
@@ -29,49 +31,60 @@ Below is the database model for Lunchbot displayed using mermaid.js. You can mod
       int menu_id FK
       int lunch_order_id FK
     }
-    ITEMS ||--o{ ORDER_ITEMS : belongs
-    ORDER_ITEMS ||--o{ ORDER_ITEM_EXTRAS : has
     ORDER_ITEMS {
         int id
-        int order_id
-        int item_id
+        int order_id FK
+        int item_id FK
     }
-    OFFICES ||--|{ MENUS: has
-    OFFICES ||--|{ OFFICE_LUNCH_ORDERS: has
-    OFFICES {
-      string timezone
-      int id
-      string name
-    }
-    CATEGORIES |o--|{ ITEMS: contains
     CATEGORIES {
       int id
       string name
       int menu_id FK
     }
-    ITEM_EXTRAS }o--|| EXTRAS: connects
-    ITEM_EXTRAS }o--|| ITEMS: connects
-    ORDERS ||--o{ ORDER_ITEMS : has
-    EXTRAS ||--o{ ORDER_ITEM_EXTRAS: belongs
-    ORDERS |o--|{ USER: has
     ITEMS {
       int id
       string name
       int category_id
       string image_url
       boolean deleted
+      int price
     }
-    ORDER_ITEM_EXTRAS {
+    ITEM_OPTION_HEADINGS {
       int id
-      int order_item_id
-      int extra_id
+      int item_id FK
+      int option_heading_id FK
     }
-    EXTRAS {
+    OPTION_HEADINGS {
       int id
       string name
+      int priority
     }
-    ITEM_EXTRAS{
-      int item_id fk
-      int extra_id
+    OPTIONS {
+      int id
+      string name
+      int option_heading_id FK
+      boolean extras
+      int price
+      int extra_price
+      boolean is_required
     }
+    ORDER_ITEM_OPTIONS {
+        int id
+        int order_item_id FK
+        int option_id FK
+    }
+    MENUS ||--o{ ORDERS : has
+    MENUS ||--o{ CATEGORIES : has
+    OFFICES ||--|{ MENUS: has
+    OFFICES ||--|{ OFFICE_LUNCH_ORDERS: has
+    OFFICE_LUNCH_ORDERS ||--o{ ORDERS : has
+    USERS |o--|{ ORDERS: has
+    ITEMS ||--o{ ORDER_ITEMS : belong
+    ORDERS ||--o{ ORDER_ITEMS : belong
+    CATEGORIES |o--|{ ITEMS: contains
+    ORDER_ITEMS ||--o{ ORDER_ITEM_OPTIONS : belong
+    OPTIONS ||--o{ ORDER_ITEM_OPTIONS : belong
+    ITEMS ||--|{ ITEM_OPTION_HEADINGS: has
+    OPTION_HEADINGS ||--|{ OPTIONS: has
+    OPTION_HEADINGS ||--|{ ITEM_OPTION_HEADINGS: has
 ```

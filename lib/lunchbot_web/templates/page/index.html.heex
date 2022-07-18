@@ -3,6 +3,7 @@
   <p>Peace of mind from prototype to production</p>
   <%= if assigns[:current_user] do %>
     <h2> Logged in as <%= @current_user.email %> </h2>
+    <h2> Welcome <%= @current_user.name %>! </h2>
     <%= if @current_user.role == "admin" do %>
       <font size="+3">
         <center>

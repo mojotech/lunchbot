@@ -12,7 +12,7 @@ defmodule LunchbotWeb.GoogleAuthController do
     {:ok, profile} = ElixirAuthGoogle.get_user_profile(token.access_token)
 
     if(profile.email =~ "@mojotech.com") do
-      user_params = %{email: profile.email}
+      user_params = %{name: profile.name, email: profile.email}
 
       case Accounts.fetch_or_create_user(user_params) do
         {:ok, user} ->

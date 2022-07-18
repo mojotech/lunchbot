@@ -154,4 +154,9 @@ defmodule Lunchbot.Accounts.User do
     |> validate_required([:name, :email, :password, :role, :confirmed_at])
     |> unique_constraint(:email, message: "Email must be unique")
   end
+
+  def name_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:name])
+  end
 end

@@ -39,7 +39,7 @@ defmodule Lunchbot.Accounts.User do
 
   def google_registration_changeset(user, attrs, _opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:name, :email, :password])
     |> validate_email()
   end
 

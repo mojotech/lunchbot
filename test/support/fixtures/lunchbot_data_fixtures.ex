@@ -129,49 +129,4 @@ defmodule Lunchbot.LunchbotDataFixtures do
 
     item
   end
-
-  @doc """
-  Generate a order_item_extra.
-  """
-  def order_item_extra_fixture(attrs \\ %{}) do
-    {:ok, order_item_extra} =
-      attrs
-      |> Enum.into(%{
-        extra_id: 42,
-        order_item_id: 42
-      })
-      |> Lunchbot.LunchbotData.create_order_item_extra()
-
-    order_item_extra
-  end
-
-  @doc """
-  Generate a extra.
-  """
-  def extra_fixture(attrs \\ %{}) do
-    {:ok, extra} =
-      attrs
-      |> Enum.into(%{
-        item_id: 42,
-        name: "some name"
-      })
-      |> Lunchbot.LunchbotData.create_extra()
-
-    extra
-  end
-
-  @doc """
-  Generate a item_extra.
-  """
-  def item_extra_fixture(attrs \\ %{}) do
-    {:ok, item_extra} =
-      attrs
-      |> Enum.into(%{
-        extra_id: 42,
-        item_id: 42
-      })
-      |> Lunchbot.LunchbotData.create_item_extra()
-
-    item_extra
-  end
 end

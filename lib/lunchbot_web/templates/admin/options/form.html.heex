@@ -1,0 +1,70 @@
+<.form let={f} for={@changeset} action={@action} id="torch-form" enctype="multipart/form-data">
+  <fieldset class="torch-panel">
+    <legend>
+      <span>Details</span>
+    </legend>
+    <%= if @changeset.action do %>
+      <p class="torch-form-error">Oops, something went wrong! Please check the errors below.</p>
+    <% end %>
+  
+    <div class="torch-form-group">
+      <%= label f, :name %>
+      <div class="torch-form-group-input">
+        <%= text_input f, :name %>
+        <%= error_tag f, :name %>
+      </div>
+    </div>
+  
+    <div class="torch-form-group">
+      <%= label f, :option_heading_id %>
+      <div class="torch-form-group-input">
+        <%= number_input f, :option_heading_id %>
+        <%= error_tag f, :option_heading_id %>
+      </div>
+    </div>
+  
+    <div class="torch-form-group">
+      <%= label f, :extras %>
+      <div class="torch-form-group-input">
+        <%= checkbox f, :extras %>
+        <%= error_tag f, :extras %>
+      </div>
+    </div>
+  
+    <div class="torch-form-group">
+      <%= label f, :price %>
+      <div class="torch-form-group-input">
+        <%= number_input f, :price %>
+        <%= error_tag f, :price %>
+      </div>
+    </div>
+  
+    <div class="torch-form-group">
+      <%= label f, :extra_price %>
+      <div class="torch-form-group-input">
+        <%= number_input f, :extra_price %>
+        <%= error_tag f, :extra_price %>
+      </div>
+    </div>
+  
+    <div class="torch-form-group">
+      <%= label f, :is_required %>
+      <div class="torch-form-group-input">
+        <%= checkbox f, :is_required %>
+        <%= error_tag f, :is_required %>
+      </div>
+    </div>
+  
+    <div class="torch-form-group">
+      <%= label f, :preselected %>
+      <div class="torch-form-group-input">
+        <%= checkbox f, :preselected %>
+        <%= error_tag f, :preselected %>
+      </div>
+    </div>
+  
+    <div class="torch-submit-form">
+      <%= submit "Submit", class: "torch-submit-button" %>
+    </div>
+  </fieldset>
+</.form>

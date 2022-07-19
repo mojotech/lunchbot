@@ -1057,6 +1057,608 @@ defmodule Lunchbot.LunchbotData do
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
 
+  alias Lunchbot.LunchbotData.ItemOptionHeadings
+
+  @pagination [page_size: 15]
+  @pagination_distance 5
+
+  @doc """
+  Paginate the list of item_option_headings using filtrex
+  filters.
+
+  ## Examples
+
+      iex> paginate_item_option_headings(%{})
+      %{item_option_headings: [%ItemOptionHeadings{}], ...}
+
+  """
+  @spec paginate_item_option_headings(map) :: {:ok, map} | {:error, any}
+  def paginate_item_option_headings(params \\ %{}) do
+    params =
+      params
+      |> strip_unset_booleans("item_option_headings", [])
+      |> Map.put_new("sort_direction", "desc")
+      |> Map.put_new("sort_field", "inserted_at")
+
+    {:ok, sort_direction} = Map.fetch(params, "sort_direction")
+    {:ok, sort_field} = Map.fetch(params, "sort_field")
+
+    with {:ok, filter} <-
+           Filtrex.parse_params(
+             filter_config(:item_option_headings),
+             params["item_option_headings"] || %{}
+           ),
+         %Scrivener.Page{} = page <- do_paginate_item_option_headings(filter, params) do
+      {:ok,
+       %{
+         item_option_headings: page.entries,
+         page_number: page.page_number,
+         page_size: page.page_size,
+         total_pages: page.total_pages,
+         total_entries: page.total_entries,
+         distance: @pagination_distance,
+         sort_field: sort_field,
+         sort_direction: sort_direction
+       }}
+    else
+      {:error, error} -> {:error, error}
+      error -> {:error, error}
+    end
+  end
+
+  defp do_paginate_item_option_headings(filter, params) do
+    ItemOptionHeadings
+    |> Filtrex.query(filter)
+    |> order_by(^sort(params))
+    |> paginate(Repo, params, @pagination)
+  end
+
+  @doc """
+  Returns the list of item_option_headings.
+
+  ## Examples
+
+      iex> list_item_option_headings()
+      [%ItemOptionHeadings{}, ...]
+
+  """
+  def list_item_option_headings do
+    Repo.all(ItemOptionHeadings)
+  end
+
+  @doc """
+  Gets a single item_option_headings.
+
+  Raises `Ecto.NoResultsError` if the Item option headings does not exist.
+
+  ## Examples
+
+      iex> get_item_option_headings!(123)
+      %ItemOptionHeadings{}
+
+      iex> get_item_option_headings!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_item_option_headings!(id), do: Repo.get!(ItemOptionHeadings, id)
+
+  @doc """
+  Creates a item_option_headings.
+
+  ## Examples
+
+      iex> create_item_option_headings(%{field: value})
+      {:ok, %ItemOptionHeadings{}}
+
+      iex> create_item_option_headings(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_item_option_headings(attrs \\ %{}) do
+    %ItemOptionHeadings{}
+    |> ItemOptionHeadings.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a item_option_headings.
+
+  ## Examples
+
+      iex> update_item_option_headings(item_option_headings, %{field: new_value})
+      {:ok, %ItemOptionHeadings{}}
+
+      iex> update_item_option_headings(item_option_headings, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_item_option_headings(%ItemOptionHeadings{} = item_option_headings, attrs) do
+    item_option_headings
+    |> ItemOptionHeadings.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a ItemOptionHeadings.
+
+  ## Examples
+
+      iex> delete_item_option_headings(item_option_headings)
+      {:ok, %ItemOptionHeadings{}}
+
+      iex> delete_item_option_headings(item_option_headings)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_item_option_headings(%ItemOptionHeadings{} = item_option_headings) do
+    Repo.delete(item_option_headings)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking item_option_headings changes.
+
+  ## Examples
+
+      iex> change_item_option_headings(item_option_headings)
+      %Ecto.Changeset{source: %ItemOptionHeadings{}}
+
+  """
+  def change_item_option_headings(%ItemOptionHeadings{} = item_option_headings, attrs \\ %{}) do
+    ItemOptionHeadings.changeset(item_option_headings, attrs)
+  end
+
+  import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
+  import Filtrex.Type.Config
+
+  alias Lunchbot.LunchbotData.OptionHeadings
+
+  @pagination [page_size: 15]
+  @pagination_distance 5
+
+  @doc """
+  Paginate the list of option_headings using filtrex
+  filters.
+
+  ## Examples
+
+      iex> paginate_option_headings(%{})
+      %{option_headings: [%OptionHeadings{}], ...}
+
+  """
+  @spec paginate_option_headings(map) :: {:ok, map} | {:error, any}
+  def paginate_option_headings(params \\ %{}) do
+    params =
+      params
+      |> strip_unset_booleans("option_headings", [])
+      |> Map.put_new("sort_direction", "desc")
+      |> Map.put_new("sort_field", "inserted_at")
+
+    {:ok, sort_direction} = Map.fetch(params, "sort_direction")
+    {:ok, sort_field} = Map.fetch(params, "sort_field")
+
+    with {:ok, filter} <-
+           Filtrex.parse_params(filter_config(:option_headings), params["option_headings"] || %{}),
+         %Scrivener.Page{} = page <- do_paginate_option_headings(filter, params) do
+      {:ok,
+       %{
+         option_headings: page.entries,
+         page_number: page.page_number,
+         page_size: page.page_size,
+         total_pages: page.total_pages,
+         total_entries: page.total_entries,
+         distance: @pagination_distance,
+         sort_field: sort_field,
+         sort_direction: sort_direction
+       }}
+    else
+      {:error, error} -> {:error, error}
+      error -> {:error, error}
+    end
+  end
+
+  defp do_paginate_option_headings(filter, params) do
+    OptionHeadings
+    |> Filtrex.query(filter)
+    |> order_by(^sort(params))
+    |> paginate(Repo, params, @pagination)
+  end
+
+  @doc """
+  Returns the list of option_headings.
+
+  ## Examples
+
+      iex> list_option_headings()
+      [%OptionHeadings{}, ...]
+
+  """
+  def list_option_headings do
+    Repo.all(OptionHeadings)
+  end
+
+  @doc """
+  Gets a single option_headings.
+
+  Raises `Ecto.NoResultsError` if the Option headings does not exist.
+
+  ## Examples
+
+      iex> get_option_headings!(123)
+      %OptionHeadings{}
+
+      iex> get_option_headings!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_option_headings!(id), do: Repo.get!(OptionHeadings, id)
+
+  @doc """
+  Creates a option_headings.
+
+  ## Examples
+
+      iex> create_option_headings(%{field: value})
+      {:ok, %OptionHeadings{}}
+
+      iex> create_option_headings(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_option_headings(attrs \\ %{}) do
+    %OptionHeadings{}
+    |> OptionHeadings.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a option_headings.
+
+  ## Examples
+
+      iex> update_option_headings(option_headings, %{field: new_value})
+      {:ok, %OptionHeadings{}}
+
+      iex> update_option_headings(option_headings, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_option_headings(%OptionHeadings{} = option_headings, attrs) do
+    option_headings
+    |> OptionHeadings.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a OptionHeadings.
+
+  ## Examples
+
+      iex> delete_option_headings(option_headings)
+      {:ok, %OptionHeadings{}}
+
+      iex> delete_option_headings(option_headings)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_option_headings(%OptionHeadings{} = option_headings) do
+    Repo.delete(option_headings)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking option_headings changes.
+
+  ## Examples
+
+      iex> change_option_headings(option_headings)
+      %Ecto.Changeset{source: %OptionHeadings{}}
+
+  """
+  def change_option_headings(%OptionHeadings{} = option_headings, attrs \\ %{}) do
+    OptionHeadings.changeset(option_headings, attrs)
+  end
+
+  import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
+  import Filtrex.Type.Config
+
+  alias Lunchbot.LunchbotData.OrderItemOptions
+
+  @pagination [page_size: 15]
+  @pagination_distance 5
+
+  @doc """
+  Paginate the list of order_item_options using filtrex
+  filters.
+
+  ## Examples
+
+      iex> paginate_order_item_options(%{})
+      %{order_item_options: [%OrderItemOptions{}], ...}
+
+  """
+  @spec paginate_order_item_options(map) :: {:ok, map} | {:error, any}
+  def paginate_order_item_options(params \\ %{}) do
+    params =
+      params
+      |> strip_unset_booleans("order_item_options", [])
+      |> Map.put_new("sort_direction", "desc")
+      |> Map.put_new("sort_field", "inserted_at")
+
+    {:ok, sort_direction} = Map.fetch(params, "sort_direction")
+    {:ok, sort_field} = Map.fetch(params, "sort_field")
+
+    with {:ok, filter} <-
+           Filtrex.parse_params(
+             filter_config(:order_item_options),
+             params["order_item_options"] || %{}
+           ),
+         %Scrivener.Page{} = page <- do_paginate_order_item_options(filter, params) do
+      {:ok,
+       %{
+         order_item_options: page.entries,
+         page_number: page.page_number,
+         page_size: page.page_size,
+         total_pages: page.total_pages,
+         total_entries: page.total_entries,
+         distance: @pagination_distance,
+         sort_field: sort_field,
+         sort_direction: sort_direction
+       }}
+    else
+      {:error, error} -> {:error, error}
+      error -> {:error, error}
+    end
+  end
+
+  defp do_paginate_order_item_options(filter, params) do
+    OrderItemOptions
+    |> Filtrex.query(filter)
+    |> order_by(^sort(params))
+    |> paginate(Repo, params, @pagination)
+  end
+
+  @doc """
+  Returns the list of order_item_options.
+
+  ## Examples
+
+      iex> list_order_item_options()
+      [%OrderItemOptions{}, ...]
+
+  """
+  def list_order_item_options do
+    Repo.all(OrderItemOptions)
+  end
+
+  @doc """
+  Gets a single order_item_options.
+
+  Raises `Ecto.NoResultsError` if the Order item options does not exist.
+
+  ## Examples
+
+      iex> get_order_item_options!(123)
+      %OrderItemOptions{}
+
+      iex> get_order_item_options!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_order_item_options!(id), do: Repo.get!(OrderItemOptions, id)
+
+  @doc """
+  Creates a order_item_options.
+
+  ## Examples
+
+      iex> create_order_item_options(%{field: value})
+      {:ok, %OrderItemOptions{}}
+
+      iex> create_order_item_options(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_order_item_options(attrs \\ %{}) do
+    %OrderItemOptions{}
+    |> OrderItemOptions.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a order_item_options.
+
+  ## Examples
+
+      iex> update_order_item_options(order_item_options, %{field: new_value})
+      {:ok, %OrderItemOptions{}}
+
+      iex> update_order_item_options(order_item_options, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_order_item_options(%OrderItemOptions{} = order_item_options, attrs) do
+    order_item_options
+    |> OrderItemOptions.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a OrderItemOptions.
+
+  ## Examples
+
+      iex> delete_order_item_options(order_item_options)
+      {:ok, %OrderItemOptions{}}
+
+      iex> delete_order_item_options(order_item_options)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_order_item_options(%OrderItemOptions{} = order_item_options) do
+    Repo.delete(order_item_options)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking order_item_options changes.
+
+  ## Examples
+
+      iex> change_order_item_options(order_item_options)
+      %Ecto.Changeset{source: %OrderItemOptions{}}
+
+  """
+  def change_order_item_options(%OrderItemOptions{} = order_item_options, attrs \\ %{}) do
+    OrderItemOptions.changeset(order_item_options, attrs)
+  end
+
+  import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
+  import Filtrex.Type.Config
+
+  alias Lunchbot.LunchbotData.Options
+
+  @pagination [page_size: 15]
+  @pagination_distance 5
+
+  @doc """
+  Paginate the list of options using filtrex
+  filters.
+
+  ## Examples
+
+      iex> paginate_options(%{})
+      %{options: [%Options{}], ...}
+
+  """
+  @spec paginate_options(map) :: {:ok, map} | {:error, any}
+  def paginate_options(params \\ %{}) do
+    params =
+      params
+      |> strip_unset_booleans("options", [:preselected, :is_required, :extras])
+      |> Map.put_new("sort_direction", "desc")
+      |> Map.put_new("sort_field", "inserted_at")
+
+    {:ok, sort_direction} = Map.fetch(params, "sort_direction")
+    {:ok, sort_field} = Map.fetch(params, "sort_field")
+
+    with {:ok, filter} <- Filtrex.parse_params(filter_config(:options), params["options"] || %{}),
+         %Scrivener.Page{} = page <- do_paginate_options(filter, params) do
+      {:ok,
+       %{
+         options: page.entries,
+         page_number: page.page_number,
+         page_size: page.page_size,
+         total_pages: page.total_pages,
+         total_entries: page.total_entries,
+         distance: @pagination_distance,
+         sort_field: sort_field,
+         sort_direction: sort_direction
+       }}
+    else
+      {:error, error} -> {:error, error}
+      error -> {:error, error}
+    end
+  end
+
+  defp do_paginate_options(filter, params) do
+    Options
+    |> Filtrex.query(filter)
+    |> order_by(^sort(params))
+    |> paginate(Repo, params, @pagination)
+  end
+
+  @doc """
+  Returns the list of options.
+
+  ## Examples
+
+      iex> list_options()
+      [%Options{}, ...]
+
+  """
+  def list_options do
+    Repo.all(Options)
+  end
+
+  @doc """
+  Gets a single options.
+
+  Raises `Ecto.NoResultsError` if the Options does not exist.
+
+  ## Examples
+
+      iex> get_options!(123)
+      %Options{}
+
+      iex> get_options!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_options!(id), do: Repo.get!(Options, id)
+
+  @doc """
+  Creates a options.
+
+  ## Examples
+
+      iex> create_options(%{field: value})
+      {:ok, %Options{}}
+
+      iex> create_options(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_options(attrs \\ %{}) do
+    %Options{}
+    |> Options.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a options.
+
+  ## Examples
+
+      iex> update_options(options, %{field: new_value})
+      {:ok, %Options{}}
+
+      iex> update_options(options, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_options(%Options{} = options, attrs) do
+    options
+    |> Options.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a Options.
+
+  ## Examples
+
+      iex> delete_options(options)
+      {:ok, %Options{}}
+
+      iex> delete_options(options)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_options(%Options{} = options) do
+    Repo.delete(options)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking options changes.
+
+  ## Examples
+
+      iex> change_options(options)
+      %Ecto.Changeset{source: %Options{}}
+
+  """
+  def change_options(%Options{} = options, attrs \\ %{}) do
+    Options.changeset(options, attrs)
+  end
+
   defp filter_config(:offices) do
     defconfig do
       text(:timezone)
@@ -1106,6 +1708,39 @@ defmodule Lunchbot.LunchbotData do
       number(:category_id)
       text(:image_url)
       boolean(:deleted)
+    end
+  end
+
+  defp filter_config(:item_option_headings) do
+    defconfig do
+      number(:item_id)
+      number(:option_heading_id)
+    end
+  end
+
+  defp filter_config(:option_headings) do
+    defconfig do
+      text(:name)
+      number(:priority)
+    end
+  end
+
+  defp filter_config(:order_item_options) do
+    defconfig do
+      number(:order_item_id)
+      number(:option_id)
+    end
+  end
+
+  defp filter_config(:options) do
+    defconfig do
+      text(:name)
+      number(:option_heading_id)
+      boolean(:extras)
+      number(:price)
+      number(:extra_price)
+      boolean(:is_required)
+      boolean(:preselected)
     end
   end
 end

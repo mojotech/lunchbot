@@ -781,4 +781,446 @@ defmodule Lunchbot.LunchbotDataTest do
 
     item
   end
+
+  alias Lunchbot.LunchbotData.ItemOptionHeadings
+
+  @valid_attrs %{item_id: 42, option_heading_id: 42}
+  @update_attrs %{item_id: 43, option_heading_id: 43}
+  @invalid_attrs %{item_id: nil, option_heading_id: nil}
+
+  describe "#paginate_item_option_headings/1" do
+    test "returns paginated list of item_option_headings" do
+      for _ <- 1..20 do
+        item_option_headings_fixture()
+      end
+
+      {:ok, %{item_option_headings: item_option_headings} = page} =
+        LunchbotData.paginate_item_option_headings(%{})
+
+      assert length(item_option_headings) == 15
+      assert page.page_number == 1
+      assert page.page_size == 15
+      assert page.total_pages == 2
+      assert page.total_entries == 20
+      assert page.distance == 5
+      assert page.sort_field == "inserted_at"
+      assert page.sort_direction == "desc"
+    end
+  end
+
+  describe "#list_item_option_headings/0" do
+    test "returns all item_option_headings" do
+      item_option_headings = item_option_headings_fixture()
+      assert LunchbotData.list_item_option_headings() == [item_option_headings]
+    end
+  end
+
+  describe "#get_item_option_headings!/1" do
+    test "returns the item_option_headings with given id" do
+      item_option_headings = item_option_headings_fixture()
+
+      assert LunchbotData.get_item_option_headings!(item_option_headings.id) ==
+               item_option_headings
+    end
+  end
+
+  describe "#create_item_option_headings/1" do
+    test "with valid data creates a item_option_headings" do
+      assert {:ok, %ItemOptionHeadings{} = item_option_headings} =
+               LunchbotData.create_item_option_headings(@valid_attrs)
+
+      assert item_option_headings.item_id == 42
+      assert item_option_headings.option_heading_id == 42
+    end
+
+    test "with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} =
+               LunchbotData.create_item_option_headings(@invalid_attrs)
+    end
+  end
+
+  describe "#update_item_option_headings/2" do
+    test "with valid data updates the item_option_headings" do
+      item_option_headings = item_option_headings_fixture()
+
+      assert {:ok, item_option_headings} =
+               LunchbotData.update_item_option_headings(item_option_headings, @update_attrs)
+
+      assert %ItemOptionHeadings{} = item_option_headings
+      assert item_option_headings.item_id == 43
+      assert item_option_headings.option_heading_id == 43
+    end
+
+    test "with invalid data returns error changeset" do
+      item_option_headings = item_option_headings_fixture()
+
+      assert {:error, %Ecto.Changeset{}} =
+               LunchbotData.update_item_option_headings(item_option_headings, @invalid_attrs)
+
+      assert item_option_headings ==
+               LunchbotData.get_item_option_headings!(item_option_headings.id)
+    end
+  end
+
+  describe "#delete_item_option_headings/1" do
+    test "deletes the item_option_headings" do
+      item_option_headings = item_option_headings_fixture()
+
+      assert {:ok, %ItemOptionHeadings{}} =
+               LunchbotData.delete_item_option_headings(item_option_headings)
+
+      assert_raise Ecto.NoResultsError, fn ->
+        LunchbotData.get_item_option_headings!(item_option_headings.id)
+      end
+    end
+  end
+
+  describe "#change_item_option_headings/1" do
+    test "returns a item_option_headings changeset" do
+      item_option_headings = item_option_headings_fixture()
+      assert %Ecto.Changeset{} = LunchbotData.change_item_option_headings(item_option_headings)
+    end
+  end
+
+  def item_option_headings_fixture(attrs \\ %{}) do
+    {:ok, item_option_headings} =
+      attrs
+      |> Enum.into(@valid_attrs)
+      |> LunchbotData.create_item_option_headings()
+
+    item_option_headings
+  end
+
+  alias Lunchbot.LunchbotData.OptionHeadings
+
+  @valid_attrs %{name: "some name", priority: 42}
+  @update_attrs %{name: "some updated name", priority: 43}
+  @invalid_attrs %{name: nil, priority: nil}
+
+  describe "#paginate_option_headings/1" do
+    test "returns paginated list of option_headings" do
+      for _ <- 1..20 do
+        option_headings_fixture()
+      end
+
+      {:ok, %{option_headings: option_headings} = page} =
+        LunchbotData.paginate_option_headings(%{})
+
+      assert length(option_headings) == 15
+      assert page.page_number == 1
+      assert page.page_size == 15
+      assert page.total_pages == 2
+      assert page.total_entries == 20
+      assert page.distance == 5
+      assert page.sort_field == "inserted_at"
+      assert page.sort_direction == "desc"
+    end
+  end
+
+  describe "#list_option_headings/0" do
+    test "returns all option_headings" do
+      option_headings = option_headings_fixture()
+      assert LunchbotData.list_option_headings() == [option_headings]
+    end
+  end
+
+  describe "#get_option_headings!/1" do
+    test "returns the option_headings with given id" do
+      option_headings = option_headings_fixture()
+      assert LunchbotData.get_option_headings!(option_headings.id) == option_headings
+    end
+  end
+
+  describe "#create_option_headings/1" do
+    test "with valid data creates a option_headings" do
+      assert {:ok, %OptionHeadings{} = option_headings} =
+               LunchbotData.create_option_headings(@valid_attrs)
+
+      assert option_headings.name == "some name"
+      assert option_headings.priority == 42
+    end
+
+    test "with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = LunchbotData.create_option_headings(@invalid_attrs)
+    end
+  end
+
+  describe "#update_option_headings/2" do
+    test "with valid data updates the option_headings" do
+      option_headings = option_headings_fixture()
+
+      assert {:ok, option_headings} =
+               LunchbotData.update_option_headings(option_headings, @update_attrs)
+
+      assert %OptionHeadings{} = option_headings
+      assert option_headings.name == "some updated name"
+      assert option_headings.priority == 43
+    end
+
+    test "with invalid data returns error changeset" do
+      option_headings = option_headings_fixture()
+
+      assert {:error, %Ecto.Changeset{}} =
+               LunchbotData.update_option_headings(option_headings, @invalid_attrs)
+
+      assert option_headings == LunchbotData.get_option_headings!(option_headings.id)
+    end
+  end
+
+  describe "#delete_option_headings/1" do
+    test "deletes the option_headings" do
+      option_headings = option_headings_fixture()
+      assert {:ok, %OptionHeadings{}} = LunchbotData.delete_option_headings(option_headings)
+
+      assert_raise Ecto.NoResultsError, fn ->
+        LunchbotData.get_option_headings!(option_headings.id)
+      end
+    end
+  end
+
+  describe "#change_option_headings/1" do
+    test "returns a option_headings changeset" do
+      option_headings = option_headings_fixture()
+      assert %Ecto.Changeset{} = LunchbotData.change_option_headings(option_headings)
+    end
+  end
+
+  def option_headings_fixture(attrs \\ %{}) do
+    {:ok, option_headings} =
+      attrs
+      |> Enum.into(@valid_attrs)
+      |> LunchbotData.create_option_headings()
+
+    option_headings
+  end
+
+  alias Lunchbot.LunchbotData.OrderItemOptions
+
+  @valid_attrs %{option_id: 42, order_item_id: 42}
+  @update_attrs %{option_id: 43, order_item_id: 43}
+  @invalid_attrs %{option_id: nil, order_item_id: nil}
+
+  describe "#paginate_order_item_options/1" do
+    test "returns paginated list of order_item_options" do
+      for _ <- 1..20 do
+        order_item_options_fixture()
+      end
+
+      {:ok, %{order_item_options: order_item_options} = page} =
+        LunchbotData.paginate_order_item_options(%{})
+
+      assert length(order_item_options) == 15
+      assert page.page_number == 1
+      assert page.page_size == 15
+      assert page.total_pages == 2
+      assert page.total_entries == 20
+      assert page.distance == 5
+      assert page.sort_field == "inserted_at"
+      assert page.sort_direction == "desc"
+    end
+  end
+
+  describe "#list_order_item_options/0" do
+    test "returns all order_item_options" do
+      order_item_options = order_item_options_fixture()
+      assert LunchbotData.list_order_item_options() == [order_item_options]
+    end
+  end
+
+  describe "#get_order_item_options!/1" do
+    test "returns the order_item_options with given id" do
+      order_item_options = order_item_options_fixture()
+      assert LunchbotData.get_order_item_options!(order_item_options.id) == order_item_options
+    end
+  end
+
+  describe "#create_order_item_options/1" do
+    test "with valid data creates a order_item_options" do
+      assert {:ok, %OrderItemOptions{} = order_item_options} =
+               LunchbotData.create_order_item_options(@valid_attrs)
+
+      assert order_item_options.option_id == 42
+      assert order_item_options.order_item_id == 42
+    end
+
+    test "with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = LunchbotData.create_order_item_options(@invalid_attrs)
+    end
+  end
+
+  describe "#update_order_item_options/2" do
+    test "with valid data updates the order_item_options" do
+      order_item_options = order_item_options_fixture()
+
+      assert {:ok, order_item_options} =
+               LunchbotData.update_order_item_options(order_item_options, @update_attrs)
+
+      assert %OrderItemOptions{} = order_item_options
+      assert order_item_options.option_id == 43
+      assert order_item_options.order_item_id == 43
+    end
+
+    test "with invalid data returns error changeset" do
+      order_item_options = order_item_options_fixture()
+
+      assert {:error, %Ecto.Changeset{}} =
+               LunchbotData.update_order_item_options(order_item_options, @invalid_attrs)
+
+      assert order_item_options == LunchbotData.get_order_item_options!(order_item_options.id)
+    end
+  end
+
+  describe "#delete_order_item_options/1" do
+    test "deletes the order_item_options" do
+      order_item_options = order_item_options_fixture()
+
+      assert {:ok, %OrderItemOptions{}} =
+               LunchbotData.delete_order_item_options(order_item_options)
+
+      assert_raise Ecto.NoResultsError, fn ->
+        LunchbotData.get_order_item_options!(order_item_options.id)
+      end
+    end
+  end
+
+  describe "#change_order_item_options/1" do
+    test "returns a order_item_options changeset" do
+      order_item_options = order_item_options_fixture()
+      assert %Ecto.Changeset{} = LunchbotData.change_order_item_options(order_item_options)
+    end
+  end
+
+  def order_item_options_fixture(attrs \\ %{}) do
+    {:ok, order_item_options} =
+      attrs
+      |> Enum.into(@valid_attrs)
+      |> LunchbotData.create_order_item_options()
+
+    order_item_options
+  end
+
+  alias Lunchbot.LunchbotData.Options
+
+  @valid_attrs %{
+    extra_price: 42,
+    extras: true,
+    is_required: true,
+    name: "some name",
+    option_heading_id: 42,
+    preselected: true,
+    price: 42
+  }
+  @update_attrs %{
+    extra_price: 43,
+    extras: false,
+    is_required: false,
+    name: "some updated name",
+    option_heading_id: 43,
+    preselected: false,
+    price: 43
+  }
+  @invalid_attrs %{
+    extra_price: nil,
+    extras: nil,
+    is_required: nil,
+    name: nil,
+    option_heading_id: nil,
+    preselected: nil,
+    price: nil
+  }
+
+  describe "#paginate_options/1" do
+    test "returns paginated list of options" do
+      for _ <- 1..20 do
+        options_fixture()
+      end
+
+      {:ok, %{options: options} = page} = LunchbotData.paginate_options(%{})
+
+      assert length(options) == 15
+      assert page.page_number == 1
+      assert page.page_size == 15
+      assert page.total_pages == 2
+      assert page.total_entries == 20
+      assert page.distance == 5
+      assert page.sort_field == "inserted_at"
+      assert page.sort_direction == "desc"
+    end
+  end
+
+  describe "#list_options/0" do
+    test "returns all options" do
+      options = options_fixture()
+      assert LunchbotData.list_options() == [options]
+    end
+  end
+
+  describe "#get_options!/1" do
+    test "returns the options with given id" do
+      options = options_fixture()
+      assert LunchbotData.get_options!(options.id) == options
+    end
+  end
+
+  describe "#create_options/1" do
+    test "with valid data creates a options" do
+      assert {:ok, %Options{} = options} = LunchbotData.create_options(@valid_attrs)
+      assert options.extra_price == 42
+      assert options.extras == true
+      assert options.is_required == true
+      assert options.name == "some name"
+      assert options.option_heading_id == 42
+      assert options.preselected == true
+      assert options.price == 42
+    end
+
+    test "with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = LunchbotData.create_options(@invalid_attrs)
+    end
+  end
+
+  describe "#update_options/2" do
+    test "with valid data updates the options" do
+      options = options_fixture()
+      assert {:ok, options} = LunchbotData.update_options(options, @update_attrs)
+      assert %Options{} = options
+      assert options.extra_price == 43
+      assert options.extras == false
+      assert options.is_required == false
+      assert options.name == "some updated name"
+      assert options.option_heading_id == 43
+      assert options.preselected == false
+      assert options.price == 43
+    end
+
+    test "with invalid data returns error changeset" do
+      options = options_fixture()
+      assert {:error, %Ecto.Changeset{}} = LunchbotData.update_options(options, @invalid_attrs)
+      assert options == LunchbotData.get_options!(options.id)
+    end
+  end
+
+  describe "#delete_options/1" do
+    test "deletes the options" do
+      options = options_fixture()
+      assert {:ok, %Options{}} = LunchbotData.delete_options(options)
+      assert_raise Ecto.NoResultsError, fn -> LunchbotData.get_options!(options.id) end
+    end
+  end
+
+  describe "#change_options/1" do
+    test "returns a options changeset" do
+      options = options_fixture()
+      assert %Ecto.Changeset{} = LunchbotData.change_options(options)
+    end
+  end
+
+  def options_fixture(attrs \\ %{}) do
+    {:ok, options} =
+      attrs
+      |> Enum.into(@valid_attrs)
+      |> LunchbotData.create_options()
+
+    options
+  end
 end

@@ -1,0 +1,116 @@
+<section id="torch-toolbar">
+  <div class="torch-container">
+    <%= link "New Options", to: Routes.admin_options_path(@conn, :new) %>
+  </div>
+</section>
+<section id="torch-index-content">
+  <div class="torch-container">
+    <section id="torch-filters">
+      <h3>Find Options</h3>
+      <%= form_tag @conn.request_path, method: :get, id: "torch-filters-form" do %>
+        
+          <div class="field">
+            <label>Name</label>
+            <%= filter_select(:options, :name, @conn.params) %>
+            <%= filter_string_input(:options, :name, @conn.params) %>
+          </div>
+        
+        
+          <div class="field">
+            <label>Extras</label>
+            <%= filter_boolean_input(:options, :extras, @conn.params) %>
+          </div>
+        
+          <div class="field">
+            <label>Is required</label>
+            <%= filter_boolean_input(:options, :is_required, @conn.params) %>
+          </div>
+        
+          <div class="field">
+            <label>Preselected</label>
+            <%= filter_boolean_input(:options, :preselected, @conn.params) %>
+          </div>
+        
+        
+        
+          <div class="field">
+            <label>Option heading</label>
+            <%= number_filter_select(:options, :option_heading_id, @conn.params) %>
+            <%= filter_number_input(:options, :option_heading_id, @conn.params) %>
+          </div>
+        
+          <div class="field">
+            <label>Price</label>
+            <%= number_filter_select(:options, :price, @conn.params) %>
+            <%= filter_number_input(:options, :price, @conn.params) %>
+          </div>
+        
+          <div class="field">
+            <label>Extra price</label>
+            <%= number_filter_select(:options, :extra_price, @conn.params) %>
+            <%= filter_number_input(:options, :extra_price, @conn.params) %>
+          </div>
+        
+        <button type="submit" class="torch-button">Search</button>
+        <%= link "Clear Filters", to: Routes.admin_options_path(@conn, :index) %>
+      <% end %>
+
+    </section>
+
+    <section id="torch-table">
+    <%= if length(@options) > 0 do %>
+      <table>
+        <thead>
+          <tr>
+            
+              <th><%= table_link(@conn, "Name", :name) %></th>
+            
+              <th><%= table_link(@conn, "Option heading", :option_heading_id) %></th>
+            
+              <th><%= table_link(@conn, "Extras", :extras) %></th>
+            
+              <th><%= table_link(@conn, "Price", :price) %></th>
+            
+              <th><%= table_link(@conn, "Extra price", :extra_price) %></th>
+            
+              <th><%= table_link(@conn, "Is required", :is_required) %></th>
+            
+              <th><%= table_link(@conn, "Preselected", :preselected) %></th>
+            
+            <th><span>Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for options <- @options do %>
+            <tr>
+              
+                <td><%= options.name %></td>
+              
+                <td><%= options.option_heading_id %></td>
+              
+                <td><%= options.extras %></td>
+              
+                <td><%= options.price %></td>
+              
+                <td><%= options.extra_price %></td>
+              
+                <td><%= options.is_required %></td>
+              
+                <td><%= options.preselected %></td>
+              
+              <td class="torch-actions">
+                <span><%= link "Show", to: Routes.admin_options_path(@conn, :show, options) %></span>
+                <span><%= link "Edit", to: Routes.admin_options_path(@conn, :edit, options) %></span>
+                <span><%= link "Delete", to: Routes.admin_options_path(@conn, :delete, options), method: :delete, data: [confirm: "Are you sure?"] %></span>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= render Torch.PaginationView, "_pagination.html", assigns %>
+    <% else %>
+      <p class="torch-no-data">No Options match your search.</p>
+    <% end %>
+    </section>
+  </div>
+</section>

@@ -28,9 +28,6 @@ defmodule LunchbotWeb.Router do
     resources "/categories", CategoryController
     resources "/order_items", OrderItemController
     resources "/items", ItemController
-    resources "/order_item_extras", OrderItemExtraController
-    resources "/extras", ExtraController
-    resources "/item_extras", ItemExtraController
   end
 
   scope "/", LunchbotWeb do

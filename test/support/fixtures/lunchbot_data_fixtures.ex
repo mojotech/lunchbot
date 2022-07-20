@@ -131,47 +131,67 @@ defmodule Lunchbot.LunchbotDataFixtures do
   end
 
   @doc """
-  Generate a order_item_extra.
+  Generate a item_option_headings.
   """
-  def order_item_extra_fixture(attrs \\ %{}) do
-    {:ok, order_item_extra} =
-      attrs
-      |> Enum.into(%{
-        extra_id: 42,
-        order_item_id: 42
-      })
-      |> Lunchbot.LunchbotData.create_order_item_extra()
-
-    order_item_extra
-  end
-
-  @doc """
-  Generate a extra.
-  """
-  def extra_fixture(attrs \\ %{}) do
-    {:ok, extra} =
+  def item_option_headings_fixture(attrs \\ %{}) do
+    {:ok, item_option_headings} =
       attrs
       |> Enum.into(%{
         item_id: 42,
-        name: "some name"
+        option_heading_id: 42
       })
-      |> Lunchbot.LunchbotData.create_extra()
+      |> Lunchbot.LunchbotData.create_item_option_headings()
 
-    extra
+    item_option_headings
   end
 
   @doc """
-  Generate a item_extra.
+  Generate a option_headings.
   """
-  def item_extra_fixture(attrs \\ %{}) do
-    {:ok, item_extra} =
+  def option_headings_fixture(attrs \\ %{}) do
+    {:ok, option_headings} =
       attrs
       |> Enum.into(%{
-        extra_id: 42,
-        item_id: 42
+        name: "some name",
+        priority: 42
       })
-      |> Lunchbot.LunchbotData.create_item_extra()
+      |> Lunchbot.LunchbotData.create_option_headings()
 
-    item_extra
+    option_headings
+  end
+
+  @doc """
+  Generate a order_item_options.
+  """
+  def order_item_options_fixture(attrs \\ %{}) do
+    {:ok, order_item_options} =
+      attrs
+      |> Enum.into(%{
+        option_id: 42,
+        order_item_id: 42
+      })
+      |> Lunchbot.LunchbotData.create_order_item_options()
+
+    order_item_options
+  end
+
+  @doc """
+  Generate a options.
+  """
+  def options_fixture(attrs \\ %{}) do
+    {:ok, options} =
+      attrs
+      |> Enum.into(%{
+        extra_price: 42,
+        extras: true,
+        is_required: true,
+        name: "some name",
+        option_heading_id: 42,
+        preselected: true,
+        price: 42
+      })
+      |> Lunchbot.LunchbotData.create_options()
+
+    options
   end
 end

@@ -32,6 +32,7 @@ defmodule LunchbotWeb.Router do
     resources "/option_headings", OptionHeadingsController
     resources "/order_item_options", OrderItemOptionsController
     resources "/options", OptionsController
+    resources "/menu_categories", MenuCategoriesController
   end
 
   scope "/", LunchbotWeb do

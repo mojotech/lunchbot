@@ -3,7 +3,6 @@ defmodule Lunchbot.LunchbotData.Category do
   import Ecto.Changeset
 
   schema "categories" do
-    field :menu_id, :integer
     field :name, :string
 
     timestamps()
@@ -12,7 +11,7 @@ defmodule Lunchbot.LunchbotData.Category do
   @doc false
   def changeset(category, attrs) do
     category
-    |> cast(attrs, [:name, :menu_id])
-    |> validate_required([:name, :menu_id])
+    |> cast(attrs, [:name])
+    |> validate_required([:name])
   end
 end

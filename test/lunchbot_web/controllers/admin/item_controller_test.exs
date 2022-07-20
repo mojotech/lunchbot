@@ -3,14 +3,30 @@ defmodule LunchbotWeb.Admin.ItemControllerTest do
 
   alias Lunchbot.LunchbotData
 
-  @create_attrs %{category_id: 42, deleted: true, image_url: "some image_url", name: "some name"}
+  @create_attrs %{
+    category_id: 42,
+    deleted: true,
+    description: "some description",
+    image_url: "some image_url",
+    name: "some name",
+    price: 10
+  }
   @update_attrs %{
     category_id: 43,
     deleted: false,
+    description: "some updated description",
     image_url: "some updated image_url",
-    name: "some updated name"
+    name: "some updated name",
+    price: 11
   }
-  @invalid_attrs %{category_id: nil, deleted: nil, image_url: nil, name: nil}
+  @invalid_attrs %{
+    category_id: nil,
+    deleted: nil,
+    description: nil,
+    image_url: nil,
+    name: nil,
+    price: nil
+  }
 
   def fixture(:item) do
     {:ok, item} = LunchbotData.create_item(@create_attrs)

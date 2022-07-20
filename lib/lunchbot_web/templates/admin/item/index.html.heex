@@ -14,6 +14,18 @@
             <%= filter_select(:item, :name, @conn.params) %>
             <%= filter_string_input(:item, :name, @conn.params) %>
           </div>
+
+          <div class="field">
+            <label>Description</label>
+            <%= filter_select(:item, :description, @conn.params) %>
+            <%= filter_string_input(:item, :description, @conn.params) %>
+          </div>
+
+          <div class="field">
+            <label>Price</label>
+            <%= filter_select(:item, :price, @conn.params) %>
+            <%= filter_string_input(:item, :price, @conn.params) %>
+          </div>
         
           <div class="field">
             <label>Image url</label>
@@ -48,6 +60,10 @@
           <tr>
             
               <th><%= table_link(@conn, "Name", :name) %></th>
+
+              <th><%= table_link(@conn, "Description", :description) %></th>
+
+              <th><%= table_link(@conn, "Price", :price) %></th>
             
               <th><%= table_link(@conn, "Category", :category_id) %></th>
             
@@ -63,6 +79,10 @@
             <tr>
               
                 <td><%= item.name %></td>
+
+                <td><%= item.description %></td>
+
+                <td><%= item.price %></td>
               
                 <td><%= item.category_id %></td>
               

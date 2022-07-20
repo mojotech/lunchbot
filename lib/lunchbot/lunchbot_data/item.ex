@@ -5,8 +5,11 @@ defmodule Lunchbot.LunchbotData.Item do
   schema "items" do
     field :category_id, :integer
     field :deleted, :boolean, default: false
+    field :description, :string
     field :image_url, :string
+    field :item_image, :string
     field :name, :string
+    field :price, :integer
 
     timestamps()
   end
@@ -14,7 +17,7 @@ defmodule Lunchbot.LunchbotData.Item do
   @doc false
   def changeset(item, attrs) do
     item
-    |> cast(attrs, [:name, :category_id, :image_url, :deleted])
-    |> validate_required([:name, :category_id, :image_url, :deleted])
+    |> cast(attrs, [:name, :description, :price, :category_id, :image_url, :item_image, :deleted])
+    |> validate_required([:name, :price, :category_id])
   end
 end

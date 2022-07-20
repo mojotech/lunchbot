@@ -1659,6 +1659,156 @@ defmodule Lunchbot.LunchbotData do
     Options.changeset(options, attrs)
   end
 
+  import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
+  import Filtrex.Type.Config
+
+  alias Lunchbot.LunchbotData.MenuCategories
+
+  @pagination [page_size: 15]
+  @pagination_distance 5
+
+  @doc """
+  Paginate the list of menu_categories using filtrex
+  filters.
+
+  ## Examples
+
+      iex> paginate_menu_categories(%{})
+      %{menu_categories: [%MenuCategories{}], ...}
+
+  """
+  @spec paginate_menu_categories(map) :: {:ok, map} | {:error, any}
+  def paginate_menu_categories(params \\ %{}) do
+    params =
+      params
+      |> strip_unset_booleans("menu_categories", [])
+      |> Map.put_new("sort_direction", "desc")
+      |> Map.put_new("sort_field", "inserted_at")
+
+    {:ok, sort_direction} = Map.fetch(params, "sort_direction")
+    {:ok, sort_field} = Map.fetch(params, "sort_field")
+
+    with {:ok, filter} <-
+           Filtrex.parse_params(filter_config(:menu_categories), params["menu_categories"] || %{}),
+         %Scrivener.Page{} = page <- do_paginate_menu_categories(filter, params) do
+      {:ok,
+       %{
+         menu_categories: page.entries,
+         page_number: page.page_number,
+         page_size: page.page_size,
+         total_pages: page.total_pages,
+         total_entries: page.total_entries,
+         distance: @pagination_distance,
+         sort_field: sort_field,
+         sort_direction: sort_direction
+       }}
+    else
+      {:error, error} -> {:error, error}
+      error -> {:error, error}
+    end
+  end
+
+  defp do_paginate_menu_categories(filter, params) do
+    MenuCategories
+    |> Filtrex.query(filter)
+    |> order_by(^sort(params))
+    |> paginate(Repo, params, @pagination)
+  end
+
+  @doc """
+  Returns the list of menu_categories.
+
+  ## Examples
+
+      iex> list_menu_categories()
+      [%MenuCategories{}, ...]
+
+  """
+  def list_menu_categories do
+    Repo.all(MenuCategories)
+  end
+
+  @doc """
+  Gets a single menu_categories.
+
+  Raises `Ecto.NoResultsError` if the Menu categories does not exist.
+
+  ## Examples
+
+      iex> get_menu_categories!(123)
+      %MenuCategories{}
+
+      iex> get_menu_categories!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_menu_categories!(id), do: Repo.get!(MenuCategories, id)
+
+  @doc """
+  Creates a menu_categories.
+
+  ## Examples
+
+      iex> create_menu_categories(%{field: value})
+      {:ok, %MenuCategories{}}
+
+      iex> create_menu_categories(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_menu_categories(attrs \\ %{}) do
+    %MenuCategories{}
+    |> MenuCategories.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a menu_categories.
+
+  ## Examples
+
+      iex> update_menu_categories(menu_categories, %{field: new_value})
+      {:ok, %MenuCategories{}}
+
+      iex> update_menu_categories(menu_categories, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_menu_categories(%MenuCategories{} = menu_categories, attrs) do
+    menu_categories
+    |> MenuCategories.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a MenuCategories.
+
+  ## Examples
+
+      iex> delete_menu_categories(menu_categories)
+      {:ok, %MenuCategories{}}
+
+      iex> delete_menu_categories(menu_categories)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_menu_categories(%MenuCategories{} = menu_categories) do
+    Repo.delete(menu_categories)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking menu_categories changes.
+
+  ## Examples
+
+      iex> change_menu_categories(menu_categories)
+      %Ecto.Changeset{source: %MenuCategories{}}
+
+  """
+  def change_menu_categories(%MenuCategories{} = menu_categories, attrs \\ %{}) do
+    MenuCategories.changeset(menu_categories, attrs)
+  end
+
   defp filter_config(:offices) do
     defconfig do
       text(:timezone)
@@ -1691,7 +1841,6 @@ defmodule Lunchbot.LunchbotData do
   defp filter_config(:categories) do
     defconfig do
       text(:name)
-      number(:menu_id)
     end
   end
 
@@ -1744,6 +1893,13 @@ defmodule Lunchbot.LunchbotData do
       number(:extra_price)
       boolean(:is_required)
       boolean(:preselected)
+    end
+  end
+
+  defp filter_config(:menu_categories) do
+    defconfig do
+      number(:category_id)
+      number(:menu_id)
     end
   end
 end

@@ -3,9 +3,9 @@ defmodule LunchbotWeb.Admin.CategoryControllerTest do
 
   alias Lunchbot.LunchbotData
 
-  @create_attrs %{menu_id: 42, name: "some name"}
-  @update_attrs %{menu_id: 43, name: "some updated name"}
-  @invalid_attrs %{menu_id: nil, name: nil}
+  @create_attrs %{name: "some name"}
+  @update_attrs %{name: "some updated name"}
+  @invalid_attrs %{name: nil}
 
   def fixture(:category) do
     {:ok, category} = LunchbotData.create_category(@create_attrs)

@@ -15,15 +15,6 @@
             <%= filter_string_input(:category, :name, @conn.params) %>
           </div>
         
-        
-        
-        
-          <div class="field">
-            <label>Menu</label>
-            <%= number_filter_select(:category, :menu_id, @conn.params) %>
-            <%= filter_number_input(:category, :menu_id, @conn.params) %>
-          </div>
-        
         <button type="submit" class="torch-button">Search</button>
         <%= link "Clear Filters", to: Routes.admin_category_path(@conn, :index) %>
       <% end %>
@@ -38,8 +29,6 @@
             
               <th><%= table_link(@conn, "Name", :name) %></th>
             
-              <th><%= table_link(@conn, "Menu", :menu_id) %></th>
-            
             <th><span>Actions</span></th>
           </tr>
         </thead>
@@ -48,8 +37,6 @@
             <tr>
               
                 <td><%= category.name %></td>
-              
-                <td><%= category.menu_id %></td>
               
               <td class="torch-actions">
                 <span><%= link "Show", to: Routes.admin_category_path(@conn, :show, category) %></span>

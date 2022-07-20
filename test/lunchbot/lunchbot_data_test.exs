@@ -499,9 +499,9 @@ defmodule Lunchbot.LunchbotDataTest do
 
   alias Lunchbot.LunchbotData.Category
 
-  @valid_attrs %{menu_id: 42, name: "some name"}
-  @update_attrs %{menu_id: 43, name: "some updated name"}
-  @invalid_attrs %{menu_id: nil, name: nil}
+  @valid_attrs %{name: "some name"}
+  @update_attrs %{name: "some updated name"}
+  @invalid_attrs %{name: nil}
 
   describe "#paginate_categories/1" do
     test "returns paginated list of categories" do
@@ -539,7 +539,6 @@ defmodule Lunchbot.LunchbotDataTest do
   describe "#create_category/1" do
     test "with valid data creates a category" do
       assert {:ok, %Category{} = category} = LunchbotData.create_category(@valid_attrs)
-      assert category.menu_id == 42
       assert category.name == "some name"
     end
 
@@ -553,7 +552,6 @@ defmodule Lunchbot.LunchbotDataTest do
       category = category_fixture()
       assert {:ok, category} = LunchbotData.update_category(category, @update_attrs)
       assert %Category{} = category
-      assert category.menu_id == 43
       assert category.name == "some updated name"
     end
 
@@ -1242,5 +1240,108 @@ defmodule Lunchbot.LunchbotDataTest do
       |> LunchbotData.create_options()
 
     options
+  end
+
+  alias Lunchbot.LunchbotData.MenuCategories
+
+  @valid_attrs %{category_id: 42, menu_id: 42}
+  @update_attrs %{category_id: 43, menu_id: 43}
+  @invalid_attrs %{category_id: nil, menu_id: nil}
+
+  describe "#paginate_menu_categories/1" do
+    test "returns paginated list of menu_categories" do
+      for _ <- 1..20 do
+        menu_categories_fixture()
+      end
+
+      {:ok, %{menu_categories: menu_categories} = page} =
+        LunchbotData.paginate_menu_categories(%{})
+
+      assert length(menu_categories) == 15
+      assert page.page_number == 1
+      assert page.page_size == 15
+      assert page.total_pages == 2
+      assert page.total_entries == 20
+      assert page.distance == 5
+      assert page.sort_field == "inserted_at"
+      assert page.sort_direction == "desc"
+    end
+  end
+
+  describe "#list_menu_categories/0" do
+    test "returns all menu_categories" do
+      menu_categories = menu_categories_fixture()
+      assert LunchbotData.list_menu_categories() == [menu_categories]
+    end
+  end
+
+  describe "#get_menu_categories!/1" do
+    test "returns the menu_categories with given id" do
+      menu_categories = menu_categories_fixture()
+      assert LunchbotData.get_menu_categories!(menu_categories.id) == menu_categories
+    end
+  end
+
+  describe "#create_menu_categories/1" do
+    test "with valid data creates a menu_categories" do
+      assert {:ok, %MenuCategories{} = menu_categories} =
+               LunchbotData.create_menu_categories(@valid_attrs)
+
+      assert menu_categories.category_id == 42
+      assert menu_categories.menu_id == 42
+    end
+
+    test "with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = LunchbotData.create_menu_categories(@invalid_attrs)
+    end
+  end
+
+  describe "#update_menu_categories/2" do
+    test "with valid data updates the menu_categories" do
+      menu_categories = menu_categories_fixture()
+
+      assert {:ok, menu_categories} =
+               LunchbotData.update_menu_categories(menu_categories, @update_attrs)
+
+      assert %MenuCategories{} = menu_categories
+      assert menu_categories.category_id == 43
+      assert menu_categories.menu_id == 43
+    end
+
+    test "with invalid data returns error changeset" do
+      menu_categories = menu_categories_fixture()
+
+      assert {:error, %Ecto.Changeset{}} =
+               LunchbotData.update_menu_categories(menu_categories, @invalid_attrs)
+
+      assert menu_categories == LunchbotData.get_menu_categories!(menu_categories.id)
+    end
+  end
+
+  describe "#delete_menu_categories/1" do
+    test "deletes the menu_categories" do
+      menu_categories = menu_categories_fixture()
+      assert {:ok, %MenuCategories{}} = LunchbotData.delete_menu_categories(menu_categories)
+
+      assert_raise Ecto.NoResultsError, fn ->
+        LunchbotData.get_menu_categories!(menu_categories.id)
+      end
+    end
+  end
+
+  describe "#change_menu_categories/1" do
+    test "returns a menu_categories changeset" do
+      menu_categories = menu_categories_fixture()
+      assert %Ecto.Changeset{} = LunchbotData.change_menu_categories(menu_categories)
+    end
+  end
+
+  def menu_categories_fixture(attrs \\ %{}) do
+    {:ok, menu_categories} =
+      attrs
+      |> Enum.into(@valid_attrs)
+      |> LunchbotData.create_menu_categories()
+
+    menu_categories
   end
 end

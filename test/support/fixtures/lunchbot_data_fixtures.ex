@@ -90,7 +90,6 @@ defmodule Lunchbot.LunchbotDataFixtures do
     {:ok, category} =
       attrs
       |> Enum.into(%{
-        menu_id: 42,
         name: "some name"
       })
       |> Lunchbot.LunchbotData.create_category()
@@ -195,5 +194,20 @@ defmodule Lunchbot.LunchbotDataFixtures do
       |> Lunchbot.LunchbotData.create_options()
 
     options
+  end
+
+  @doc """
+  Generate a menu_categories.
+  """
+  def menu_categories_fixture(attrs \\ %{}) do
+    {:ok, menu_categories} =
+      attrs
+      |> Enum.into(%{
+        category_id: 42,
+        menu_id: 42
+      })
+      |> Lunchbot.LunchbotData.create_menu_categories()
+
+    menu_categories
   end
 end

@@ -1705,6 +1705,9 @@ defmodule Lunchbot.LunchbotData do
   defp filter_config(:items) do
     defconfig do
       text(:name)
+      text(:description)
+      number(:price)
+      text(:item_image)
       number(:category_id)
       text(:image_url)
       boolean(:deleted)

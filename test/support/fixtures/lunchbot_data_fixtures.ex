@@ -122,8 +122,10 @@ defmodule Lunchbot.LunchbotDataFixtures do
       |> Enum.into(%{
         category_id: 42,
         deleted: true,
+        description: "some description",
         image_url: "some image_url",
-        name: "some name"
+        name: "some name",
+        price: 10
       })
       |> Lunchbot.LunchbotData.create_item()
 

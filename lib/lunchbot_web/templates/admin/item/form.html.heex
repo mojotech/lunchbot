@@ -14,6 +14,22 @@
         <%= error_tag f, :name %>
       </div>
     </div>
+
+    <div class="torch-form-group">
+      <%= label f, :description %>
+      <div class="torch-form-group-input">
+        <%= text_input f, :description %>
+        <%= error_tag f, :description %>
+      </div>
+    </div>
+
+    <div class="torch-form-group">
+      <%= label f, :price %>
+      <div class="torch-form-group-input">
+        <%= number_input f, :price %>
+        <%= error_tag f, :price %>
+      </div>
+    </div>
   
     <div class="torch-form-group">
       <%= label f, :category_id %>

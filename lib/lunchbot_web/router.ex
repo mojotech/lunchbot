@@ -100,6 +100,7 @@ defmodule LunchbotWeb.Router do
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
+    get "/users/create_order", UserOrdersController, :view
   end
 
   scope "/", LunchbotWeb do

@@ -1,1 +1,52 @@
-<h1>yep</h1>
+<h1>Create an order for <%= @todays_menu_name %></h1>
+
+<div class="card mb-20">
+    <%= for {item_category, item_list} <- @all_items do %>
+    <div class="card-header flex">
+      <h2 class="mb-0 flex-1"><%= item_category %></h2>
+    </div>
+    <table class="card-body table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Options</th>
+          <th></th>
+        </tr>
+      </thead>
+      <%= for item <- item_list do %>
+      <tbody>
+        <tr>
+          <td><div class="h-6 bg-gray-200"><%= item %></div></td>
+          <%= if length(Map.get(@all_options, item)) != 0 do %>
+            <%= for map <- Map.get(@all_options, item) do %>
+            <%= for {option_heading, options} <- map do %>
+                <td><div class="h-6 bg-gray-200">
+                <div class="card-header flex">
+                    <h2 class="mb-0 flex-1"><%= option_heading %></h2>
+                    </div>
+                    <table class="card-body table">
+                    <thead>
+                        <tr>
+                        <th></th>
+                        </tr>
+                    </thead> 
+                    <%= for option <- options do %>
+                    <tbody>
+                        <td><div class="h-6 bg-gray-200"><%= option %></div></td>
+                        <td class="w-1/12 whitespace-no-wrap"><div class="h-6 bg-gray-200"></div></td>
+                    </tbody>
+                    <% end %>
+                </table>
+                </div></td>
+            <% end %>
+            <% end %>
+          <% else %>
+            <td class="w-1/12 whitespace-no-wrap"><div class="h-6 bg-gray-200"></div></td> 
+          <% end %>
+          <td class="w-1/12 whitespace-no-wrap"><div class="h-6 bg-gray-200"></div></td>
+        </tr>
+    </tbody>
+    <% end %>
+    </table> 
+     <% end %>
+  </div>

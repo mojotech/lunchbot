@@ -8,12 +8,19 @@ defmodule LunchbotWeb.UserOrdersController do
   def view(conn, _params) do
     # How are we retrieving the menu_id from our current date?
     # Assuming we can grab this from slackbot.ex somehow in the future
-    todays_menu_name = getMenuName(1)
-    all_items = getCategoriesAndItems(1)
-    all_options = getAllOptions(all_items)
+    todays_menu_id = 1
+    todays_menu_name = getMenuName(todays_menu_id)
+
+    all_items =
+      getCategoriesAndItems(todays_menu_id)
+      |> IO.inspect()
+
+    all_options =
+      getAllOptions(all_items)
+      |> IO.inspect()
 
     render(conn, "view.html",
-      todays_menu: todays_menu_name,
+      todays_menu_name: todays_menu_name,
       all_items: all_items,
       all_options: all_options
     )
@@ -109,18 +116,24 @@ defmodule LunchbotWeb.UserOrdersController do
       |> Enum.map(fn k -> {k, %{}} end)
       |> Map.new()
 
-    for {k, _v} <- all_items_list do
-      curr_item_id = getItemId(k)
-      item_option_headings_id = getItemOptionHeadings(curr_item_id)
+    options =
+      for {k, _v} <- all_items_list do
+        curr_item_id = getItemId(k)
+        item_option_headings_id = getItemOptionHeadings(curr_item_id)
 
-      if(item_option_headings_id != nil) do
-        optionsMap = %{}
-        options = optionsFromIOH(optionsMap, item_option_headings_id)
-        %{k => options}
-      else
-        %{k => []}
+        if(item_option_headings_id != nil) do
+          optionsMap = %{}
+          options = optionsFromIOH(optionsMap, item_option_headings_id)
+          %{k => options}
+        else
+          %{k => []}
+        end
       end
+
+    if(Enum.empty?(options)) do
+      options
+    else
+      mergeMaps(options)
     end
-    |> mergeMaps()
   end
 end

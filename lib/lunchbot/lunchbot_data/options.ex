@@ -10,6 +10,7 @@ defmodule Lunchbot.LunchbotData.Options do
     field :name, :string
     field :preselected, :boolean, default: false
     field :price, :integer
+    has_many :order_item_options, Lunchbot.LunchbotData.OrderItemOptions, foreign_key: :option_id
 
     timestamps()
   end

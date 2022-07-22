@@ -10,6 +10,7 @@ defmodule Lunchbot.LunchbotData.Item do
     field :item_image, :string
     field :name, :string
     field :price, :integer
+    has_many :order_items, Lunchbot.LunchbotData.OrderItem
 
     many_to_many :option_headings, Lunchbot.LunchbotData.OptionHeading,
       join_through: "item_option_headings"

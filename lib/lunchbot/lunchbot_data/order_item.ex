@@ -3,8 +3,9 @@ defmodule Lunchbot.LunchbotData.OrderItem do
   import Ecto.Changeset
 
   schema "order_items" do
-    field :item_id, :integer
+    belongs_to :item, Lunchbot.LunchbotData.Item
     field :order_id, :integer
+    has_many :order_item_options, Lunchbot.LunchbotData.OrderItemOptions
 
     timestamps()
   end

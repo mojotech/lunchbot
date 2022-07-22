@@ -36,6 +36,11 @@ defmodule LunchbotWeb.Router do
   end
 
   scope "/", LunchbotWeb do
+    pipe_through [:browser, :require_authenticated_user]
+    live "/list-orders", ListOrdersLive
+  end
+
+  scope "/", LunchbotWeb do
     pipe_through :browser
 
     get "/", PageController, :index

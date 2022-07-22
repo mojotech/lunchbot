@@ -39,7 +39,7 @@ defmodule Lunchbot.Accounts.User do
 
   def google_registration_changeset(user, attrs, _opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:name, :email, :password])
     |> validate_email()
   end
 
@@ -153,5 +153,10 @@ defmodule Lunchbot.Accounts.User do
     |> cast(attrs, [:name, :email, :password, :role, :confirmed_at])
     |> validate_required([:name, :email, :password, :role, :confirmed_at])
     |> unique_constraint(:email, message: "Email must be unique")
+  end
+
+  def name_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:name])
   end
 end

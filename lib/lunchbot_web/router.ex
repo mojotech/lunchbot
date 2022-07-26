@@ -36,6 +36,15 @@ defmodule LunchbotWeb.Router do
   end
 
   scope "/", LunchbotWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    live_session :user, on_mount: {LunchbotWeb.UserAuthLive, :user} do
+      live "/create_order", OrderLive, :show, as: :create_order
+      live "/create_order/modal", OrderLive, :open_modal, as: :create_order_modal
+    end
+  end
+
+  scope "/", LunchbotWeb do
     pipe_through :browser
 
     get "/", PageController, :index

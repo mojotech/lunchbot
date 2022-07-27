@@ -9,6 +9,14 @@ Below is the database model for Lunchbot displayed using mermaid.js. You can mod
         string name
         int office_id FK
     }
+    MENU_CATEGORIES {
+      int menu_id FK
+      int category_id FK
+    }
+    CATEGORIES {
+      int id
+      string name
+    }
     OFFICE_LUNCH_ORDERS {
         int id
         date day
@@ -35,11 +43,6 @@ Below is the database model for Lunchbot displayed using mermaid.js. You can mod
         int id
         int order_id FK
         int item_id FK
-    }
-    CATEGORIES {
-      int id
-      string name
-      int menu_id FK
     }
     ITEMS {
       int id
@@ -73,15 +76,16 @@ Below is the database model for Lunchbot displayed using mermaid.js. You can mod
         int order_item_id FK
         int option_id FK
     }
-    MENUS ||--o{ ORDERS : has
-    MENUS ||--o{ CATEGORIES : has
     OFFICES ||--|{ MENUS: has
     OFFICES ||--|{ OFFICE_LUNCH_ORDERS: has
     OFFICE_LUNCH_ORDERS ||--o{ ORDERS : has
     USERS |o--|{ ORDERS: has
-    ITEMS ||--o{ ORDER_ITEMS : belong
-    ORDERS ||--o{ ORDER_ITEMS : belong
+    MENUS ||--o{ ORDERS : has
     CATEGORIES |o--|{ ITEMS: contains
+    MENUS ||--o{ MENU_CATEGORIES : has
+    MENU_CATEGORIES }o--|| CATEGORIES : belongs
+    ORDERS ||--o{ ORDER_ITEMS : belong
+    ITEMS ||--o{ ORDER_ITEMS : belong
     ORDER_ITEMS ||--o{ ORDER_ITEM_OPTIONS : belong
     OPTIONS ||--o{ ORDER_ITEM_OPTIONS : belong
     ITEMS ||--|{ ITEM_OPTION_HEADINGS: has

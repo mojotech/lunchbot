@@ -31,3 +31,8 @@ config :logger, level: :warn
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
+
+# Config the mock client for testing the slack bot
+config :lunchbot, :Slackbot,
+  http_client: Lunchbot.HTTPClientMock,
+  url: "https://slack.com/api/"

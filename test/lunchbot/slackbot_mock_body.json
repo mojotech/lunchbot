@@ -1,0 +1,88 @@
+{
+    "ok": true,
+    "channels": [
+      {
+        "id": "DKHKK80JC",
+        "name": "testChannel",
+        "is_channel": true,
+        "is_group": false,
+        "is_im": false,
+        "is_mpim": false,
+        "is_private": false,
+        "created": 1420835059,
+        "is_archived": false,
+        "is_general": false,
+        "unlinked": 0,
+        "name_normalized": "testChannel",
+        "is_shared": false,
+        "is_org_shared": false,
+        "is_pending_ext_shared": false,
+        "pending_shared": [],
+        "context_team_id": "XJB0JPLW7",
+        "parent_conversation": null,
+        "creator": "YUYTOOAAT",
+        "is_ext_shared": false,
+        "shared_team_ids": [
+          "XJB0JPLW7"
+        ],
+        "pending_connected_team_ids": [],
+        "is_member": false,
+        "topic": {
+          "value": "",
+          "creator": "YUYTOOAAT",
+          "last_set": 1547171454
+        },
+        "purpose": {
+          "value": "Descriptionoftestchannel",
+          "creator": "BKYJE31K3",
+          "last_set": 1533668577
+        },
+        "previous_names": [
+          "oldName"
+        ],
+        "num_members": 102
+      },
+      {
+        "id": "2TSLRPZHT",
+        "name": "testChannel2",
+        "is_channel": true,
+        "is_group": false,
+        "is_im": false,
+        "is_mpim": false,
+        "is_private": false,
+        "created": 1422455309,
+        "is_archived": true,
+        "is_general": false,
+        "unlinked": 0,
+        "name_normalized": "testChannel2",
+        "is_shared": false,
+        "is_org_shared": false,
+        "is_pending_ext_shared": false,
+        "pending_shared": [],
+        "context_team_id": "B5FLSOAB7",
+        "parent_conversation": null,
+        "creator": "1Q8WQ6Y24",
+        "is_ext_shared": false,
+        "shared_team_ids": [
+          "5VKXETCK0"
+        ],
+        "pending_connected_team_ids": [],
+        "is_member": false,
+        "topic": {
+          "value": "Channeltopic",
+          "creator": "N1IEGGS5I",
+          "last_set": 1422455372
+        },
+        "purpose": {
+          "value": "Talkaboutthechannel",
+          "creator": "0CQ28AZQM",
+          "last_set": 1422455309
+        },
+        "previous_names": [],
+        "num_members": 0
+      }
+    ],
+    "response_metadata": {
+      "next_cursor": "dGVhbTpDMDQ1WVEwTFI="
+    }
+  }

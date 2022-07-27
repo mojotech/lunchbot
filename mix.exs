@@ -20,7 +20,7 @@ defmodule Lunchbot.MixProject do
   def application do
     [
       mod: {Lunchbot.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :httpoison]
     ]
   end
 
@@ -36,6 +36,8 @@ defmodule Lunchbot.MixProject do
       {:bcrypt_elixir, "~> 3.0"},
       {:phoenix, "~> 1.6.11"},
       {:phoenix_ecto, "~> 4.4"},
+      {:httpoison, "~> 1.6"},
+      {:json, "~> 1.4"},
       {:ecto_sql, "~> 3.6"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 3.0"},
@@ -52,7 +54,8 @@ defmodule Lunchbot.MixProject do
       {:torch, "~> 4.2.1"},
       {:plug_cowboy, "~> 2.5"},
       {:elixir_auth_google, "~> 1.6.3"},
-      {:dotenv, "~> 3.0.0", only: [:dev, :test]}
+      {:dotenv, "~> 3.0.0", only: [:dev, :test]},
+      {:mox, "~> 1.0", only: :test}
     ]
   end
 

@@ -3,8 +3,8 @@ defmodule Lunchbot.LunchbotData.ItemOptionHeadings do
   import Ecto.Changeset
 
   schema "item_option_headings" do
-    field :item_id, :integer
-    field :option_heading_id, :integer
+    belongs_to :item, Lunchbot.LunchbotData.Item
+    belongs_to :option_heading, Lunchbot.LunchbotData.OptionHeading
 
     timestamps()
   end

@@ -1,10 +1,12 @@
-defmodule Lunchbot.LunchbotData.OptionHeadings do
+defmodule Lunchbot.LunchbotData.OptionHeading do
   use Ecto.Schema
   import Ecto.Changeset
 
   schema "option_headings" do
+    many_to_many :items, Lunchbot.LunchbotData.Item, join_through: "item_option_headings"
     field :name, :string
     field :priority, :integer
+    has_many :options, Lunchbot.LunchbotData.Options
 
     timestamps()
   end

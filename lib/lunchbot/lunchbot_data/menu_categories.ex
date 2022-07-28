@@ -3,8 +3,8 @@ defmodule Lunchbot.LunchbotData.MenuCategories do
   import Ecto.Changeset
 
   schema "menu_categories" do
-    field :category_id, :integer
-    field :menu_id, :integer
+    belongs_to :category, Lunchbot.LunchbotData.Category
+    belongs_to :menu, Lunchbot.LunchbotData.Menu
 
     timestamps()
   end

@@ -5,6 +5,7 @@ defmodule Lunchbot.LunchbotData.Office do
   schema "offices" do
     field :timezone, :string
     field :name, :string
+    has_many :office_lunch_orders, Lunchbot.LunchbotData.OfficeLunchOrder
 
     timestamps()
   end

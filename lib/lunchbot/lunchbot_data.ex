@@ -1210,7 +1210,7 @@ defmodule Lunchbot.LunchbotData do
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
 
-  alias Lunchbot.LunchbotData.OptionHeadings
+  alias Lunchbot.LunchbotData.OptionHeading
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -1257,7 +1257,7 @@ defmodule Lunchbot.LunchbotData do
   end
 
   defp do_paginate_option_headings(filter, params) do
-    OptionHeadings
+    OptionHeading
     |> Filtrex.query(filter)
     |> order_by(^sort(params))
     |> paginate(Repo, params, @pagination)
@@ -1269,11 +1269,11 @@ defmodule Lunchbot.LunchbotData do
   ## Examples
 
       iex> list_option_headings()
-      [%OptionHeadings{}, ...]
+      [%OptionHeading{}, ...]
 
   """
   def list_option_headings do
-    Repo.all(OptionHeadings)
+    Repo.all(OptionHeading)
   end
 
   @doc """
@@ -1290,7 +1290,7 @@ defmodule Lunchbot.LunchbotData do
       ** (Ecto.NoResultsError)
 
   """
-  def get_option_headings!(id), do: Repo.get!(OptionHeadings, id)
+  def get_option_headings!(id), do: Repo.get!(OptionHeading, id)
 
   @doc """
   Creates a option_headings.
@@ -1298,15 +1298,15 @@ defmodule Lunchbot.LunchbotData do
   ## Examples
 
       iex> create_option_headings(%{field: value})
-      {:ok, %OptionHeadings{}}
+      {:ok, %OptionHeading{}}
 
       iex> create_option_headings(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
   def create_option_headings(attrs \\ %{}) do
-    %OptionHeadings{}
-    |> OptionHeadings.changeset(attrs)
+    %OptionHeading{}
+    |> OptionHeading.changeset(attrs)
     |> Repo.insert()
   end
 
@@ -1322,9 +1322,9 @@ defmodule Lunchbot.LunchbotData do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_option_headings(%OptionHeadings{} = option_headings, attrs) do
+  def update_option_headings(%OptionHeading{} = option_headings, attrs) do
     option_headings
-    |> OptionHeadings.changeset(attrs)
+    |> OptionHeading.changeset(attrs)
     |> Repo.update()
   end
 
@@ -1340,7 +1340,7 @@ defmodule Lunchbot.LunchbotData do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_option_headings(%OptionHeadings{} = option_headings) do
+  def delete_option_headings(%OptionHeading{} = option_headings) do
     Repo.delete(option_headings)
   end
 
@@ -1350,11 +1350,11 @@ defmodule Lunchbot.LunchbotData do
   ## Examples
 
       iex> change_option_headings(option_headings)
-      %Ecto.Changeset{source: %OptionHeadings{}}
+      %Ecto.Changeset{source: %OptionHeading{}}
 
   """
-  def change_option_headings(%OptionHeadings{} = option_headings, attrs \\ %{}) do
-    OptionHeadings.changeset(option_headings, attrs)
+  def change_option_headings(%OptionHeading{} = option_headings, attrs \\ %{}) do
+    OptionHeading.changeset(option_headings, attrs)
   end
 
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]

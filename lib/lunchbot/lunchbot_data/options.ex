@@ -3,11 +3,11 @@ defmodule Lunchbot.LunchbotData.Options do
   import Ecto.Changeset
 
   schema "options" do
+    belongs_to :option_heading, Lunchbot.LunchbotData.OptionHeading
     field :extra_price, :integer
     field :extras, :boolean, default: false
     field :is_required, :boolean, default: false
     field :name, :string
-    field :option_heading_id, :integer
     field :preselected, :boolean, default: false
     field :price, :integer
 

@@ -5,6 +5,7 @@ defmodule Lunchbot.LunchbotData.Menu do
   schema "menus" do
     field :name, :string
     field :office_id, :integer
+    many_to_many :categories, Lunchbot.LunchbotData.Category, join_through: "menu_categories"
 
     timestamps()
   end

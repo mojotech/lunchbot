@@ -3,13 +3,16 @@ defmodule Lunchbot.LunchbotData.Item do
   import Ecto.Changeset
 
   schema "items" do
-    field :category_id, :integer
+    belongs_to :category, Lunchbot.LunchbotData.Category
     field :deleted, :boolean, default: false
     field :description, :string
     field :image_url, :string
     field :item_image, :string
     field :name, :string
     field :price, :integer
+
+    many_to_many :option_headings, Lunchbot.LunchbotData.OptionHeading,
+      join_through: "item_option_headings"
 
     timestamps()
   end

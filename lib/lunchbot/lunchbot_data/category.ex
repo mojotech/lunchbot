@@ -3,7 +3,9 @@ defmodule Lunchbot.LunchbotData.Category do
   import Ecto.Changeset
 
   schema "categories" do
+    many_to_many :menus, Lunchbot.LunchbotData.Menu, join_through: "menu_categories"
     field :name, :string
+    has_many :items, Lunchbot.LunchbotData.Item
 
     timestamps()
   end

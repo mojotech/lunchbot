@@ -2,7 +2,7 @@ defmodule LunchbotWeb.Admin.OptionHeadingsController do
   use LunchbotWeb, :controller
 
   alias Lunchbot.LunchbotData
-  alias Lunchbot.LunchbotData.OptionHeadings
+  alias Lunchbot.LunchbotData.OptionHeading
 
   plug(:put_root_layout, {LunchbotWeb.LayoutView, "torch.html"})
   plug(:put_layout, false)
@@ -20,7 +20,7 @@ defmodule LunchbotWeb.Admin.OptionHeadingsController do
   end
 
   def new(conn, _params) do
-    changeset = LunchbotData.change_option_headings(%OptionHeadings{})
+    changeset = LunchbotData.change_option_headings(%OptionHeading{})
     render(conn, "new.html", changeset: changeset)
   end
 

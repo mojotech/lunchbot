@@ -909,7 +909,7 @@ defmodule Lunchbot.LunchbotDataTest do
     item_option_headings
   end
 
-  alias Lunchbot.LunchbotData.OptionHeadings
+  alias Lunchbot.LunchbotData.OptionHeading
 
   @valid_attrs %{name: "some name", priority: 42}
   @update_attrs %{name: "some updated name", priority: 43}
@@ -951,7 +951,7 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#create_option_headings/1" do
     test "with valid data creates a option_headings" do
-      assert {:ok, %OptionHeadings{} = option_headings} =
+      assert {:ok, %OptionHeading{} = option_headings} =
                LunchbotData.create_option_headings(@valid_attrs)
 
       assert option_headings.name == "some name"
@@ -970,7 +970,7 @@ defmodule Lunchbot.LunchbotDataTest do
       assert {:ok, option_headings} =
                LunchbotData.update_option_headings(option_headings, @update_attrs)
 
-      assert %OptionHeadings{} = option_headings
+      assert %OptionHeading{} = option_headings
       assert option_headings.name == "some updated name"
       assert option_headings.priority == 43
     end
@@ -988,7 +988,7 @@ defmodule Lunchbot.LunchbotDataTest do
   describe "#delete_option_headings/1" do
     test "deletes the option_headings" do
       option_headings = option_headings_fixture()
-      assert {:ok, %OptionHeadings{}} = LunchbotData.delete_option_headings(option_headings)
+      assert {:ok, %OptionHeading{}} = LunchbotData.delete_option_headings(option_headings)
 
       assert_raise Ecto.NoResultsError, fn ->
         LunchbotData.get_option_headings!(option_headings.id)

@@ -15,7 +15,7 @@ alias Lunchbot.LunchbotData.Menu
 alias Lunchbot.LunchbotData.Category
 alias Lunchbot.LunchbotData.MenuCategories
 alias Lunchbot.LunchbotData.Item
-alias Lunchbot.LunchbotData.OptionHeadings
+alias Lunchbot.LunchbotData.OptionHeading
 alias Lunchbot.LunchbotData.Options
 alias Lunchbot.LunchbotData.ItemOptionHeadings
 
@@ -268,7 +268,7 @@ headings =
     %{name: "Dressing", priority: 2}
   ]
   |> Enum.each(fn hdg ->
-    Lunchbot.Repo.insert!(%OptionHeadings{name: hdg.name, priority: hdg.priority})
+    Lunchbot.Repo.insert!(%OptionHeading{name: hdg.name, priority: hdg.priority})
   end)
 
 heading_options = [
@@ -323,7 +323,7 @@ heading_options = [
 ]
 
 Enum.each(heading_options, fn hdg ->
-  heading = Lunchbot.Repo.get_by!(OptionHeadings, name: "#{hdg.name}")
+  heading = Lunchbot.Repo.get_by!(OptionHeading, name: "#{hdg.name}")
 
   Enum.each(hdg.option, fn option ->
     Lunchbot.Repo.insert!(%Options{
@@ -379,7 +379,7 @@ heading_items = [
 ]
 
 Enum.each(heading_items, fn hdg ->
-  heading = Lunchbot.Repo.get_by!(OptionHeadings, name: "#{hdg.name}")
+  heading = Lunchbot.Repo.get_by!(OptionHeading, name: "#{hdg.name}")
 
   Enum.each(hdg.items, fn item ->
     item = Lunchbot.Repo.get_by!(Item, name: "#{item.name}")

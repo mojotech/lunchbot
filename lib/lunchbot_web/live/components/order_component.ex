@@ -22,7 +22,9 @@ defmodule LunchbotWeb.OrderComponent do
                 <% end %>
                 )
               <% end %>
-              for <em>$<%= OrderItem.get_total(order_item) %></em>
+              <%= if !is_nil(OrderItem.get_total(order_item)) do %>
+                for <em>$<%= OrderItem.get_total(order_item) %></em>
+              <% end %>
             </li>
         <% end %>
       </ul>

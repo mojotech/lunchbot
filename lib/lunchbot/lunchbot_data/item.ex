@@ -10,6 +10,7 @@ defmodule Lunchbot.LunchbotData.Item do
     field :item_image, :string
     field :name, :string
     field :price, :integer
+    has_many :order_item, Lunchbot.LunchbotData.OrderItem
 
     timestamps()
   end

@@ -2,21 +2,27 @@ defmodule LunchbotWeb.OrderLive do
   use LunchbotWeb, :live_view
 
   alias LunchbotWeb.Router.Helpers, as: Routes
-  alias Lunchbot.Repo
   alias Lunchbot.LunchbotData
 
-  import Ecto.Query
-
   def mount(_params, _session, socket) do
-    # How is this id going to be initialized?
-    todays_menu_id = 4
+    # How will we determine the office_id from the create_order page?
+    office_id = 1
 
-    menu_data =
-      Repo.get(Lunchbot.LunchbotData.Menu, todays_menu_id)
-      |> Repo.preload(categories: [items: [option_headings: [:options]]])
-      |> Map.from_struct()
+    olo_ids = LunchbotData.get_office_lunch_order_ids(office_id)
 
-    {:ok, assign(socket, menu_data: menu_data) |> assign(todays_menu_id: todays_menu_id)}
+    if(olo_ids == nil) do
+      {:ok, socket}
+    else
+      menu_data = LunchbotData.get_all_menu_data!(olo_ids |> Enum.at(1))
+
+      socket =
+        socket
+        |> assign(menu_data: menu_data)
+        |> assign(office_lunch_order_id: olo_ids |> Enum.at(0))
+        |> assign(todays_menu_id: olo_ids |> Enum.at(1))
+
+      {:ok, socket}
+    end
   end
 
   def handle_params(params, _url, socket) do
@@ -52,22 +58,15 @@ defmodule LunchbotWeb.OrderLive do
          %{action: "submit", param: options}},
         socket
       ) do
-    option_ids_query =
-      from o in "options",
-        join: m in Lunchbot.LunchbotData.Menu,
-        on: m.id == ^socket.assigns.todays_menu_id,
-        where: o.name in ^options.selected_options,
-        select: o.id
-
-    option_ids = Repo.all(option_ids_query)
+    option_ids =
+      LunchbotData.get_selected_options(socket.assigns.todays_menu_id, options.selected_options)
 
     current_user_id = socket.assigns.current_user.id
 
-    # How is this id going to get set?
-    office_lunch_order_id = 1
+    office_lunch_order_id = socket.assigns.office_lunch_order_id
 
     order_id =
-      Repo.insert(%LunchbotData.Order{
+      LunchbotData.create_order(%{
         user_id: current_user_id,
         menu_id: socket.assigns.todays_menu_id,
         lunch_order_id: office_lunch_order_id
@@ -81,7 +80,7 @@ defmodule LunchbotWeb.OrderLive do
       end
 
     order_item_id =
-      Repo.insert(%LunchbotData.OrderItem{
+      LunchbotData.create_order_item(%{
         item_id: elem(Integer.parse(options.id), 0),
         order_id: order_id
       })

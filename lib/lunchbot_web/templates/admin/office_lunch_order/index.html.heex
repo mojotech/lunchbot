@@ -22,6 +22,12 @@
             <%= number_filter_select(:office_lunch_order, :office_id, @conn.params) %>
             <%= filter_number_input(:office_lunch_order, :office_id, @conn.params) %>
           </div>
+
+          <div class="field">
+            <label>Menu</label>
+            <%= number_filter_select(:office_lunch_order, :menu_id, @conn.params) %>
+            <%= filter_number_input(:office_lunch_order, :menu_id, @conn.params) %>
+          </div>
         
         <button type="submit" class="torch-button">Search</button>
         <%= link "Clear Filters", to: Routes.admin_office_lunch_order_path(@conn, :index) %>
@@ -38,6 +44,8 @@
               <th><%= table_link(@conn, "Day", :day) %></th>
             
               <th><%= table_link(@conn, "Office", :office_id) %></th>
+
+              <th><%= table_link(@conn, "Menu", :menu_id) %></th>
             
             <th><span>Actions</span></th>
           </tr>
@@ -49,6 +57,8 @@
                 <td><%= office_lunch_order.day %></td>
               
                 <td><%= office_lunch_order.office_id %></td>
+
+                <td><%= office_lunch_order.menu_id %></td>
               
               <td class="torch-actions">
                 <span><%= link "Show", to: Routes.admin_office_lunch_order_path(@conn, :show, office_lunch_order) %></span>

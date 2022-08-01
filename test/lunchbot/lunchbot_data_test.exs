@@ -301,9 +301,9 @@ defmodule Lunchbot.LunchbotDataTest do
 
   alias Lunchbot.LunchbotData.OfficeLunchOrder
 
-  @valid_attrs %{day: ~D[2022-07-07], office_id: 42}
-  @update_attrs %{day: ~D[2022-07-08], office_id: 43}
-  @invalid_attrs %{day: nil, office_id: nil}
+  @valid_attrs %{day: ~D[2022-07-07], office_id: 42, menu_id: 42}
+  @update_attrs %{day: ~D[2022-07-08], office_id: 43, menu_id: 43}
+  @invalid_attrs %{day: nil, office_id: nil, menu_id: nil}
 
   describe "#paginate_office_lunch_orders/1" do
     test "returns paginated list of office_lunch_orders" do

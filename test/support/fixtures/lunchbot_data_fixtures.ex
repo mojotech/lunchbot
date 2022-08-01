@@ -60,7 +60,8 @@ defmodule Lunchbot.LunchbotDataFixtures do
       attrs
       |> Enum.into(%{
         day: ~D[2022-07-07],
-        office_id: 42
+        office_id: 42,
+        menu_id: 42
       })
       |> Lunchbot.LunchbotData.create_office_lunch_order()
 

@@ -222,6 +222,11 @@ defmodule Lunchbot.LunchbotData do
     Repo.all(Menu)
   end
 
+  def list_menu_name_id_tuples do
+    Repo.all(Menu)
+    |> Enum.map(&{&1.name, &1.id})
+  end
+
   @doc """
   Gets a single menu.
 
@@ -237,6 +242,12 @@ defmodule Lunchbot.LunchbotData do
 
   """
   def get_menu!(id), do: Repo.get!(Menu, id)
+
+  def get_all_menu_data!(id) do
+    Repo.get!(Menu, id)
+    |> Repo.preload(categories: [items: [option_headings: [:options]]])
+    |> Map.from_struct()
+  end
 
   @doc """
   Creates a menu.
@@ -373,6 +384,20 @@ defmodule Lunchbot.LunchbotData do
   """
   def list_office_lunch_orders do
     Repo.all(OfficeLunchOrder)
+  end
+
+  def get_office_lunch_order_ids(office_id) do
+    today = Date.utc_today()
+
+    office_lunch_order_id_query =
+      from olo in "office_lunch_orders",
+        select: [olo.id, olo.menu_id],
+        where: olo.day >= ^today and olo.office_id == ^office_id,
+        order_by: [asc: :day],
+        limit: 1
+
+    Repo.all(office_lunch_order_id_query)
+    |> Enum.at(0)
   end
 
   @doc """
@@ -1593,6 +1618,17 @@ defmodule Lunchbot.LunchbotData do
 
   """
   def get_options!(id), do: Repo.get!(Options, id)
+
+  def get_selected_options(menu_id, selected_options) do
+    option_ids_query =
+      from o in "options",
+        join: m in Lunchbot.LunchbotData.Menu,
+        on: m.id == ^menu_id,
+        where: o.name in ^selected_options,
+        select: o.id
+
+    Repo.all(option_ids_query)
+  end
 
   @doc """
   Creates a options.

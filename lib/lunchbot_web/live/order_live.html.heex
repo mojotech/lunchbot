@@ -22,11 +22,17 @@
             left_button="Cancel"
             left_button_action="close")
           >
-          </.live_component> 
+          </.live_component>
         <% end %>
       <% end %>
     <% end %>
   <% else %>
-    <h1>No given menu currently.</h1>
+    <%= if assigns[:office_id] do %>
+      <h1>No given menu for this office currently.</h1>
+    <% else %>
+    <%= f = form_for :office_id, "#", phx_change: "office_select" %>
+        <%= label f, "Select an office" %>
+        <%= select f, :office, [{"Please select...", 0}] ++ Enum.map(@offices, &{&1.name, &1.id}), required: true %>
+    <% end %>
   <% end %>
 </div>

@@ -20,9 +20,17 @@ defmodule Lunchbot.LunchbotData.OrderItemOptions do
   def get_total(%Lunchbot.LunchbotData.OrderItemOptions{} = order_item_option) do
     # the total price of an OrderItemOption is the price the option + included extras
     if order_item_option.option.extras do
-      order_item_option.option.extra_price + order_item_option.option.price
+      if is_nil(order_item_option.option.extra_price) || is_nil(order_item_option.option.price) do
+        nil
+      else
+        order_item_option.option.extra_price + order_item_option.option.price
+      end
     else
-      order_item_option.option.price
+      if is_nil(order_item_option.option.price) do
+        nil
+      else
+        order_item_option.option.price
+      end
     end
   end
 end

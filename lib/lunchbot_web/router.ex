@@ -22,6 +22,8 @@ defmodule LunchbotWeb.Router do
 
     get "/select_menu", SelectMenuController, :index
     post "/select_menu", SelectMenuController, :create
+    get "/export_orders", ExportOrdersController, :index
+    get "/export_orders/export", ExportOrdersController, :export, as: :export
     resources "/users", UserController
     resources "/offices", OfficeController
     resources "/menus", MenuController

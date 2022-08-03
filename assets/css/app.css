@@ -135,6 +135,7 @@
 
 .modal-inner-container {
   position: relative;
+  margin: auto;
   z-index: 999;
 }
 

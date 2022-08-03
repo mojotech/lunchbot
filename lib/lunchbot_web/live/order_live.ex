@@ -5,24 +5,9 @@ defmodule LunchbotWeb.OrderLive do
   alias Lunchbot.LunchbotData
 
   def mount(_params, _session, socket) do
-    # How will we determine the office_id from the create_order page?
-    office_id = 1
+    socket = assign(socket, offices: Lunchbot.LunchbotData.list_offices())
 
-    olo_ids = LunchbotData.get_office_lunch_order_ids(office_id)
-
-    if(olo_ids == nil) do
-      {:ok, socket}
-    else
-      menu_data = LunchbotData.get_all_menu_data!(olo_ids |> Enum.at(1))
-
-      socket =
-        socket
-        |> assign(menu_data: menu_data)
-        |> assign(office_lunch_order_id: olo_ids |> Enum.at(0))
-        |> assign(todays_menu_id: olo_ids |> Enum.at(1))
-
-      {:ok, socket}
-    end
+    {:ok, socket}
   end
 
   def handle_params(params, _url, socket) do
@@ -42,6 +27,30 @@ defmodule LunchbotWeb.OrderLive do
       to: Routes.create_order_path(socket, :show),
       replace: true
     )
+  end
+
+  def handle_event(
+        "office_select",
+        %{"office_id" => %{"office" => office_id_string}} = _args,
+        socket
+      ) do
+    office_id = Integer.parse(office_id_string) |> elem(0)
+
+    olo_ids = LunchbotData.get_office_lunch_order_ids(office_id)
+
+    socket =
+      if(olo_ids != nil) do
+        menu_data = LunchbotData.get_all_menu_data(olo_ids |> Enum.at(1))
+
+        socket
+        |> assign(menu_data: menu_data)
+        |> assign(office_lunch_order_id: olo_ids |> Enum.at(0))
+        |> assign(todays_menu_id: olo_ids |> Enum.at(1))
+      else
+        socket |> assign(office_id: office_id)
+      end
+
+    {:noreply, socket}
   end
 
   def handle_event("open", %{"id" => id} = _args, socket) do

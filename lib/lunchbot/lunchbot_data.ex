@@ -243,8 +243,8 @@ defmodule Lunchbot.LunchbotData do
   """
   def get_menu!(id), do: Repo.get!(Menu, id)
 
-  def get_all_menu_data!(id) do
-    Repo.get!(Menu, id)
+  def get_all_menu_data(id) do
+    Repo.get(Menu, id)
     |> Repo.preload(categories: [items: [option_headings: [:options]]])
     |> Map.from_struct()
   end

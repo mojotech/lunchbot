@@ -3,7 +3,8 @@ defmodule Lunchbot.LunchbotData.OrderItemOptions do
   import Ecto.Changeset
 
   schema "order_item_options" do
-    field :option_id, :integer
+    # option_id
+    belongs_to :option, Lunchbot.LunchbotData.Options
     field :order_item_id, :integer
 
     timestamps()
@@ -14,5 +15,14 @@ defmodule Lunchbot.LunchbotData.OrderItemOptions do
     order_item_options
     |> cast(attrs, [:order_item_id, :option_id])
     |> validate_required([:order_item_id, :option_id])
+  end
+
+  def get_total(%Lunchbot.LunchbotData.OrderItemOptions{} = order_item_option) do
+    # the total price of an OrderItemOption is the price the option + included extras
+    if order_item_option.option.extras do
+      order_item_option.option.extra_price + order_item_option.option.price
+    else
+      order_item_option.option.price
+    end
   end
 end

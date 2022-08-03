@@ -44,6 +44,8 @@ defmodule LunchbotWeb.Router do
       live "/create_order", OrderLive, :show, as: :create_order
       live "/create_order/modal", OrderLive, :open_modal, as: :create_order_modal
     end
+
+    live "/list-orders", PreviousOrdersLive
   end
 
   scope "/", LunchbotWeb do

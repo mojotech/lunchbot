@@ -26,7 +26,8 @@ import Ecto.Query, only: [from: 2]
 
 LunchbotData.create_office(%{
   name: "Providence",
-  timezone: "EDT"
+  timezone: "EST",
+  slack_channel_name: "pvd"
 })
 
 [

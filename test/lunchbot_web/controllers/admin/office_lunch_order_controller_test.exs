@@ -3,9 +3,9 @@ defmodule LunchbotWeb.Admin.OfficeLunchOrderControllerTest do
 
   alias Lunchbot.LunchbotData
 
-  @create_attrs %{day: ~D[2022-07-07], office_id: 42}
-  @update_attrs %{day: ~D[2022-07-08], office_id: 43}
-  @invalid_attrs %{day: nil, office_id: nil}
+  @create_attrs %{day: ~D[2022-07-07], office_id: 42, menu_id: 42}
+  @update_attrs %{day: ~D[2022-07-08], office_id: 43, menu_id: 43}
+  @invalid_attrs %{day: nil, office_id: nil, menu_id: nil}
 
   def fixture(:office_lunch_order) do
     {:ok, office_lunch_order} = LunchbotData.create_office_lunch_order(@create_attrs)

@@ -4,8 +4,12 @@ defmodule Lunchbot.LunchbotData.OrderItem do
 
   schema "order_items" do
     belongs_to :item, Lunchbot.LunchbotData.Item
-    field :order_id, :integer
     has_many :order_item_options, Lunchbot.LunchbotData.OrderItemOptions
+    belongs_to :order, Lunchbot.LunchbotData.Order
+
+    many_to_many :options, Lunchbot.LunchbotData.Options,
+      join_through: "order_item_options",
+      join_keys: [order_item_id: :id, option_id: :id]
 
     timestamps()
   end

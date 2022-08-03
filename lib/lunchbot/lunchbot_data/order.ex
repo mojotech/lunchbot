@@ -5,10 +5,10 @@ defmodule Lunchbot.LunchbotData.Order do
 
   schema "orders" do
     field :lunch_order_id, :integer
-    # :menu_id
     belongs_to :menu, Lunchbot.LunchbotData.Menu
-    field :user_id, :integer
+    belongs_to :user, Lunchbot.Accounts.User
     has_many :order_items, Lunchbot.LunchbotData.OrderItem
+    many_to_many :items, Lunchbot.LunchbotData.Item, join_through: "order_items"
 
     timestamps()
   end

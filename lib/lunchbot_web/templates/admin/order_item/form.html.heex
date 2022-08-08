@@ -22,6 +22,14 @@
         <%= error_tag f, :item_id %>
       </div>
     </div>
+
+    <div class="torch-form-group">
+      <%= label f, :rating %>
+      <div class="torch-form-group-input">
+        <%= number_input f, :rating %>
+        <%= error_tag f, :rating %>
+      </div>
+    </div>
   
     <div class="torch-submit-form">
       <%= submit "Submit", class: "torch-submit-button" %>

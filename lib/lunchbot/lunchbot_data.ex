@@ -8,7 +8,20 @@ defmodule Lunchbot.LunchbotData do
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
 
-  alias Lunchbot.LunchbotData.Office
+  alias Lunchbot.LunchbotData.{
+    Office,
+    Options,
+    Item,
+    Menu,
+    OfficeLunchOrder,
+    Order,
+    Category,
+    OrderItem,
+    OptionHeading,
+    ItemOptionHeadings,
+    OrderItemOptions,
+    MenuCategories
+  }
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -156,8 +169,6 @@ defmodule Lunchbot.LunchbotData do
 
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
-
-  alias Lunchbot.LunchbotData.Menu
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -316,8 +327,6 @@ defmodule Lunchbot.LunchbotData do
 
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
-
-  alias Lunchbot.LunchbotData.OfficeLunchOrder
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -484,8 +493,6 @@ defmodule Lunchbot.LunchbotData do
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
 
-  alias Lunchbot.LunchbotData.Order
-
   @pagination [page_size: 15]
   @pagination_distance 5
 
@@ -632,8 +639,6 @@ defmodule Lunchbot.LunchbotData do
 
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
-
-  alias Lunchbot.LunchbotData.Category
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -782,8 +787,6 @@ defmodule Lunchbot.LunchbotData do
 
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
-
-  alias Lunchbot.LunchbotData.OrderItem
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -936,8 +939,6 @@ defmodule Lunchbot.LunchbotData do
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
 
-  alias Lunchbot.LunchbotData.Item
-
   @pagination [page_size: 15]
   @pagination_distance 5
 
@@ -1084,8 +1085,6 @@ defmodule Lunchbot.LunchbotData do
 
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
-
-  alias Lunchbot.LunchbotData.ItemOptionHeadings
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -1238,8 +1237,6 @@ defmodule Lunchbot.LunchbotData do
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
 
-  alias Lunchbot.LunchbotData.OptionHeading
-
   @pagination [page_size: 15]
   @pagination_distance 5
 
@@ -1387,8 +1384,6 @@ defmodule Lunchbot.LunchbotData do
 
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
-
-  alias Lunchbot.LunchbotData.OrderItemOptions
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -1540,8 +1535,6 @@ defmodule Lunchbot.LunchbotData do
 
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
-
-  alias Lunchbot.LunchbotData.Options
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -1700,8 +1693,6 @@ defmodule Lunchbot.LunchbotData do
 
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
-
-  alias Lunchbot.LunchbotData.MenuCategories
 
   @pagination [page_size: 15]
   @pagination_distance 5

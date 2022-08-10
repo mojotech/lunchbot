@@ -98,6 +98,11 @@ defmodule LunchbotWeb.LiveComponent.ModalLive do
                 <%= @title %>
               </div>
               <% end %>
+              <%= if @description != "" do %>
+              <div>
+                <p class="modal-description"><%= @description %></p>
+              </div>
+              <% end %>
 
               <!-- Body -->
               <%= if @body != nil do %>

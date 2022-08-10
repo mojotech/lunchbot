@@ -164,6 +164,14 @@
   letter-spacing: 0.075em;
 }
 
+.modal-description {
+  text-align: center;
+  font-weight: 400;
+  font-size: 1.5rem;
+  margin-top: 1.0rem;
+  margin-bottom: 1.0rem;
+}
+
 .modal-form-title {
   color: #000;
   text-transform: uppercase;

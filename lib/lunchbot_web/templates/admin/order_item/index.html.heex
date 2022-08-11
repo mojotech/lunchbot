@@ -23,6 +23,12 @@
             <%= number_filter_select(:order_item, :item_id, @conn.params) %>
             <%= filter_number_input(:order_item, :item_id, @conn.params) %>
           </div>
+
+          <div class="field">
+            <label>Rating</label>
+            <%= number_filter_select(:order_item, :rating, @conn.params) %>
+            <%= filter_number_input(:order_item, :rating, @conn.params) %>
+          </div>
         
         <button type="submit" class="torch-button">Search</button>
         <%= link "Clear Filters", to: Routes.admin_order_item_path(@conn, :index) %>
@@ -39,6 +45,8 @@
               <th><%= table_link(@conn, "Order", :order_id) %></th>
             
               <th><%= table_link(@conn, "Item", :item_id) %></th>
+
+              <th><%= table_link(@conn, "Rating", :rating) %></th>
             
             <th><span>Actions</span></th>
           </tr>
@@ -50,6 +58,8 @@
                 <td><%= order_item.order_id %></td>
               
                 <td><%= order_item.item_id %></td>
+
+                <td><%= order_item.rating %></td>
               
               <td class="torch-actions">
                 <span><%= link "Show", to: Routes.admin_order_item_path(@conn, :show, order_item) %></span>

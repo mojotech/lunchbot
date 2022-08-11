@@ -6,6 +6,7 @@ defmodule Lunchbot.LunchbotData.OrderItem do
     belongs_to :item, Lunchbot.LunchbotData.Item
     field :order_id, :integer
     has_many :order_item_options, Lunchbot.LunchbotData.OrderItemOptions
+    field :rating, :integer
 
     timestamps()
   end
@@ -13,7 +14,7 @@ defmodule Lunchbot.LunchbotData.OrderItem do
   @doc false
   def changeset(order_item, attrs) do
     order_item
-    |> cast(attrs, [:order_id, :item_id])
+    |> cast(attrs, [:order_id, :item_id, :rating])
     |> validate_required([:order_id, :item_id])
   end
 

@@ -1,6 +1,10 @@
 defmodule Lunchbot.LunchbotData.Item do
   use Ecto.Schema
+
   import Ecto.Changeset
+  import Ecto.Query
+
+  alias Lunchbot.Repo
 
   schema "items" do
     belongs_to :category, Lunchbot.LunchbotData.Category
@@ -23,5 +27,14 @@ defmodule Lunchbot.LunchbotData.Item do
     item
     |> cast(attrs, [:name, :description, :price, :category_id, :image_url, :item_image, :deleted])
     |> validate_required([:name, :price, :category_id])
+  end
+
+  def get_rating(item_id) do
+    query =
+      from o in "order_items",
+        where: o.item_id == ^item_id,
+        select: avg(o.rating)
+
+    Repo.all(query) |> Enum.at(0) |> Decimal.round(1)
   end
 end

@@ -11,6 +11,7 @@ defmodule Lunchbot.LunchbotData.Item do
     field :name, :string
     field :price, :integer
     has_many :order_items, Lunchbot.LunchbotData.OrderItem
+    many_to_many :orders, Lunchbot.LunchbotData.Order, join_through: "order_items"
 
     many_to_many :option_headings, Lunchbot.LunchbotData.OptionHeading,
       join_through: "item_option_headings"

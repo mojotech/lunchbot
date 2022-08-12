@@ -1,0 +1,13 @@
+<%= if !is_nil(@orders) do %>
+<h1>Orders to be exported</h1>
+<ul>
+<%= for order <- @orders do %>
+        <li><%= order %></li>
+<% end %>
+</ul>
+
+<%= link "Download CSV", to: Routes.admin_export_path(@conn, :export) %>
+
+<% else %>
+<h1>No orders to export</h1>
+<% end %>

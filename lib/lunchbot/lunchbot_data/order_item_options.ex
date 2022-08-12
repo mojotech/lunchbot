@@ -3,7 +3,6 @@ defmodule Lunchbot.LunchbotData.OrderItemOptions do
   import Ecto.Changeset
 
   schema "order_item_options" do
-    # option_id
     belongs_to :option, Lunchbot.LunchbotData.Options
     field :order_item_id, :integer
 

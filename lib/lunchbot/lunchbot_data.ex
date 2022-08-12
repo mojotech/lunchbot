@@ -8,7 +8,22 @@ defmodule Lunchbot.LunchbotData do
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
 
-  alias Lunchbot.LunchbotData.Office
+  alias Lunchbot.LunchbotData.{
+    Office,
+    Options,
+    Item,
+    Menu,
+    OfficeLunchOrder,
+    Order,
+    Category,
+    OrderItem,
+    OptionHeading,
+    ItemOptionHeadings,
+    OrderItemOptions,
+    MenuCategories
+  }
+
+  alias Lunchbot.Accounts.User
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -156,8 +171,6 @@ defmodule Lunchbot.LunchbotData do
 
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
-
-  alias Lunchbot.LunchbotData.Menu
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -316,8 +329,6 @@ defmodule Lunchbot.LunchbotData do
 
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
-
-  alias Lunchbot.LunchbotData.OfficeLunchOrder
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -484,8 +495,6 @@ defmodule Lunchbot.LunchbotData do
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
 
-  alias Lunchbot.LunchbotData.Order
-
   @pagination [page_size: 15]
   @pagination_distance 5
 
@@ -547,6 +556,74 @@ defmodule Lunchbot.LunchbotData do
   """
   def list_orders do
     Repo.all(Order)
+  end
+
+  def list_preloaded_orders do
+    yesterday = Date.add(Date.utc_today(), 0)
+
+    lunch_order_id =
+      from(olo in OfficeLunchOrder,
+        select: olo.id,
+        where: olo.day == ^yesterday
+      )
+      |> Repo.all()
+      |> Enum.at(0)
+
+    if !is_nil(lunch_order_id) do
+      from(o in Order,
+        where: o.lunch_order_id == ^lunch_order_id,
+        preload: [
+          user: ^from(u in User, select: u.name),
+          order_items: [
+            options: ^from(op in Options, select: op.name),
+            item: ^from(i in Item, select: i.name)
+          ]
+        ]
+      )
+      |> Repo.all()
+    else
+      nil
+    end
+  end
+
+  def format_orders(order_struct) do
+    if !is_nil(order_struct) do
+      orders =
+        for order <- order_struct do
+          timestamp = order.inserted_at
+          user = order.user
+
+          order_items =
+            for order_item <- order.order_items do
+              item_with_options =
+                for order_item_option <- order_item.options do
+                  order_item_option
+                end
+                |> Enum.join(", ")
+
+              if String.length(item_with_options) > 0 do
+                order_item.item <>
+                  " w/ options: " <>
+                  item_with_options
+              else
+                order_item.item
+              end
+            end
+
+          [
+            timestamp,
+            user,
+            for item <- order_items do
+              item
+            end
+          ]
+          |> List.flatten()
+        end
+
+      orders
+    else
+      nil
+    end
   end
 
   @doc """
@@ -632,8 +709,6 @@ defmodule Lunchbot.LunchbotData do
 
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
-
-  alias Lunchbot.LunchbotData.Category
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -782,8 +857,6 @@ defmodule Lunchbot.LunchbotData do
 
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
-
-  alias Lunchbot.LunchbotData.OrderItem
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -936,8 +1009,6 @@ defmodule Lunchbot.LunchbotData do
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
 
-  alias Lunchbot.LunchbotData.Item
-
   @pagination [page_size: 15]
   @pagination_distance 5
 
@@ -1084,8 +1155,6 @@ defmodule Lunchbot.LunchbotData do
 
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
-
-  alias Lunchbot.LunchbotData.ItemOptionHeadings
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -1238,8 +1307,6 @@ defmodule Lunchbot.LunchbotData do
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
 
-  alias Lunchbot.LunchbotData.OptionHeading
-
   @pagination [page_size: 15]
   @pagination_distance 5
 
@@ -1387,8 +1454,6 @@ defmodule Lunchbot.LunchbotData do
 
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
-
-  alias Lunchbot.LunchbotData.OrderItemOptions
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -1540,8 +1605,6 @@ defmodule Lunchbot.LunchbotData do
 
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
-
-  alias Lunchbot.LunchbotData.Options
 
   @pagination [page_size: 15]
   @pagination_distance 5
@@ -1700,8 +1763,6 @@ defmodule Lunchbot.LunchbotData do
 
   import Torch.Helpers, only: [sort: 1, paginate: 4, strip_unset_booleans: 3]
   import Filtrex.Type.Config
-
-  alias Lunchbot.LunchbotData.MenuCategories
 
   @pagination [page_size: 15]
   @pagination_distance 5

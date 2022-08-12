@@ -4,8 +4,9 @@ defmodule Lunchbot.LunchbotData.OfficeLunchOrder do
 
   schema "office_lunch_orders" do
     field :day, :date
-    field :office_id, :integer
     field :menu_id, :integer
+    belongs_to :office, Lunchbot.LunchbotData.Office
+    has_many :orders, Lunchbot.LunchbotData.Order, foreign_key: :lunch_order_id
 
     timestamps()
   end

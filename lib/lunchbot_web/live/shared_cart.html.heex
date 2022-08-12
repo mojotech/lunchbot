@@ -1,0 +1,16 @@
+<div id="shared-cart">
+
+  <div>
+    <.form let={f} for={@changeset} id="shared-cart-dropdown-form" phx-change="change-office">
+        <%= label f, :office_selection %>
+        <%= Phoenix.HTML.Form.select f, :office_selection, Enum.map(@offices, &{&1.name, &1.id}), selected: @selected_office_id%>
+    </.form>
+  </div>
+
+  <h2>Shared Cart</h2>
+  <%= if @office_lunch_orders do %>
+    <%= for order <- @office_lunch_orders do %>
+      <LunchbotWeb.OrderComponent.display_order order={order} />
+    <% end %>
+  <% end %>
+</div>

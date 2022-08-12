@@ -39,6 +39,19 @@ defmodule Lunchbot.OrderTest do
 
       assert Order.get_total(order) == 66
     end
+
+    test "order with singular PRICELESS item" do
+      order = %Order{
+        order_items: [
+          %OrderItem{
+            item: %Item{},
+            order_item_options: []
+          }
+        ]
+      }
+
+      assert Order.get_total(order) == nil
+    end
   end
 
   describe "#OrderItem.get_total/1" do
@@ -100,6 +113,24 @@ defmodule Lunchbot.OrderTest do
 
       assert OrderItem.get_total(order_item) == 110
     end
+
+    test "single PRICELESS order_item_options" do
+      order_item = %OrderItem{
+        item: %Item{
+          price: 10
+        },
+        order_item_options: [
+          %OrderItemOptions{
+            option: %Options{
+              extras: false,
+              price: nil
+            }
+          }
+        ]
+      }
+
+      assert OrderItem.get_total(order_item) == nil
+    end
   end
 
   describe "#OrderItemOptions.get_total/1" do
@@ -124,6 +155,18 @@ defmodule Lunchbot.OrderTest do
       }
 
       assert OrderItemOptions.get_total(order_item_option) == 33
+    end
+
+    test "order item option with PRICELESS extras" do
+      order_item_option = %OrderItemOptions{
+        option: %Options{
+          extra_price: nil,
+          extras: true,
+          price: nil
+        }
+      }
+
+      assert OrderItemOptions.get_total(order_item_option) == nil
     end
   end
 end

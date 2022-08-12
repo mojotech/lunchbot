@@ -56,7 +56,8 @@ defmodule Lunchbot.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:elixir_auth_google, "~> 1.6.3"},
       {:dotenv, "~> 3.0.0", only: [:dev, :test]},
-      {:mox, "~> 1.0", only: :test}
+      {:mox, "~> 1.0", only: :test},
+      {:phoenix_pubsub, "~> 2.0"}
     ]
   end
 

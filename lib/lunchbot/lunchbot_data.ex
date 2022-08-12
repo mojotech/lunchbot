@@ -881,6 +881,7 @@ defmodule Lunchbot.LunchbotData do
     %OrderItem{}
     |> OrderItem.changeset(attrs)
     |> Repo.insert()
+    |> OrderItem.notify_subscribers([:order_item, :created])
   end
 
   @doc """
@@ -899,6 +900,7 @@ defmodule Lunchbot.LunchbotData do
     order_item
     |> OrderItem.changeset(attrs)
     |> Repo.update()
+    |> OrderItem.notify_subscribers([:order_item, :updated])
   end
 
   @doc """
@@ -915,6 +917,7 @@ defmodule Lunchbot.LunchbotData do
   """
   def delete_order_item(%OrderItem{} = order_item) do
     Repo.delete(order_item)
+    |> OrderItem.notify_subscribers([:order_item, :deleted])
   end
 
   @doc """

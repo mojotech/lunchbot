@@ -22,7 +22,13 @@ defmodule Lunchbot.LunchbotData.Order do
 
   def get_total(%Lunchbot.LunchbotData.Order{} = order) do
     # total price of an Order the the price of all the items in the order.
-    Enum.map(order.order_items, &Lunchbot.LunchbotData.OrderItem.get_total/1)
-    |> Enum.sum()
+    list_order_totals = Enum.map(order.order_items, &Lunchbot.LunchbotData.OrderItem.get_total/1)
+
+    # check for nil values, return nil if found
+    if Enum.member?(list_order_totals, nil) do
+      nil
+    else
+      list_order_totals |> Enum.sum()
+    end
   end
 end

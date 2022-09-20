@@ -8,7 +8,7 @@
     <% end %>
 
     <%= label f, :office_id, "Office" %>
-    <%= select f, :office_id, ["Providence": 1, "Boulder": 2], required: true %>
+    <%= select f, :office_id, @offices, required: true %>
     <%= error_tag f, :office_id %>
 
     <%= label f, :menu_id, "Menu"%>

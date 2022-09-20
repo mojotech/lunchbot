@@ -8,8 +8,9 @@ defmodule LunchbotWeb.Admin.SelectMenuController do
     changeset = OfficeLunchOrder.changeset(%OfficeLunchOrder{}, %{})
 
     menus = LunchbotData.list_menu_name_id_tuples()
+    offices = LunchbotData.list_office_name_id_tuples()
 
-    render(conn, "view.html", changeset: changeset, menus: menus)
+    render(conn, "view.html", changeset: changeset, menus: menus, offices: offices)
   end
 
   def create(conn, %{"office_lunch_order" => olo_params}) do

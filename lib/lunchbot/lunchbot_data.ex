@@ -88,6 +88,11 @@ defmodule Lunchbot.LunchbotData do
     Repo.all(Office)
   end
 
+  def list_office_name_id_tuples do
+    Repo.all(Office)
+    |> Enum.map(&{&1.name, &1.id})
+  end
+
   @doc """
   Gets a single office.
 

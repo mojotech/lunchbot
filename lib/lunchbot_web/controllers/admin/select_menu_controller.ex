@@ -32,8 +32,8 @@ defmodule LunchbotWeb.Admin.SelectMenuController do
 
     new_office_lunch_order = %{
       day: formatted_date,
-      office_id: Integer.parse(olo_params["office"]) |> elem(0),
-      menu_id: Integer.parse(olo_params["menu"]) |> elem(0)
+      office_id: olo_params["office_id"],
+      menu_id: olo_params["menu_id"]
     }
 
     case LunchbotData.create_office_lunch_order(new_office_lunch_order) do

@@ -7,13 +7,13 @@
         </div>
     <% end %>
 
-    <%= label f, :office %>
-    <%= select f, :office, ["Providence": 1, "Boulder": 2], required: true %>
-    <%= error_tag f, :office %>
+    <%= label f, :office_id, "Office" %>
+    <%= select f, :office_id, ["Providence": 1, "Boulder": 2], required: true %>
+    <%= error_tag f, :office_id %>
 
-    <%= label f, :menu %>
-    <%= select f, :menu,  @menus, required: true %>
-    <%= error_tag f, :menu %>
+    <%= label f, :menu_id, "Menu"%>
+    <%= select f, :menu_id,  @menus, required: true %>
+    <%= error_tag f, :menu_id %>
 
     <%= label f, :date %>
     <%= date_select f, :date, year: [options: 2022..2050], required: true %>

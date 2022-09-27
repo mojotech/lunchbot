@@ -1,4 +1,4 @@
-<%= if !is_nil(@orders) do %>
+<%= if @orders do %>
 <h1>Orders to be exported</h1>
 <ul>
 <%= for order <- @orders do %>

@@ -586,44 +586,41 @@ defmodule Lunchbot.LunchbotData do
     end
   end
 
-  def format_orders(order_struct) do
-    if !is_nil(order_struct) do
-      orders =
-        for order <- order_struct do
-          timestamp = order.inserted_at
-          user = order.user
+  def format_orders(order_struct = [%Order{} | _]) do
+    for order <- order_struct do
+      timestamp = order.inserted_at
+      user = order.user
 
-          order_items =
-            for order_item <- order.order_items do
-              item_with_options =
-                for order_item_option <- order_item.options do
-                  order_item_option
-                end
-                |> Enum.join(", ")
-
-              if String.length(item_with_options) > 0 do
-                order_item.item <>
-                  " w/ options: " <>
-                  item_with_options
-              else
-                order_item.item
-              end
+      order_items =
+        for order_item <- order.order_items do
+          item_with_options =
+            for order_item_option <- order_item.options do
+              order_item_option
             end
+            |> Enum.join(", ")
 
-          [
-            timestamp,
-            user,
-            for item <- order_items do
-              item
-            end
-          ]
-          |> List.flatten()
+          if String.length(item_with_options) > 0 do
+            order_item.item <>
+              " w/ options: " <>
+              item_with_options
+          else
+            order_item.item
+          end
         end
 
-      orders
-    else
-      nil
+      [
+        timestamp,
+        user,
+        for item <- order_items do
+          item
+        end
+      ]
+      |> List.flatten()
     end
+  end
+
+  def format_orders(_) do
+    nil
   end
 
   @doc """

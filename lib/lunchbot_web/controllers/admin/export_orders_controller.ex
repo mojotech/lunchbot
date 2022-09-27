@@ -6,7 +6,7 @@ defmodule LunchbotWeb.Admin.ExportOrdersController do
   def index(conn, _params) do
     orders = LunchbotData.format_orders(LunchbotData.list_preloaded_orders())
 
-    if !is_nil(orders) do
+    if orders do
       list_orders =
         Enum.map(orders, fn x ->
           x |> Enum.map(fn g -> g |> to_string() end) |> Enum.join(", ")

@@ -569,7 +569,7 @@ defmodule Lunchbot.LunchbotData do
       |> Repo.all()
       |> Enum.at(0)
 
-    if !is_nil(lunch_order_id) do
+    if lunch_order_id do
       from(o in Order,
         where: o.lunch_order_id == ^lunch_order_id,
         preload: [

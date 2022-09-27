@@ -5,18 +5,20 @@ defmodule LunchbotWeb.Admin.SelectMenuLive do
   alias Lunchbot.LunchbotData.OfficeLunchOrder
 
   def mount(_params, _session, socket) do
+    olos = LunchbotData.list_most_recent_office_lunch_orders()
     changeset = LunchbotData.change_office_lunch_order(%OfficeLunchOrder{})
     menus = LunchbotData.list_menu_name_id_tuples()
     offices = LunchbotData.list_office_name_id_tuples()
 
     socket =
       assign(socket,
+        olos: olos,
         changeset: changeset,
         offices: offices,
         menus: menus
       )
 
-    {:ok, socket}
+    {:ok, socket, temporary_assigns: [olos: []]}
   end
 
   def handle_event("save", %{"office_lunch_order" => olo_params}, socket) do
@@ -45,6 +47,15 @@ defmodule LunchbotWeb.Admin.SelectMenuLive do
 
     case LunchbotData.create_office_lunch_order(new_office_lunch_order) do
       {:ok, office_lunch_order} ->
+        socket =
+          update(
+            socket,
+            :olos,
+            fn office_lunch_orders ->
+              [LunchbotData.preload_new_olo(office_lunch_order.id) | office_lunch_orders]
+            end
+          )
+
         {:noreply, socket}
 
       {:error, %Ecto.Changeset{} = changeset} ->

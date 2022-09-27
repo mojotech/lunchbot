@@ -23,3 +23,14 @@
         <%= submit "Submit" %>
     </div>
 </.form>
+
+<h2>Previous Office Lunch Orders</h2>
+    <div id="office_lunch_orders" phx-update="prepend">
+    <%= for olo <- @olos do %>
+        <div id={"#{olo.id}"}>
+            <div>
+            <%= olo.id %>, <%= olo.day %>, <%= olo.office %>, Menu: <%= olo.menu %>
+            </div>
+        </div>
+    <% end %>
+    </div>

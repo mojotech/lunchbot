@@ -416,6 +416,43 @@ defmodule Lunchbot.LunchbotData do
     |> Enum.at(0)
   end
 
+  def list_most_recent_office_lunch_orders do
+    Repo.all(
+      from olo in OfficeLunchOrder,
+        order_by: [desc: olo.id],
+        limit: 10,
+        preload: [
+          office:
+            ^from(o in Office,
+              select: o.name
+            ),
+          menu:
+            ^from(m in Menu,
+              select: m.name
+            )
+        ]
+    )
+  end
+
+  def preload_new_olo(id) do
+    Repo.get!(
+      from(olo in OfficeLunchOrder,
+        where: olo.id == ^id,
+        preload: [
+          office:
+            ^from(o in Office,
+              select: o.name
+            ),
+          menu:
+            ^from(m in Menu,
+              select: m.name
+            )
+        ]
+      ),
+      id
+    )
+  end
+
   @doc """
   Gets a single office_lunch_order.
 

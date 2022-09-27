@@ -1,19 +1,25 @@
-defmodule LunchbotWeb.Admin.SelectMenuController do
-  use LunchbotWeb, :controller
+defmodule LunchbotWeb.Admin.SelectMenuLive do
+  use LunchbotWeb, :live_view
 
   alias Lunchbot.LunchbotData
   alias Lunchbot.LunchbotData.OfficeLunchOrder
 
-  def index(conn, _params) do
-    changeset = OfficeLunchOrder.changeset(%OfficeLunchOrder{}, %{})
-
+  def mount(_params, _session, socket) do
+    changeset = LunchbotData.change_office_lunch_order(%OfficeLunchOrder{})
     menus = LunchbotData.list_menu_name_id_tuples()
     offices = LunchbotData.list_office_name_id_tuples()
 
-    render(conn, "view.html", changeset: changeset, menus: menus, offices: offices)
+    socket =
+      assign(socket,
+        changeset: changeset,
+        offices: offices,
+        menus: menus
+      )
+
+    {:ok, socket}
   end
 
-  def create(conn, %{"office_lunch_order" => olo_params}) do
+  def handle_event("save", %{"office_lunch_order" => olo_params}, socket) do
     date = olo_params["date"]
 
     formatted_date =
@@ -38,16 +44,12 @@ defmodule LunchbotWeb.Admin.SelectMenuController do
     }
 
     case LunchbotData.create_office_lunch_order(new_office_lunch_order) do
-      {:ok, _} ->
-        conn
-        |> put_flash(:info, "Office lunch order created successfully.")
-        |> redirect(to: "/")
+      {:ok, office_lunch_order} ->
+        {:noreply, socket}
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "view.html",
-          changeset: changeset,
-          menus: LunchbotData.list_menu_name_id_tuples()
-        )
+        socket = assign(socket, changeset: changeset)
+        {:noreply, socket}
     end
   end
 

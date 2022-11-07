@@ -1,33 +1,35 @@
-<div>
+<div class="order-grid">
   <%= if assigns[:menu_data] do %>
-    <%= for category <- @menu_data.categories do %>
-      <h1><%= category.name %></h1>
-      <%= for item <- category.items do %>
-        <button
-          phx-click="open"
-          phx-value-id={item.id}
-          type="button"
-          class="mr-8 btn btn-primary">
-          <%= item.name %>
-        </button>
+    <div class="column">
+      <%= for category <- @menu_data.categories do %>
+        <h1><%= category.name %></h1>
+        <%= for item <- category.items do %>
+          <button
+            phx-click="open"
+            phx-value-id={item.id}
+            type="button"
+            class="mr-8 btn btn-primary">
+            <%= item.name %>
+          </button>
 
-        <%= if assigns[:id] == item.id do %>
-          <.live_component
-            module={LunchbotWeb.LiveComponent.ModalLive}
-            id={"#{item.id}"}
-            title={"#{item.name}"}
-            description={"#{item.description}"}
-            body={item.option_headings}
-            right_button="Submit"
-            right_button_action="submit"
-            left_button="Cancel"
-            left_button_action="close")
-          >
-          </.live_component>
+          <%= if assigns[:id] == item.id do %>
+            <.live_component
+              module={LunchbotWeb.LiveComponent.ModalLive}
+              id={"#{item.id}"}
+              title={"#{item.name}"}
+              description={"#{item.description}"}
+              body={item.option_headings}
+              right_button="Submit"
+              right_button_action="submit"
+              left_button="Cancel"
+              left_button_action="close")
+            >
+            </.live_component>
+          <% end %>
         <% end %>
       <% end %>
-    <% end %>
-    <div>
+    </div>
+    <div  class="column">
     <%= live_component LunchbotWeb.SharedCartComponent, 
       office_lunch_orders: @office_lunch_orders,
         id: 1 %>                   

@@ -1,5 +1,5 @@
 defmodule LunchbotWeb.OrderLive do
-  use LunchbotWeb, :live_view
+  use LunchbotWeb, which: :live_view, template: "order_live_template.html"
 
   alias LunchbotWeb.Router.Helpers, as: Routes
   alias Lunchbot.LunchbotData

@@ -20,8 +20,6 @@ defmodule LunchbotWeb.Router do
   scope "/admin", LunchbotWeb.Admin, as: :admin do
     pipe_through [:browser, :require_admin_user]
 
-    get "/select_menu", SelectMenuController, :index
-    post "/select_menu", SelectMenuController, :create
     get "/export_orders", ExportOrdersController, :index
     get "/export_orders/export", ExportOrdersController, :export, as: :export
     resources "/users", UserController
@@ -37,6 +35,7 @@ defmodule LunchbotWeb.Router do
     resources "/order_item_options", OrderItemOptionsController
     resources "/options", OptionsController
     resources "/menu_categories", MenuCategoriesController
+    live "/select_menu", SelectMenuLive
   end
 
   scope "/", LunchbotWeb do

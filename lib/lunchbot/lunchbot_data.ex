@@ -88,6 +88,11 @@ defmodule Lunchbot.LunchbotData do
     Repo.all(Office)
   end
 
+  def list_office_name_id_tuples do
+    Repo.all(Office)
+    |> Enum.map(&{&1.name, &1.id})
+  end
+
   @doc """
   Gets a single office.
 
@@ -409,6 +414,43 @@ defmodule Lunchbot.LunchbotData do
 
     Repo.all(office_lunch_order_id_query)
     |> Enum.at(0)
+  end
+
+  def list_most_recent_office_lunch_orders do
+    Repo.all(
+      from olo in OfficeLunchOrder,
+        order_by: [desc: olo.id],
+        limit: 10,
+        preload: [
+          office:
+            ^from(o in Office,
+              select: o.name
+            ),
+          menu:
+            ^from(m in Menu,
+              select: m.name
+            )
+        ]
+    )
+  end
+
+  def preload_new_olo(id) do
+    Repo.get!(
+      from(olo in OfficeLunchOrder,
+        where: olo.id == ^id,
+        preload: [
+          office:
+            ^from(o in Office,
+              select: o.name
+            ),
+          menu:
+            ^from(m in Menu,
+              select: m.name
+            )
+        ]
+      ),
+      id
+    )
   end
 
   @doc """

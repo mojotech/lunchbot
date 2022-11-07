@@ -27,6 +27,11 @@
         <% end %>
       <% end %>
     <% end %>
+    <div>
+    <%= live_component LunchbotWeb.SharedCartComponent, 
+      office_lunch_orders: @office_lunch_orders,
+        id: 1 %>                   
+    </div> 
   <% else %>
     <%= if assigns[:office_id] do %>
       <h1>No given menu for this office currently.</h1>

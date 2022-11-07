@@ -47,7 +47,6 @@ defmodule LunchbotWeb.Router do
     end
 
     live "/list-orders", PreviousOrdersLive
-    live "/shared-cart", SharedCart
   end
 
   scope "/", LunchbotWeb do

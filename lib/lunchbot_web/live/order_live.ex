@@ -3,8 +3,11 @@ defmodule LunchbotWeb.OrderLive do
 
   alias LunchbotWeb.Router.Helpers, as: Routes
   alias Lunchbot.LunchbotData
+  import LunchbotWeb.SharedCart.SharedCartController
 
   def mount(_params, _session, socket) do
+    if connected?(socket), do: Lunchbot.LunchbotData.OrderItem.subscribe()
+
     socket = assign(socket, offices: Lunchbot.LunchbotData.list_offices())
 
     {:ok, socket}
@@ -43,9 +46,13 @@ defmodule LunchbotWeb.OrderLive do
         menu_data = LunchbotData.get_all_menu_data(olo_ids |> Enum.at(1))
 
         socket
-        |> assign(menu_data: menu_data)
-        |> assign(office_lunch_order_id: olo_ids |> Enum.at(0))
-        |> assign(todays_menu_id: olo_ids |> Enum.at(1))
+        |> assign(
+          menu_data: menu_data,
+          office_lunch_order_id: olo_ids |> Enum.at(0),
+          todays_menu_id: olo_ids |> Enum.at(1),
+          office_lunch_orders: get_lunch_order_for_office(office_id),
+          selected_office_id: office_id
+        )
       else
         socket |> assign(office_id: office_id)
       end
@@ -60,6 +67,21 @@ defmodule LunchbotWeb.OrderLive do
        to: Routes.create_order_modal_path(socket, :open_modal, id: id),
        replace: true
      )}
+  end
+
+  # Refetch currently displayed order data, assign to socket watched by this LiveView
+  defp fetch(socket) do
+    office_lunch_orders = get_lunch_order_for_office(socket.assigns.selected_office_id)
+
+    offices = LunchbotData.list_offices()
+
+    assign(socket, office_lunch_orders: office_lunch_orders, offices: offices)
+  end
+
+  # listens to the notifications broadcast by OrderItems
+  # fetches a fresh listing of office lunch orders from the database
+  def handle_info({Lunchbot.LunchbotData.OrderItem, [:order_item, _], _}, socket) do
+    {:noreply, fetch(socket)}
   end
 
   def handle_info(

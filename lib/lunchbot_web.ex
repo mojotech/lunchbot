@@ -42,10 +42,12 @@ defmodule LunchbotWeb do
     end
   end
 
-  def live_view do
+  def live_view(options \\ []) do
+    template = Keyword.get(options, :template, "live.html")
+
     quote do
       use Phoenix.LiveView,
-        layout: {LunchbotWeb.LayoutView, "live.html"}
+        layout: {LunchbotWeb.LayoutView, unquote(template)}
 
       unquote(view_helpers())
     end
@@ -106,5 +108,10 @@ defmodule LunchbotWeb do
   """
   defmacro __using__(which) when is_atom(which) do
     apply(__MODULE__, which, [])
+  end
+
+  defmacro __using__(opts) when is_list(opts) do
+    which = Keyword.get(opts, :which)
+    apply(__MODULE__, which, [opts])
   end
 end

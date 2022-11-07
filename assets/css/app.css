@@ -1,6 +1,21 @@
 /* This file is for your main application CSS */
 @import "./phoenix.css";
 
+.delete-button {
+  background-color: #a94442;
+  border-color: #000000;
+  border-width: 3px;
+}
+.order-grid {
+  display: grid;
+  grid-template-columns: 80% 20%;
+  grid-column-gap: 30px;
+  margin: 0 auto;
+  max-width: 128rem;
+  padding: 0 2.0rem;
+  position: relative;
+  width: 100%
+}
 /* Alerts and form errors used by phx.new */
 .alert {
   padding: 15px;

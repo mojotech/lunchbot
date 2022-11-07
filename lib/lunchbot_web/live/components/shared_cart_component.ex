@@ -8,7 +8,7 @@ defmodule LunchbotWeb.SharedCartComponent do
       <%= if @office_lunch_orders do %>
         <%= for order <- @office_lunch_orders do %>
           <LunchbotWeb.OrderComponent.display_order order={order} />
-          <button phx-click="delete-order"
+          <button class="delete-button" phx-click="delete-order"
                 phx-value-id={order.id}
                 phx-target={@myself}>
             Delete

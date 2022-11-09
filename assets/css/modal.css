@@ -12,6 +12,14 @@
   background-color: rgba(0, 0, 0, 0.7);
 }
 
+ul.order-item-list {
+    list-style: none;
+  }
+
+ul.order-item-list label {
+  display: inline;
+}
+
 .modal-inner-container {
   position: relative;
   margin: auto;

@@ -111,9 +111,14 @@ defmodule LunchbotWeb.LiveComponent.ModalLive do
                 <%= label f, :options, "Submit your item:" %>
                 <%= for option_headings <- @body do %>
                   <h3><%= option_headings.name %></h3>
+                  <ul class="order-item-list">
                   <%= for options <- option_headings.options do %>
-                    <%= checkbox(f, :options, name: "#{options.name}", value: options.id, hidden_input: false) %><%= options.name %><br>
+                    <li>
+                    <%= checkbox(f, :options, name: "#{options.name}", value: options.id, hidden_input: false, id: options.name) %>
+                    <label for={options.name}><%= options.name %></label>
+                    </li>
                   <% end %>
+                  </ul>
                   <br>
                 <% end %>
               </div>

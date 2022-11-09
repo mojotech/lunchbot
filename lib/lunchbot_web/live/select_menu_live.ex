@@ -9,13 +9,15 @@ defmodule LunchbotWeb.Admin.SelectMenuLive do
     changeset = LunchbotData.change_office_lunch_order(%OfficeLunchOrder{})
     menus = LunchbotData.list_menu_name_id_tuples()
     offices = LunchbotData.list_office_name_id_tuples()
+    {current_date, _} = :calendar.local_time()
 
     socket =
       assign(socket,
         olos: olos,
         changeset: changeset,
         offices: offices,
-        menus: menus
+        menus: menus,
+        current_date: current_date
       )
 
     {:ok, socket, temporary_assigns: [olos: []]}

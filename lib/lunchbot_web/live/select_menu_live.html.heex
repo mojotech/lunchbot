@@ -16,7 +16,7 @@
     <%= error_tag f, :menu_id %>
 
     <%= label f, :date %>
-    <%= date_select f, :date, year: [options: 2022..2050], required: true %>
+    <%= date_select f, :date, year: [options: 2022..2050], default: @current_date, required: true %>
     <%= error_tag f, :date %>
 
     <div>

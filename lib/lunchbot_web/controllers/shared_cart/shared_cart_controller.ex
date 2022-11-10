@@ -19,7 +19,8 @@ defmodule LunchbotWeb.SharedCart.SharedCartController do
           {filter_lunch_orders_to_today_and_onwards,
            [
              orders:
-               {orders_sorted_query, [:menu, order_items: [:item, order_item_options: [:option]]]}
+               {orders_sorted_query,
+                [:user, :menu, order_items: [:item, order_item_options: [:option]]]}
            ]}
       )
 

@@ -11,7 +11,8 @@ defmodule LunchbotWeb.OrderComponent do
   def display_order(assigns) do
     ~H"""
     <div>
-      From <b><%= assigns.order.menu.name %></b> @ <em><%= assigns.order.inserted_at %></em>
+      <b><%= assigns.order.user.name %>'s Order </b> <br>
+      Placed @ <em><%= assigns.order.updated_at %></em>
       <ul>
         <%= for order_item <- assigns.order.order_items do %>
             <li><%= order_item.item.name %>

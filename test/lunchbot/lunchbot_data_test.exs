@@ -6,6 +6,7 @@ defmodule Lunchbot.LunchbotDataTest do
   alias Lunchbot.Accounts
 
   alias Lunchbot.Accounts.User
+  alias Lunchbot.LunchbotDataFixtures
 
   @valid_attrs %{
     name: "some name",
@@ -51,14 +52,14 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#list_users/0" do
     test "returns all users" do
-      user = Map.replace!(user_fixture(), :password, nil)
+      user = Map.replace!(LunchbotDataFixtures.user_fixture(), :password, nil)
       assert Accounts.list_users() == [user]
     end
   end
 
   describe "#get_user!/1" do
     test "returns the user with given id" do
-      user = Map.replace!(user_fixture(), :password, nil)
+      user = Map.replace!(LunchbotDataFixtures.user_fixture(), :password, nil)
       assert Accounts.get_user!(user.id) == user
     end
   end
@@ -78,7 +79,7 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#update_user/2" do
     test "with valid data updates the user" do
-      user = user_fixture()
+      user = LunchbotDataFixtures.user_fixture()
       assert {:ok, user} = Accounts.update_user(user, @update_attrs)
       assert %User{} = user
       assert user.name == "some updated name"
@@ -87,7 +88,7 @@ defmodule Lunchbot.LunchbotDataTest do
     end
 
     test "with invalid data returns error changeset" do
-      user = Map.replace!(user_fixture(), :password, nil)
+      user = Map.replace!(LunchbotDataFixtures.user_fixture(), :password, nil)
       assert {:error, %Ecto.Changeset{}} = Accounts.update_user(user, @invalid_attrs)
       assert user == Accounts.get_user!(user.id)
     end
@@ -95,7 +96,7 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#delete_user/1" do
     test "deletes the user" do
-      user = user_fixture()
+      user = LunchbotDataFixtures.user_fixture()
       assert {:ok, %User{}} = Accounts.delete_user(user)
       assert_raise Ecto.NoResultsError, fn -> Accounts.get_user!(user.id) end
     end
@@ -103,18 +104,9 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#change_user/1" do
     test "returns a user changeset" do
-      user = user_fixture()
+      user = LunchbotDataFixtures.user_fixture()
       assert %Ecto.Changeset{} = Accounts.change_user(user)
     end
-  end
-
-  def user_fixture(attrs \\ %{}) do
-    {:ok, user} =
-      attrs
-      |> Enum.into(@valid_attrs)
-      |> Accounts.create_user()
-
-    user
   end
 
   alias Lunchbot.LunchbotData.Office
@@ -126,7 +118,7 @@ defmodule Lunchbot.LunchbotDataTest do
   describe "#paginate_offices/1" do
     test "returns paginated list of offices" do
       for _ <- 1..20 do
-        office_fixture()
+        LunchbotDataFixtures.office_fixture()
       end
 
       {:ok, %{offices: offices} = page} = LunchbotData.paginate_offices(%{})
@@ -144,14 +136,14 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#list_offices/0" do
     test "returns all offices" do
-      office = office_fixture()
+      office = LunchbotDataFixtures.office_fixture()
       assert LunchbotData.list_offices() == [office]
     end
   end
 
   describe "#get_office!/1" do
     test "returns the office with given id" do
-      office = office_fixture()
+      office = LunchbotDataFixtures.office_fixture()
       assert LunchbotData.get_office!(office.id) == office
     end
   end
@@ -170,7 +162,7 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#update_office/2" do
     test "with valid data updates the office" do
-      office = office_fixture()
+      office = LunchbotDataFixtures.office_fixture()
       assert {:ok, office} = LunchbotData.update_office(office, @update_attrs)
       assert %Office{} = office
       assert office.name == "some updated name"
@@ -178,7 +170,7 @@ defmodule Lunchbot.LunchbotDataTest do
     end
 
     test "with invalid data returns error changeset" do
-      office = office_fixture()
+      office = LunchbotDataFixtures.office_fixture()
       assert {:error, %Ecto.Changeset{}} = LunchbotData.update_office(office, @invalid_attrs)
       assert office == LunchbotData.get_office!(office.id)
     end
@@ -186,7 +178,7 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#delete_office/1" do
     test "deletes the office" do
-      office = office_fixture()
+      office = LunchbotDataFixtures.office_fixture()
       assert {:ok, %Office{}} = LunchbotData.delete_office(office)
       assert_raise Ecto.NoResultsError, fn -> LunchbotData.get_office!(office.id) end
     end
@@ -194,18 +186,9 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#change_office/1" do
     test "returns a office changeset" do
-      office = office_fixture()
+      office = LunchbotDataFixtures.office_fixture()
       assert %Ecto.Changeset{} = LunchbotData.change_office(office)
     end
-  end
-
-  def office_fixture(attrs \\ %{}) do
-    {:ok, office} =
-      attrs
-      |> Enum.into(@valid_attrs)
-      |> LunchbotData.create_office()
-
-    office
   end
 
   alias Lunchbot.LunchbotData.Menu
@@ -217,7 +200,7 @@ defmodule Lunchbot.LunchbotDataTest do
   describe "#paginate_menus/1" do
     test "returns paginated list of menus" do
       for _ <- 1..20 do
-        menu_fixture()
+        LunchbotDataFixtures.menu_fixture()
       end
 
       {:ok, %{menus: menus} = page} = LunchbotData.paginate_menus(%{})
@@ -235,14 +218,14 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#list_menus/0" do
     test "returns all menus" do
-      menu = menu_fixture()
+      menu = LunchbotDataFixtures.menu_fixture()
       assert LunchbotData.list_menus() == [menu]
     end
   end
 
   describe "#get_menu!/1" do
     test "returns the menu with given id" do
-      menu = menu_fixture()
+      menu = LunchbotDataFixtures.menu_fixture()
       assert LunchbotData.get_menu!(menu.id) == menu
     end
   end
@@ -261,7 +244,7 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#update_menu/2" do
     test "with valid data updates the menu" do
-      menu = menu_fixture()
+      menu = LunchbotDataFixtures.menu_fixture()
       assert {:ok, menu} = LunchbotData.update_menu(menu, @update_attrs)
       assert %Menu{} = menu
       assert menu.name == "some updated name"
@@ -269,7 +252,7 @@ defmodule Lunchbot.LunchbotDataTest do
     end
 
     test "with invalid data returns error changeset" do
-      menu = menu_fixture()
+      menu = LunchbotDataFixtures.menu_fixture()
       assert {:error, %Ecto.Changeset{}} = LunchbotData.update_menu(menu, @invalid_attrs)
       assert menu == LunchbotData.get_menu!(menu.id)
     end
@@ -277,7 +260,7 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#delete_menu/1" do
     test "deletes the menu" do
-      menu = menu_fixture()
+      menu = LunchbotDataFixtures.menu_fixture()
       assert {:ok, %Menu{}} = LunchbotData.delete_menu(menu)
       assert_raise Ecto.NoResultsError, fn -> LunchbotData.get_menu!(menu.id) end
     end
@@ -285,18 +268,9 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#change_menu/1" do
     test "returns a menu changeset" do
-      menu = menu_fixture()
+      menu = LunchbotDataFixtures.menu_fixture()
       assert %Ecto.Changeset{} = LunchbotData.change_menu(menu)
     end
-  end
-
-  def menu_fixture(attrs \\ %{}) do
-    {:ok, menu} =
-      attrs
-      |> Enum.into(@valid_attrs)
-      |> LunchbotData.create_menu()
-
-    menu
   end
 
   alias Lunchbot.LunchbotData.OfficeLunchOrder
@@ -308,7 +282,7 @@ defmodule Lunchbot.LunchbotDataTest do
   describe "#paginate_office_lunch_orders/1" do
     test "returns paginated list of office_lunch_orders" do
       for _ <- 1..20 do
-        office_lunch_order_fixture()
+        LunchbotDataFixtures.office_lunch_order_fixture()
       end
 
       {:ok, %{office_lunch_orders: office_lunch_orders} = page} =
@@ -327,14 +301,14 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#list_office_lunch_orders/0" do
     test "returns all office_lunch_orders" do
-      office_lunch_order = office_lunch_order_fixture()
+      office_lunch_order = LunchbotDataFixtures.office_lunch_order_fixture()
       assert LunchbotData.list_office_lunch_orders() == [office_lunch_order]
     end
   end
 
   describe "#get_office_lunch_order!/1" do
     test "returns the office_lunch_order with given id" do
-      office_lunch_order = office_lunch_order_fixture()
+      office_lunch_order = LunchbotDataFixtures.office_lunch_order_fixture()
       assert LunchbotData.get_office_lunch_order!(office_lunch_order.id) == office_lunch_order
     end
   end
@@ -355,7 +329,7 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#update_office_lunch_order/2" do
     test "with valid data updates the office_lunch_order" do
-      office_lunch_order = office_lunch_order_fixture()
+      office_lunch_order = LunchbotDataFixtures.office_lunch_order_fixture()
 
       assert {:ok, office_lunch_order} =
                LunchbotData.update_office_lunch_order(office_lunch_order, @update_attrs)
@@ -366,7 +340,7 @@ defmodule Lunchbot.LunchbotDataTest do
     end
 
     test "with invalid data returns error changeset" do
-      office_lunch_order = office_lunch_order_fixture()
+      office_lunch_order = LunchbotDataFixtures.office_lunch_order_fixture()
 
       assert {:error, %Ecto.Changeset{}} =
                LunchbotData.update_office_lunch_order(office_lunch_order, @invalid_attrs)
@@ -377,7 +351,7 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#delete_office_lunch_order/1" do
     test "deletes the office_lunch_order" do
-      office_lunch_order = office_lunch_order_fixture()
+      office_lunch_order = LunchbotDataFixtures.office_lunch_order_fixture()
 
       assert {:ok, %OfficeLunchOrder{}} =
                LunchbotData.delete_office_lunch_order(office_lunch_order)
@@ -390,30 +364,21 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#change_office_lunch_order/1" do
     test "returns a office_lunch_order changeset" do
-      office_lunch_order = office_lunch_order_fixture()
+      office_lunch_order = LunchbotDataFixtures.office_lunch_order_fixture()
       assert %Ecto.Changeset{} = LunchbotData.change_office_lunch_order(office_lunch_order)
     end
   end
 
-  def office_lunch_order_fixture(attrs \\ %{}) do
-    {:ok, office_lunch_order} =
-      attrs
-      |> Enum.into(@valid_attrs)
-      |> LunchbotData.create_office_lunch_order()
-
-    office_lunch_order
-  end
-
   alias Lunchbot.LunchbotData.Order
 
-  @valid_attrs %{lunch_order_id: 42, menu_id: 42, user_id: 42}
-  @update_attrs %{lunch_order_id: 43, menu_id: 43, user_id: 43}
-  @invalid_attrs %{lunch_order_id: nil, menu_id: nil, user_id: nil}
+  @valid_attrs %{office_lunch_order_id: 42, menu_id: 42, user_id: 42}
+  @update_attrs %{office_lunch_order_id: 43, menu_id: 43, user_id: 43}
+  @invalid_attrs %{office_lunch_order_id: nil, menu_id: nil, user_id: nil}
 
   describe "#paginate_orders/1" do
     test "returns paginated list of orders" do
       for _ <- 1..20 do
-        order_fixture()
+        LunchbotDataFixtures.order_fixture()
       end
 
       {:ok, %{orders: orders} = page} = LunchbotData.paginate_orders(%{})
@@ -431,24 +396,34 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#list_orders/0" do
     test "returns all orders" do
-      order = order_fixture()
+      order = LunchbotDataFixtures.order_fixture()
       assert LunchbotData.list_orders() == [order]
     end
   end
 
   describe "#get_order!/1" do
     test "returns the order with given id" do
-      order = order_fixture()
+      order = LunchbotDataFixtures.order_fixture()
       assert LunchbotData.get_order!(order.id) == order
     end
   end
 
   describe "#create_order/1" do
     test "with valid data creates a order" do
-      assert {:ok, %Order{} = order} = LunchbotData.create_order(@valid_attrs)
-      assert order.lunch_order_id == 42
-      assert order.menu_id == 42
-      assert order.user_id == 42
+      office_lunch_order = LunchbotDataFixtures.office_lunch_order_fixture()
+      menu = LunchbotDataFixtures.menu_fixture()
+      user = LunchbotDataFixtures.user_fixture()
+
+      params = %{
+        office_lunch_order_id: office_lunch_order.id,
+        menu_id: menu.id,
+        user_id: user.id
+      }
+
+      assert {:ok, %Order{} = order} = LunchbotData.create_order(params)
+      assert order.office_lunch_order_id == office_lunch_order.id
+      assert order.menu_id == menu.id
+      assert order.user_id == user.id
     end
 
     test "with invalid data returns error changeset" do
@@ -458,16 +433,23 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#update_order/2" do
     test "with valid data updates the order" do
-      order = order_fixture()
-      assert {:ok, order} = LunchbotData.update_order(order, @update_attrs)
+      order = LunchbotDataFixtures.order_fixture()
+      office_lunch_order = LunchbotDataFixtures.office_lunch_order_fixture()
+      menu = LunchbotDataFixtures.menu_fixture()
+      user = LunchbotDataFixtures.user_fixture()
+
+      params = %{
+        menu_id: menu.id,
+        office_lunch_order_id: office_lunch_order.id,
+        user_id: user.id
+      }
+
+      assert {:ok, order} = LunchbotData.update_order(order, params)
       assert %Order{} = order
-      assert order.lunch_order_id == 43
-      assert order.menu_id == 43
-      assert order.user_id == 43
     end
 
     test "with invalid data returns error changeset" do
-      order = order_fixture()
+      order = LunchbotDataFixtures.order_fixture()
       assert {:error, %Ecto.Changeset{}} = LunchbotData.update_order(order, @invalid_attrs)
       assert order == LunchbotData.get_order!(order.id)
     end
@@ -475,7 +457,7 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#delete_order/1" do
     test "deletes the order" do
-      order = order_fixture()
+      order = LunchbotDataFixtures.order_fixture()
       assert {:ok, %Order{}} = LunchbotData.delete_order(order)
       assert_raise Ecto.NoResultsError, fn -> LunchbotData.get_order!(order.id) end
     end
@@ -483,18 +465,9 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#change_order/1" do
     test "returns a order changeset" do
-      order = order_fixture()
+      order = LunchbotDataFixtures.order_fixture()
       assert %Ecto.Changeset{} = LunchbotData.change_order(order)
     end
-  end
-
-  def order_fixture(attrs \\ %{}) do
-    {:ok, order} =
-      attrs
-      |> Enum.into(@valid_attrs)
-      |> LunchbotData.create_order()
-
-    order
   end
 
   alias Lunchbot.LunchbotData.Category
@@ -506,7 +479,7 @@ defmodule Lunchbot.LunchbotDataTest do
   describe "#paginate_categories/1" do
     test "returns paginated list of categories" do
       for _ <- 1..20 do
-        category_fixture()
+        LunchbotDataFixtures.category_fixture()
       end
 
       {:ok, %{categories: categories} = page} = LunchbotData.paginate_categories(%{})
@@ -524,14 +497,14 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#list_categories/0" do
     test "returns all categories" do
-      category = category_fixture()
+      category = LunchbotDataFixtures.category_fixture()
       assert LunchbotData.list_categories() == [category]
     end
   end
 
   describe "#get_category!/1" do
     test "returns the category with given id" do
-      category = category_fixture()
+      category = LunchbotDataFixtures.category_fixture()
       assert LunchbotData.get_category!(category.id) == category
     end
   end
@@ -549,14 +522,14 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#update_category/2" do
     test "with valid data updates the category" do
-      category = category_fixture()
+      category = LunchbotDataFixtures.category_fixture()
       assert {:ok, category} = LunchbotData.update_category(category, @update_attrs)
       assert %Category{} = category
       assert category.name == "some updated name"
     end
 
     test "with invalid data returns error changeset" do
-      category = category_fixture()
+      category = LunchbotDataFixtures.category_fixture()
       assert {:error, %Ecto.Changeset{}} = LunchbotData.update_category(category, @invalid_attrs)
       assert category == LunchbotData.get_category!(category.id)
     end
@@ -564,7 +537,7 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#delete_category/1" do
     test "deletes the category" do
-      category = category_fixture()
+      category = LunchbotDataFixtures.category_fixture()
       assert {:ok, %Category{}} = LunchbotData.delete_category(category)
       assert_raise Ecto.NoResultsError, fn -> LunchbotData.get_category!(category.id) end
     end
@@ -572,18 +545,9 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#change_category/1" do
     test "returns a category changeset" do
-      category = category_fixture()
+      category = LunchbotDataFixtures.category_fixture()
       assert %Ecto.Changeset{} = LunchbotData.change_category(category)
     end
-  end
-
-  def category_fixture(attrs \\ %{}) do
-    {:ok, category} =
-      attrs
-      |> Enum.into(@valid_attrs)
-      |> LunchbotData.create_category()
-
-    category
   end
 
   alias Lunchbot.LunchbotData.OrderItem
@@ -595,7 +559,7 @@ defmodule Lunchbot.LunchbotDataTest do
   describe "#paginate_order_items/1" do
     test "returns paginated list of order_items" do
       for _ <- 1..20 do
-        order_item_fixture()
+        LunchbotDataFixtures.order_item_fixture()
       end
 
       {:ok, %{order_items: order_items} = page} = LunchbotData.paginate_order_items(%{})
@@ -613,23 +577,32 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#list_order_items/0" do
     test "returns all order_items" do
-      order_item = order_item_fixture()
+      item = LunchbotDataFixtures.item_fixture()
+      order = LunchbotDataFixtures.order_fixture()
+
+      order_item =
+        LunchbotDataFixtures.order_item_fixture(%{item_id: item.id, order_id: order.id})
+
       assert LunchbotData.list_order_items() == [order_item]
     end
   end
 
   describe "#get_order_item!/1" do
     test "returns the order_item with given id" do
-      order_item = order_item_fixture()
+      order_item = LunchbotDataFixtures.order_item_fixture()
       assert LunchbotData.get_order_item!(order_item.id) == order_item
     end
   end
 
   describe "#create_order_item/1" do
     test "with valid data creates a order_item" do
-      assert {:ok, %OrderItem{} = order_item} = LunchbotData.create_order_item(@valid_attrs)
-      assert order_item.item_id == 42
-      assert order_item.order_id == 42
+      order = LunchbotDataFixtures.order_fixture()
+      item = LunchbotDataFixtures.item_fixture()
+      params = %{order_id: order.id, item_id: item.id}
+
+      assert {:ok, %OrderItem{} = order_item} = LunchbotData.create_order_item(params)
+      assert order_item.item_id == item.id
+      assert order_item.order_id == order.id
     end
 
     test "with invalid data returns error changeset" do
@@ -639,15 +612,19 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#update_order_item/2" do
     test "with valid data updates the order_item" do
-      order_item = order_item_fixture()
-      assert {:ok, order_item} = LunchbotData.update_order_item(order_item, @update_attrs)
+      order_item = LunchbotDataFixtures.order_item_fixture()
+      order = LunchbotDataFixtures.order_fixture()
+      item = LunchbotDataFixtures.item_fixture()
+      params = %{order_id: order.id, item_id: item.id}
+
+      assert {:ok, order_item} = LunchbotData.update_order_item(order_item, params)
       assert %OrderItem{} = order_item
-      assert order_item.item_id == 43
-      assert order_item.order_id == 43
+      assert order_item.item_id == item.id
+      assert order_item.order_id == order.id
     end
 
     test "with invalid data returns error changeset" do
-      order_item = order_item_fixture()
+      order_item = LunchbotDataFixtures.order_item_fixture()
 
       assert {:error, %Ecto.Changeset{}} =
                LunchbotData.update_order_item(order_item, @invalid_attrs)
@@ -658,7 +635,7 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#delete_order_item/1" do
     test "deletes the order_item" do
-      order_item = order_item_fixture()
+      order_item = LunchbotDataFixtures.order_item_fixture()
       assert {:ok, %OrderItem{}} = LunchbotData.delete_order_item(order_item)
       assert_raise Ecto.NoResultsError, fn -> LunchbotData.get_order_item!(order_item.id) end
     end
@@ -666,18 +643,9 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#change_order_item/1" do
     test "returns a order_item changeset" do
-      order_item = order_item_fixture()
+      order_item = LunchbotDataFixtures.order_item_fixture()
       assert %Ecto.Changeset{} = LunchbotData.change_order_item(order_item)
     end
-  end
-
-  def order_item_fixture(attrs \\ %{}) do
-    {:ok, order_item} =
-      attrs
-      |> Enum.into(@valid_attrs)
-      |> LunchbotData.create_order_item()
-
-    order_item
   end
 
   alias Lunchbot.LunchbotData.Item
@@ -710,7 +678,7 @@ defmodule Lunchbot.LunchbotDataTest do
   describe "#paginate_items/1" do
     test "returns paginated list of items" do
       for _ <- 1..20 do
-        item_fixture()
+        LunchbotDataFixtures.item_fixture()
       end
 
       {:ok, %{items: items} = page} = LunchbotData.paginate_items(%{})
@@ -728,14 +696,14 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#list_items/0" do
     test "returns all items" do
-      item = item_fixture()
+      item = LunchbotDataFixtures.item_fixture()
       assert LunchbotData.list_items() == [item]
     end
   end
 
   describe "#get_item!/1" do
     test "returns the item with given id" do
-      item = item_fixture()
+      item = LunchbotDataFixtures.item_fixture()
       assert LunchbotData.get_item!(item.id) == item
     end
   end
@@ -758,7 +726,7 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#update_item/2" do
     test "with valid data updates the item" do
-      item = item_fixture()
+      item = LunchbotDataFixtures.item_fixture()
       assert {:ok, item} = LunchbotData.update_item(item, @update_attrs)
       assert %Item{} = item
       assert item.category_id == 43
@@ -770,7 +738,7 @@ defmodule Lunchbot.LunchbotDataTest do
     end
 
     test "with invalid data returns error changeset" do
-      item = item_fixture()
+      item = LunchbotDataFixtures.item_fixture()
       assert {:error, %Ecto.Changeset{}} = LunchbotData.update_item(item, @invalid_attrs)
       assert item == LunchbotData.get_item!(item.id)
     end
@@ -778,7 +746,7 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#delete_item/1" do
     test "deletes the item" do
-      item = item_fixture()
+      item = LunchbotDataFixtures.item_fixture()
       assert {:ok, %Item{}} = LunchbotData.delete_item(item)
       assert_raise Ecto.NoResultsError, fn -> LunchbotData.get_item!(item.id) end
     end
@@ -786,18 +754,9 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#change_item/1" do
     test "returns a item changeset" do
-      item = item_fixture()
+      item = LunchbotDataFixtures.item_fixture()
       assert %Ecto.Changeset{} = LunchbotData.change_item(item)
     end
-  end
-
-  def item_fixture(attrs \\ %{}) do
-    {:ok, item} =
-      attrs
-      |> Enum.into(@valid_attrs)
-      |> LunchbotData.create_item()
-
-    item
   end
 
   alias Lunchbot.LunchbotData.ItemOptionHeadings
@@ -809,7 +768,7 @@ defmodule Lunchbot.LunchbotDataTest do
   describe "#paginate_item_option_headings/1" do
     test "returns paginated list of item_option_headings" do
       for _ <- 1..20 do
-        item_option_headings_fixture()
+        LunchbotDataFixtures.item_option_headings_fixture()
       end
 
       {:ok, %{item_option_headings: item_option_headings} = page} =
@@ -828,14 +787,14 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#list_item_option_headings/0" do
     test "returns all item_option_headings" do
-      item_option_headings = item_option_headings_fixture()
+      item_option_headings = LunchbotDataFixtures.item_option_headings_fixture()
       assert LunchbotData.list_item_option_headings() == [item_option_headings]
     end
   end
 
   describe "#get_item_option_headings!/1" do
     test "returns the item_option_headings with given id" do
-      item_option_headings = item_option_headings_fixture()
+      item_option_headings = LunchbotDataFixtures.item_option_headings_fixture()
 
       assert LunchbotData.get_item_option_headings!(item_option_headings.id) ==
                item_option_headings
@@ -859,7 +818,7 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#update_item_option_headings/2" do
     test "with valid data updates the item_option_headings" do
-      item_option_headings = item_option_headings_fixture()
+      item_option_headings = LunchbotDataFixtures.item_option_headings_fixture()
 
       assert {:ok, item_option_headings} =
                LunchbotData.update_item_option_headings(item_option_headings, @update_attrs)
@@ -870,7 +829,7 @@ defmodule Lunchbot.LunchbotDataTest do
     end
 
     test "with invalid data returns error changeset" do
-      item_option_headings = item_option_headings_fixture()
+      item_option_headings = LunchbotDataFixtures.item_option_headings_fixture()
 
       assert {:error, %Ecto.Changeset{}} =
                LunchbotData.update_item_option_headings(item_option_headings, @invalid_attrs)
@@ -882,7 +841,7 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#delete_item_option_headings/1" do
     test "deletes the item_option_headings" do
-      item_option_headings = item_option_headings_fixture()
+      item_option_headings = LunchbotDataFixtures.item_option_headings_fixture()
 
       assert {:ok, %ItemOptionHeadings{}} =
                LunchbotData.delete_item_option_headings(item_option_headings)
@@ -895,18 +854,9 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#change_item_option_headings/1" do
     test "returns a item_option_headings changeset" do
-      item_option_headings = item_option_headings_fixture()
+      item_option_headings = LunchbotDataFixtures.item_option_headings_fixture()
       assert %Ecto.Changeset{} = LunchbotData.change_item_option_headings(item_option_headings)
     end
-  end
-
-  def item_option_headings_fixture(attrs \\ %{}) do
-    {:ok, item_option_headings} =
-      attrs
-      |> Enum.into(@valid_attrs)
-      |> LunchbotData.create_item_option_headings()
-
-    item_option_headings
   end
 
   alias Lunchbot.LunchbotData.OptionHeading
@@ -918,7 +868,7 @@ defmodule Lunchbot.LunchbotDataTest do
   describe "#paginate_option_headings/1" do
     test "returns paginated list of option_headings" do
       for _ <- 1..20 do
-        option_headings_fixture()
+        LunchbotDataFixtures.option_headings_fixture()
       end
 
       {:ok, %{option_headings: option_headings} = page} =
@@ -937,14 +887,14 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#list_option_headings/0" do
     test "returns all option_headings" do
-      option_headings = option_headings_fixture()
+      option_headings = LunchbotDataFixtures.option_headings_fixture()
       assert LunchbotData.list_option_headings() == [option_headings]
     end
   end
 
   describe "#get_option_headings!/1" do
     test "returns the option_headings with given id" do
-      option_headings = option_headings_fixture()
+      option_headings = LunchbotDataFixtures.option_headings_fixture()
       assert LunchbotData.get_option_headings!(option_headings.id) == option_headings
     end
   end
@@ -965,7 +915,7 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#update_option_headings/2" do
     test "with valid data updates the option_headings" do
-      option_headings = option_headings_fixture()
+      option_headings = LunchbotDataFixtures.option_headings_fixture()
 
       assert {:ok, option_headings} =
                LunchbotData.update_option_headings(option_headings, @update_attrs)
@@ -976,7 +926,7 @@ defmodule Lunchbot.LunchbotDataTest do
     end
 
     test "with invalid data returns error changeset" do
-      option_headings = option_headings_fixture()
+      option_headings = LunchbotDataFixtures.option_headings_fixture()
 
       assert {:error, %Ecto.Changeset{}} =
                LunchbotData.update_option_headings(option_headings, @invalid_attrs)
@@ -987,7 +937,7 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#delete_option_headings/1" do
     test "deletes the option_headings" do
-      option_headings = option_headings_fixture()
+      option_headings = LunchbotDataFixtures.option_headings_fixture()
       assert {:ok, %OptionHeading{}} = LunchbotData.delete_option_headings(option_headings)
 
       assert_raise Ecto.NoResultsError, fn ->
@@ -998,18 +948,9 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#change_option_headings/1" do
     test "returns a option_headings changeset" do
-      option_headings = option_headings_fixture()
+      option_headings = LunchbotDataFixtures.option_headings_fixture()
       assert %Ecto.Changeset{} = LunchbotData.change_option_headings(option_headings)
     end
-  end
-
-  def option_headings_fixture(attrs \\ %{}) do
-    {:ok, option_headings} =
-      attrs
-      |> Enum.into(@valid_attrs)
-      |> LunchbotData.create_option_headings()
-
-    option_headings
   end
 
   alias Lunchbot.LunchbotData.OrderItemOptions
@@ -1021,7 +962,7 @@ defmodule Lunchbot.LunchbotDataTest do
   describe "#paginate_order_item_options/1" do
     test "returns paginated list of order_item_options" do
       for _ <- 1..20 do
-        order_item_options_fixture()
+        LunchbotDataFixtures.order_item_options_fixture()
       end
 
       {:ok, %{order_item_options: order_item_options} = page} =
@@ -1040,25 +981,29 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#list_order_item_options/0" do
     test "returns all order_item_options" do
-      order_item_options = order_item_options_fixture()
+      order_item_options = LunchbotDataFixtures.order_item_options_fixture()
       assert LunchbotData.list_order_item_options() == [order_item_options]
     end
   end
 
   describe "#get_order_item_options!/1" do
     test "returns the order_item_options with given id" do
-      order_item_options = order_item_options_fixture()
+      order_item_options = LunchbotDataFixtures.order_item_options_fixture()
       assert LunchbotData.get_order_item_options!(order_item_options.id) == order_item_options
     end
   end
 
   describe "#create_order_item_options/1" do
     test "with valid data creates a order_item_options" do
-      assert {:ok, %OrderItemOptions{} = order_item_options} =
-               LunchbotData.create_order_item_options(@valid_attrs)
+      option = LunchbotDataFixtures.options_fixture()
+      order_item = LunchbotDataFixtures.order_item_fixture()
+      params = %{option_id: option.id, order_item_id: order_item.id}
 
-      assert order_item_options.option_id == 42
-      assert order_item_options.order_item_id == 42
+      assert {:ok, %OrderItemOptions{} = order_item_options} =
+               LunchbotData.create_order_item_options(params)
+
+      assert order_item_options.option_id == option.id
+      assert order_item_options.order_item_id == order_item.id
     end
 
     test "with invalid data returns error changeset" do
@@ -1068,18 +1013,21 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#update_order_item_options/2" do
     test "with valid data updates the order_item_options" do
-      order_item_options = order_item_options_fixture()
+      order_item_options = LunchbotDataFixtures.order_item_options_fixture()
+      option = LunchbotDataFixtures.options_fixture()
+      order_item = LunchbotDataFixtures.order_item_fixture()
+      params = %{option_id: option.id, order_item_id: order_item.id}
 
       assert {:ok, order_item_options} =
-               LunchbotData.update_order_item_options(order_item_options, @update_attrs)
+               LunchbotData.update_order_item_options(order_item_options, params)
 
       assert %OrderItemOptions{} = order_item_options
-      assert order_item_options.option_id == 43
-      assert order_item_options.order_item_id == 43
+      assert order_item_options.option_id == option.id
+      assert order_item_options.order_item_id == order_item.id
     end
 
     test "with invalid data returns error changeset" do
-      order_item_options = order_item_options_fixture()
+      order_item_options = LunchbotDataFixtures.order_item_options_fixture()
 
       assert {:error, %Ecto.Changeset{}} =
                LunchbotData.update_order_item_options(order_item_options, @invalid_attrs)
@@ -1090,7 +1038,17 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#delete_order_item_options/1" do
     test "deletes the order_item_options" do
-      order_item_options = order_item_options_fixture()
+      # create option
+      # create order item
+
+      option = LunchbotDataFixtures.options_fixture()
+      order_item = LunchbotDataFixtures.order_item_fixture()
+
+      order_item_options =
+        LunchbotDataFixtures.order_item_options_fixture(%{
+          option_id: option.id,
+          order_item_id: order_item.id
+        })
 
       assert {:ok, %OrderItemOptions{}} =
                LunchbotData.delete_order_item_options(order_item_options)
@@ -1103,18 +1061,17 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#change_order_item_options/1" do
     test "returns a order_item_options changeset" do
-      order_item_options = order_item_options_fixture()
+      option = LunchbotDataFixtures.options_fixture()
+      order_item = LunchbotDataFixtures.order_item_fixture()
+
+      order_item_options =
+        LunchbotDataFixtures.order_item_options_fixture(%{
+          option_id: option.id,
+          order_item_id: order_item.id
+        })
+
       assert %Ecto.Changeset{} = LunchbotData.change_order_item_options(order_item_options)
     end
-  end
-
-  def order_item_options_fixture(attrs \\ %{}) do
-    {:ok, order_item_options} =
-      attrs
-      |> Enum.into(@valid_attrs)
-      |> LunchbotData.create_order_item_options()
-
-    order_item_options
   end
 
   alias Lunchbot.LunchbotData.Options
@@ -1150,7 +1107,7 @@ defmodule Lunchbot.LunchbotDataTest do
   describe "#paginate_options/1" do
     test "returns paginated list of options" do
       for _ <- 1..20 do
-        options_fixture()
+        LunchbotDataFixtures.options_fixture()
       end
 
       {:ok, %{options: options} = page} = LunchbotData.paginate_options(%{})
@@ -1168,14 +1125,14 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#list_options/0" do
     test "returns all options" do
-      options = options_fixture()
+      options = LunchbotDataFixtures.options_fixture()
       assert LunchbotData.list_options() == [options]
     end
   end
 
   describe "#get_options!/1" do
     test "returns the options with given id" do
-      options = options_fixture()
+      options = LunchbotDataFixtures.options_fixture()
       assert LunchbotData.get_options!(options.id) == options
     end
   end
@@ -1199,7 +1156,7 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#update_options/2" do
     test "with valid data updates the options" do
-      options = options_fixture()
+      options = LunchbotDataFixtures.options_fixture()
       assert {:ok, options} = LunchbotData.update_options(options, @update_attrs)
       assert %Options{} = options
       assert options.extra_price == 43
@@ -1212,7 +1169,7 @@ defmodule Lunchbot.LunchbotDataTest do
     end
 
     test "with invalid data returns error changeset" do
-      options = options_fixture()
+      options = LunchbotDataFixtures.options_fixture()
       assert {:error, %Ecto.Changeset{}} = LunchbotData.update_options(options, @invalid_attrs)
       assert options == LunchbotData.get_options!(options.id)
     end
@@ -1220,7 +1177,7 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#delete_options/1" do
     test "deletes the options" do
-      options = options_fixture()
+      options = LunchbotDataFixtures.options_fixture()
       assert {:ok, %Options{}} = LunchbotData.delete_options(options)
       assert_raise Ecto.NoResultsError, fn -> LunchbotData.get_options!(options.id) end
     end
@@ -1228,18 +1185,9 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#change_options/1" do
     test "returns a options changeset" do
-      options = options_fixture()
+      options = LunchbotDataFixtures.options_fixture()
       assert %Ecto.Changeset{} = LunchbotData.change_options(options)
     end
-  end
-
-  def options_fixture(attrs \\ %{}) do
-    {:ok, options} =
-      attrs
-      |> Enum.into(@valid_attrs)
-      |> LunchbotData.create_options()
-
-    options
   end
 
   alias Lunchbot.LunchbotData.MenuCategories
@@ -1251,7 +1199,7 @@ defmodule Lunchbot.LunchbotDataTest do
   describe "#paginate_menu_categories/1" do
     test "returns paginated list of menu_categories" do
       for _ <- 1..20 do
-        menu_categories_fixture()
+        LunchbotDataFixtures.menu_categories_fixture()
       end
 
       {:ok, %{menu_categories: menu_categories} = page} =
@@ -1270,14 +1218,14 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#list_menu_categories/0" do
     test "returns all menu_categories" do
-      menu_categories = menu_categories_fixture()
+      menu_categories = LunchbotDataFixtures.menu_categories_fixture()
       assert LunchbotData.list_menu_categories() == [menu_categories]
     end
   end
 
   describe "#get_menu_categories!/1" do
     test "returns the menu_categories with given id" do
-      menu_categories = menu_categories_fixture()
+      menu_categories = LunchbotDataFixtures.menu_categories_fixture()
       assert LunchbotData.get_menu_categories!(menu_categories.id) == menu_categories
     end
   end
@@ -1298,7 +1246,7 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#update_menu_categories/2" do
     test "with valid data updates the menu_categories" do
-      menu_categories = menu_categories_fixture()
+      menu_categories = LunchbotDataFixtures.menu_categories_fixture()
 
       assert {:ok, menu_categories} =
                LunchbotData.update_menu_categories(menu_categories, @update_attrs)
@@ -1309,7 +1257,7 @@ defmodule Lunchbot.LunchbotDataTest do
     end
 
     test "with invalid data returns error changeset" do
-      menu_categories = menu_categories_fixture()
+      menu_categories = LunchbotDataFixtures.menu_categories_fixture()
 
       assert {:error, %Ecto.Changeset{}} =
                LunchbotData.update_menu_categories(menu_categories, @invalid_attrs)
@@ -1320,7 +1268,7 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#delete_menu_categories/1" do
     test "deletes the menu_categories" do
-      menu_categories = menu_categories_fixture()
+      menu_categories = LunchbotDataFixtures.menu_categories_fixture()
       assert {:ok, %MenuCategories{}} = LunchbotData.delete_menu_categories(menu_categories)
 
       assert_raise Ecto.NoResultsError, fn ->
@@ -1331,17 +1279,8 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#change_menu_categories/1" do
     test "returns a menu_categories changeset" do
-      menu_categories = menu_categories_fixture()
+      menu_categories = LunchbotDataFixtures.menu_categories_fixture()
       assert %Ecto.Changeset{} = LunchbotData.change_menu_categories(menu_categories)
     end
-  end
-
-  def menu_categories_fixture(attrs \\ %{}) do
-    {:ok, menu_categories} =
-      attrs
-      |> Enum.into(@valid_attrs)
-      |> LunchbotData.create_menu_categories()
-
-    menu_categories
   end
 end

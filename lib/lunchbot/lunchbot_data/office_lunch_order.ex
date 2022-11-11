@@ -6,7 +6,7 @@ defmodule Lunchbot.LunchbotData.OfficeLunchOrder do
     field :day, :date
     belongs_to :menu, Lunchbot.LunchbotData.Menu
     belongs_to :office, Lunchbot.LunchbotData.Office
-    has_many :orders, Lunchbot.LunchbotData.Order, foreign_key: :lunch_order_id
+    has_many :orders, Lunchbot.LunchbotData.Order, foreign_key: :office_lunch_order_id
 
     timestamps()
   end

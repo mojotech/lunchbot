@@ -4,7 +4,7 @@ defmodule Lunchbot.LunchbotData.Order do
   alias Lunchbot.Repo
 
   schema "orders" do
-    field :lunch_order_id, :integer
+    field :office_lunch_order_id, :integer
     belongs_to :menu, Lunchbot.LunchbotData.Menu
     belongs_to :user, Lunchbot.Accounts.User
     has_many :order_items, Lunchbot.LunchbotData.OrderItem
@@ -16,8 +16,8 @@ defmodule Lunchbot.LunchbotData.Order do
   @doc false
   def changeset(order, attrs) do
     order
-    |> cast(attrs, [:user_id, :menu_id, :lunch_order_id])
-    |> validate_required([:user_id, :menu_id, :lunch_order_id])
+    |> cast(attrs, [:user_id, :menu_id, :office_lunch_order_id])
+    |> validate_required([:user_id, :menu_id, :office_lunch_order_id])
   end
 
   def get_total(%Lunchbot.LunchbotData.Order{} = order) do

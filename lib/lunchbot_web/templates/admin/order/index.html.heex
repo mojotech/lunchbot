@@ -8,28 +8,28 @@
     <section id="torch-filters">
       <h3>Find Orders</h3>
       <%= form_tag @conn.request_path, method: :get, id: "torch-filters-form" do %>
-        
-        
-        
-        
+
+
+
+
           <div class="field">
             <label>User</label>
             <%= number_filter_select(:order, :user_id, @conn.params) %>
             <%= filter_number_input(:order, :user_id, @conn.params) %>
           </div>
-        
+
           <div class="field">
             <label>Menu</label>
             <%= number_filter_select(:order, :menu_id, @conn.params) %>
             <%= filter_number_input(:order, :menu_id, @conn.params) %>
           </div>
-        
+
           <div class="field">
             <label>Lunch order</label>
-            <%= number_filter_select(:order, :lunch_order_id, @conn.params) %>
-            <%= filter_number_input(:order, :lunch_order_id, @conn.params) %>
+            <%= number_filter_select(:order, :office_lunch_order_id, @conn.params) %>
+            <%= filter_number_input(:order, :office_lunch_order_id, @conn.params) %>
           </div>
-        
+
         <button type="submit" class="torch-button">Search</button>
         <%= link "Clear Filters", to: Routes.admin_order_path(@conn, :index) %>
       <% end %>
@@ -41,26 +41,26 @@
       <table>
         <thead>
           <tr>
-            
+
               <th><%= table_link(@conn, "User", :user_id) %></th>
-            
+
               <th><%= table_link(@conn, "Menu", :menu_id) %></th>
-            
-              <th><%= table_link(@conn, "Lunch order", :lunch_order_id) %></th>
-            
+
+              <th><%= table_link(@conn, "Lunch order", :office_lunch_order_id) %></th>
+
             <th><span>Actions</span></th>
           </tr>
         </thead>
         <tbody>
           <%= for order <- @orders do %>
             <tr>
-              
+
                 <td><%= order.user_id %></td>
-              
+
                 <td><%= order.menu_id %></td>
-              
-                <td><%= order.lunch_order_id %></td>
-              
+
+                <td><%= order.office_lunch_order_id %></td>
+
               <td class="torch-actions">
                 <span><%= link "Show", to: Routes.admin_order_path(@conn, :show, order) %></span>
                 <span><%= link "Edit", to: Routes.admin_order_path(@conn, :edit, order) %></span>

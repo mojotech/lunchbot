@@ -72,13 +72,24 @@ defmodule Lunchbot.LunchbotDataFixtures do
   Generate a order.
   """
   def order_fixture(attrs \\ %{}) do
+    # create user
+    # create office lunch order
+    # create menu
+    # pass params to order_fixture
+    user = user_fixture()
+    office = office_fixture()
+    menu = menu_fixture(%{office_id: office.id})
+
+    office_lunch_order = office_lunch_order_fixture(%{office_id: office.id, menu_id: menu.id})
+
+    fixtures = %{
+      office_lunch_order_id: office_lunch_order.id,
+      menu_id: menu.id,
+      user_id: user.id
+    }
+
     {:ok, order} =
-      attrs
-      |> Enum.into(%{
-        lunch_order_id: 42,
-        menu_id: 42,
-        user_id: 42
-      })
+      Enum.into(fixtures, attrs)
       |> Lunchbot.LunchbotData.create_order()
 
     order
@@ -102,11 +113,16 @@ defmodule Lunchbot.LunchbotDataFixtures do
   Generate a order_item.
   """
   def order_item_fixture(attrs \\ %{}) do
+    # create item
+    # create order
+    item = item_fixture()
+    order = order_fixture()
+
     {:ok, order_item} =
       attrs
       |> Enum.into(%{
-        item_id: 42,
-        order_id: 42
+        item_id: item.id,
+        order_id: order.id
       })
       |> Lunchbot.LunchbotData.create_order_item()
 
@@ -117,10 +133,13 @@ defmodule Lunchbot.LunchbotDataFixtures do
   Generate a item.
   """
   def item_fixture(attrs \\ %{}) do
+    # create category
+    category = category_fixture()
+
     {:ok, item} =
       attrs
       |> Enum.into(%{
-        category_id: 42,
+        category_id: category.id,
         deleted: true,
         description: "some description",
         image_url: "some image_url",
@@ -166,11 +185,14 @@ defmodule Lunchbot.LunchbotDataFixtures do
   Generate a order_item_options.
   """
   def order_item_options_fixture(attrs \\ %{}) do
+    option = options_fixture()
+    order_item = order_item_fixture()
+
     {:ok, order_item_options} =
       attrs
       |> Enum.into(%{
-        option_id: 42,
-        order_item_id: 42
+        option_id: option.id,
+        order_item_id: order_item.id
       })
       |> Lunchbot.LunchbotData.create_order_item_options()
 
@@ -181,6 +203,9 @@ defmodule Lunchbot.LunchbotDataFixtures do
   Generate a options.
   """
   def options_fixture(attrs \\ %{}) do
+    # create option_heading
+    option_heading = option_headings_fixture()
+
     {:ok, options} =
       attrs
       |> Enum.into(%{
@@ -188,7 +213,7 @@ defmodule Lunchbot.LunchbotDataFixtures do
         extras: true,
         is_required: true,
         name: "some name",
-        option_heading_id: 42,
+        option_heading_id: option_heading.id,
         preselected: true,
         price: 42
       })

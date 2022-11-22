@@ -58,7 +58,8 @@ defmodule Lunchbot.MixProject do
       {:dotenv, "~> 3.0.0", only: [:dev, :test]},
       {:mox, "~> 1.0", only: :test},
       {:phoenix_pubsub, "~> 2.0"},
-      {:csv, "~> 2.4"}
+      {:csv, "~> 2.4"},
+      {:faker, "~> 0.17"}
     ]
   end
 

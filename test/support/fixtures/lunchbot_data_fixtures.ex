@@ -11,8 +11,8 @@ defmodule Lunchbot.LunchbotDataFixtures do
     {:ok, user} =
       attrs
       |> Enum.into(%{
-        name: "some name",
-        email: "some_email@mojotech.com",
+        name: "#{Faker.Person.first_name()} #{Faker.Person.last_name()}",
+        email: Faker.Internet.email(),
         password: "some_password",
         role: "admin",
         confirmed_at: ~N[2001-01-01 23:00:07]

@@ -56,29 +56,6 @@ defmodule LunchbotWeb.Admin.OrderItemControllerTest do
     end
   end
 
-  describe "update order_item" do
-    setup [:create_order_item]
-
-    test "redirects when data is valid", %{conn: conn, order_item: order_item} do
-      conn =
-        put conn, Routes.admin_order_item_path(conn, :update, order_item),
-          order_item: @update_attrs
-
-      assert redirected_to(conn) == Routes.admin_order_item_path(conn, :show, order_item)
-
-      conn = get(conn, Routes.admin_order_item_path(conn, :show, order_item))
-      assert html_response(conn, 200)
-    end
-
-    test "renders errors when data is invalid", %{conn: conn, order_item: order_item} do
-      conn =
-        put conn, Routes.admin_order_item_path(conn, :update, order_item),
-          order_item: @invalid_attrs
-
-      assert html_response(conn, 200) =~ "Edit Order item"
-    end
-  end
-
   describe "delete order_item" do
     setup [:create_order_item]
 

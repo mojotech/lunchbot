@@ -1,14 +1,12 @@
 defmodule LunchbotWeb.Admin.MenuControllerTest do
   use LunchbotWeb.ConnCase
 
-  alias Lunchbot.LunchbotData
+  alias Lunchbot.LunchbotDataFixtures
 
-  @create_attrs %{name: "some name", office_id: 42}
-  @update_attrs %{name: "some updated name", office_id: 43}
   @invalid_attrs %{name: nil, office_id: nil}
 
   def fixture(:menu) do
-    {:ok, menu} = LunchbotData.create_menu(@create_attrs)
+    {:ok, menu} = LunchbotDataFixtures.menu_fixture()
     menu
   end
 
@@ -32,7 +30,14 @@ defmodule LunchbotWeb.Admin.MenuControllerTest do
 
   describe "create menu" do
     test "redirects to show when data is valid", %{conn: conn} do
-      conn = post conn, Routes.admin_menu_path(conn, :create), menu: @create_attrs
+      office = LunchbotDataFixtures.office_fixture()
+
+      params = %{
+        name: "Menu name",
+        office_id: office.id
+      }
+
+      conn = post conn, Routes.admin_menu_path(conn, :create), menu: params
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.admin_menu_path(conn, :show, id)
@@ -60,7 +65,14 @@ defmodule LunchbotWeb.Admin.MenuControllerTest do
     setup [:create_menu]
 
     test "redirects when data is valid", %{conn: conn, menu: menu} do
-      conn = put conn, Routes.admin_menu_path(conn, :update, menu), menu: @update_attrs
+      office = LunchbotDataFixtures.office_fixture()
+
+      params = %{
+        name: "some updated name",
+        office_id: office.id
+      }
+
+      conn = put conn, Routes.admin_menu_path(conn, :update, menu), menu: params
       assert redirected_to(conn) == Routes.admin_menu_path(conn, :show, menu)
 
       conn = get(conn, Routes.admin_menu_path(conn, :show, menu))
@@ -87,7 +99,7 @@ defmodule LunchbotWeb.Admin.MenuControllerTest do
   end
 
   defp create_menu(_) do
-    menu = fixture(:menu)
+    menu = LunchbotDataFixtures.menu_fixture()
     {:ok, menu: menu}
   end
 end

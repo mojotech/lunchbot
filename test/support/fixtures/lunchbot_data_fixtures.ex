@@ -41,11 +41,13 @@ defmodule Lunchbot.LunchbotDataFixtures do
   Generate a menu.
   """
   def menu_fixture(attrs \\ %{}) do
+    office = office_fixture()
+
     {:ok, menu} =
       attrs
       |> Enum.into(%{
         name: "some name",
-        office_id: 42
+        office_id: office.id
       })
       |> Lunchbot.LunchbotData.create_menu()
 
@@ -56,12 +58,15 @@ defmodule Lunchbot.LunchbotDataFixtures do
   Generate a office_lunch_order.
   """
   def office_lunch_order_fixture(attrs \\ %{}) do
+    office = office_fixture()
+    menu = menu_fixture()
+
     {:ok, office_lunch_order} =
       attrs
       |> Enum.into(%{
         day: ~D[2022-07-07],
-        office_id: 42,
-        menu_id: 42
+        office_id: office.id,
+        menu_id: menu.id
       })
       |> Lunchbot.LunchbotData.create_office_lunch_order()
 

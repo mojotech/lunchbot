@@ -1,14 +1,14 @@
 defmodule LunchbotWeb.Admin.OrderControllerTest do
   use LunchbotWeb.ConnCase
 
-  alias Lunchbot.LunchbotData
+  alias Lunchbot.LunchbotDataFixtures
+  alias Inspect.Lunchbot
+  alias LunchbotDataFixtures
 
-  @create_attrs %{office_lunch_order_id: 42, menu_id: 42, user_id: 42}
-  @update_attrs %{office_lunch_order_id: 43, menu_id: 43, user_id: 43}
   @invalid_attrs %{office_lunch_order_id: nil, menu_id: nil, user_id: nil}
 
   def fixture(:order) do
-    {:ok, order} = LunchbotData.create_order(@create_attrs)
+    {:ok, order} = LunchbotDataFixtures.order_fixture()
     order
   end
 
@@ -32,7 +32,17 @@ defmodule LunchbotWeb.Admin.OrderControllerTest do
 
   describe "create order" do
     test "redirects to show when data is valid", %{conn: conn} do
-      conn = post conn, Routes.admin_order_path(conn, :create), order: @create_attrs
+      user = LunchbotDataFixtures.user_fixture()
+      menu = LunchbotDataFixtures.menu_fixture()
+      office_lunch_order = LunchbotDataFixtures.office_lunch_order_fixture(%{menu_id: menu.id})
+
+      params = %{
+        office_lunch_order_id: office_lunch_order.id,
+        menu_id: menu.id,
+        user_id: user.id
+      }
+
+      conn = post conn, Routes.admin_order_path(conn, :create), order: params
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.admin_order_path(conn, :show, id)
@@ -60,7 +70,17 @@ defmodule LunchbotWeb.Admin.OrderControllerTest do
     setup [:create_order]
 
     test "redirects when data is valid", %{conn: conn, order: order} do
-      conn = put conn, Routes.admin_order_path(conn, :update, order), order: @update_attrs
+      user = LunchbotDataFixtures.user_fixture()
+      menu = LunchbotDataFixtures.menu_fixture()
+      office_lunch_order = LunchbotDataFixtures.office_lunch_order_fixture(%{menu_id: menu.id})
+
+      params = %{
+        office_lunch_order_id: office_lunch_order.id,
+        menu_id: menu.id,
+        user_id: user.id
+      }
+
+      conn = put conn, Routes.admin_order_path(conn, :update, order), order: params
       assert redirected_to(conn) == Routes.admin_order_path(conn, :show, order)
 
       conn = get(conn, Routes.admin_order_path(conn, :show, order))
@@ -87,7 +107,7 @@ defmodule LunchbotWeb.Admin.OrderControllerTest do
   end
 
   defp create_order(_) do
-    order = fixture(:order)
+    order = LunchbotDataFixtures.order_fixture()
     {:ok, order: order}
   end
 end

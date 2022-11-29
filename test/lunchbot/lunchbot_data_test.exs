@@ -232,9 +232,16 @@ defmodule Lunchbot.LunchbotDataTest do
 
   describe "#create_menu/1" do
     test "with valid data creates a menu" do
-      assert {:ok, %Menu{} = menu} = LunchbotData.create_menu(@valid_attrs)
-      assert menu.name == "some name"
-      assert menu.office_id == 42
+      office = LunchbotDataFixtures.office_fixture()
+
+      params = %{
+        name: "Pizza Master",
+        office_id: office.id
+      }
+
+      assert {:ok, %Menu{} = menu} = LunchbotData.create_menu(params)
+      assert menu.name == params.name
+      assert menu.office_id == office.id
     end
 
     test "with invalid data returns error changeset" do
@@ -245,10 +252,17 @@ defmodule Lunchbot.LunchbotDataTest do
   describe "#update_menu/2" do
     test "with valid data updates the menu" do
       menu = LunchbotDataFixtures.menu_fixture()
-      assert {:ok, menu} = LunchbotData.update_menu(menu, @update_attrs)
+      office = LunchbotDataFixtures.office_fixture()
+
+      params = %{
+        name: "Chowder Hound",
+        office_id: office.id
+      }
+
+      assert {:ok, menu} = LunchbotData.update_menu(menu, params)
       assert %Menu{} = menu
-      assert menu.name == "some updated name"
-      assert menu.office_id == 43
+      assert menu.name == params.name
+      assert menu.office_id == office.id
     end
 
     test "with invalid data returns error changeset" do

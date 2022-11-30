@@ -100,7 +100,7 @@ defmodule LunchbotWeb.OrderLive do
       LunchbotData.create_order(%{
         user_id: current_user_id,
         menu_id: socket.assigns.todays_menu_id,
-        lunch_order_id: office_lunch_order_id
+        office_lunch_order_id: office_lunch_order_id
       })
       |> case do
         {:ok, %LunchbotData.Order{id: id}} ->

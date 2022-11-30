@@ -613,7 +613,7 @@ defmodule Lunchbot.LunchbotData do
 
     if lunch_order_id do
       from(o in Order,
-        where: o.lunch_order_id == ^lunch_order_id,
+        where: o.office_lunch_order_id == ^lunch_order_id,
         preload: [
           user: ^from(u in User, select: u.name),
           order_items: [
@@ -1973,7 +1973,7 @@ defmodule Lunchbot.LunchbotData do
     defconfig do
       number(:user_id)
       number(:menu_id)
-      number(:lunch_order_id)
+      number(:office_lunch_order_id)
     end
   end
 

@@ -37,7 +37,7 @@ Below is the database model for Lunchbot displayed using mermaid.js. You can mod
       int id
       int user_id FK
       int menu_id FK
-      int lunch_order_id FK
+      int office_lunch_order_id FK
     }
     ORDER_ITEMS {
         int id

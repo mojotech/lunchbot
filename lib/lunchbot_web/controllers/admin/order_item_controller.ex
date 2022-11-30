@@ -47,20 +47,6 @@ defmodule LunchbotWeb.Admin.OrderItemController do
     render(conn, "edit.html", order_item: order_item, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "order_item" => order_item_params}) do
-    order_item = LunchbotData.get_order_item!(id)
-
-    case LunchbotData.update_order_item(order_item, order_item_params) do
-      {:ok, order_item} ->
-        conn
-        |> put_flash(:info, "Order item updated successfully.")
-        |> redirect(to: Routes.admin_order_item_path(conn, :show, order_item))
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", order_item: order_item, changeset: changeset)
-    end
-  end
-
   def delete(conn, %{"id" => id}) do
     order_item = LunchbotData.get_order_item!(id)
     {:ok, _order_item} = LunchbotData.delete_order_item(order_item)
